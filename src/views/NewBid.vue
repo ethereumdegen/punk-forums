@@ -18,9 +18,44 @@
    <div class="section  bg-white border-b-2 border-black">
      <div class="autospacing w-container">
         
-       <div class="w-row">
-          <div> Place a new bid </div>
-       </div>
+        
+          <div class="text-xl font-bold mb-8"> Place a new bid </div>
+
+
+          <div id="form  " class=" ">
+            
+            <div>
+                <label   class="block text-md font-medium font-bold text-gray-800  ">Bid Currency Token</label>
+                
+                <GenericDropdown
+                  v-bind:optionList="currencyTokensOptionsList" 
+                  v-bind:onSelectCallback="onSelectCallback"
+                />
+            </div>
+           
+              
+           <div>
+              <label   class="block text-md font-medium font-bold text-gray-800  ">Bid Amount</label>
+            
+            
+              <input type="text" name="price" v-model="formInputs.tokenBidAmount"  class="text-gray-900 font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
+            </div>
+
+
+
+          </div>
+
+
+            <div id="output">
+            
+
+
+
+
+          </div>
+
+
+        
      </div>
    </div>
 
@@ -46,13 +81,30 @@ import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
 
+import GenericDropdown from './components/GenericDropdown.vue'
+
+const nftTokenContracts= ['cryptopunks','mooncats']
+
+const currencyTokenContracts= ['0xbtc','weth']
+
+
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer},
+  components: {Navbar, Footer, GenericDropdown},
   data() {
     return {
-      web3Plug: new Web3Plug() 
+      web3Plug: new Web3Plug(),
+      formInputs: {
+        
+        tokenContractAddress: null,
+        nftContractAddress: null,
+        tokenBidAmount: 0,
+        expiresAtBlock:0 
+
+
+      },
+      currencyTokensOptionsList:[{'name':'mooncats'}]
     }
   },
   mounted: function () {
@@ -74,7 +126,9 @@ export default {
     
   }, 
   methods: {
-           
+        onSelectCallback(optionData){
+          console.log('callback2',optionData)
+        }
   }
 }
 </script>
