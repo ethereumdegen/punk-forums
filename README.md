@@ -1,36 +1,37 @@
-# Mineable Tokens Farm
-
-Featuring Zapper.Fi technology
+# BUY THE FLOOR 
+ 
 
 
 
 ### TODO
-** Add approvals for all the methods !! 
+1) Build the NEW BID page 
+
+-user picks their token currency from dropdown   (approval bar appears below )
+-picks the NFT type they want from dropdown  (the address will appear below) 
+
+-Specifies how much they are willing to pay 
+-Specifies how many blocks it expires in 
+
+-Clicks a button which does the personalsign,   an output is shown with their signature 
+
+- This signature is posted to MONGO 
 
 
-Make deposit/withdraw work w zaps
-Show amount deposited (in eth and in 0xbtc)
+2) Build the PROFILE page 
 
-Show the user their amount of impermanent loss and help them realize when to unstake
+-user sees their mooncats and wrapped punks 
+-User can click on one (/nfts/_contractaddress/_tokenid)
 
-https://0x.org/docs/api#request-1
+3) Build the SHOW page
 
-https://uniswap.org/docs/v2/smart-contracts/router01/#swapexactethfortokens
-
-Write a truffle test that deploys UniV2 and a token pair..
-
+-user sees a rendering of the NFT and all bids that apply to that token 
+-user can click a button to call the WEB3 method which will sell their NFT to the floor 
 
 
-Deploy all this to KOVAN
-https://0x.org/docs/api#introduction
+
 
 ## Kovan
-UniswapV2  https://kovan.etherscan.io/address/0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f#code
-
-0x api  https://kovan.api.0x.org/
-
-zapper
-
+ 
 
 
 
