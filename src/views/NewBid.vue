@@ -122,11 +122,17 @@ export default {
 
 
       },
-      currencyTokensOptionsList:[{'name':'wEth'},{'name':'0xBTC'}],
-      nftOptionsList:[{'name':'mooncats'}]
+      currencyTokensOptionsList:[ ],
+      nftOptionsList:[ ]
     }
   },
-  mounted: function () {
+
+  created(){
+
+    this.initOptionsLists()
+
+  },
+  mounted () {
     this.web3Plug.reconnectWeb()
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
         console.log('stateChanged',connectionState);
@@ -145,8 +151,19 @@ export default {
     
   }, 
   methods: {
-        onSelectCallback(optionData){
+         initOptionsLists(){
+
+
+ 
+              this.currencyTokensOptionsList=[{'name':'wEth'},{'name':'0xBTC'}],
+               this.nftOptionsList=[{'name':'mooncats'}]
+
+         },
+        onNFTSelectCallback(optionData){
           console.log('callback2',optionData)
+        },
+        onCurrencySelectCallback(optionData){
+          console.log('callback3',optionData)
         }
   }
 }
