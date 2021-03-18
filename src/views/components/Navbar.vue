@@ -1,15 +1,17 @@
 <template>
   <div data-collapse="small" data-animation="default" data-duration="400" class="navbar w-nav">
-    <div class="bg-gray-900 lg:bg-transparent">
+    <div class=" bg-transparent">
     <div class="container w-container">
       <div class="w-full w-clearfix">
         <a href="/" class="brand w-nav-brand w--current">
-          ⛏️
-          <div class=" text-block-10">Farm.mineabletokens.com</div>
+          🌴
+          <div class="inline text-xl text-gray-900 font-bold">Mooncat Island</div>
        </a>
-
+ 
        <div class="hidden lg:inline-block   " style="float:right">
-         <UpperNav />
+         <UpperNav
+          v-bind:web3Plug="web3Plug"
+          />
        </div>
 
 
@@ -19,9 +21,12 @@
           <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
         </button>
 
-        <div v-if="showResponsiveMenu" class="w-full absolute left-0 block flex-grow lg:flex lg:items-center lg:w-auto bg-gray-800">
+        <div v-if="showResponsiveMenu" class="w-full absolute left-0 block flex-grow lg:flex lg:items-center lg:w-auto bg-gray-200">
           <div class="text-sm lg:flex-grow">
-             <AccordionNav />
+             <AccordionNav 
+             v-bind:web3Plug="web3Plug"
+             />
+
           </div>
 
         </div>
@@ -39,18 +44,16 @@
 <script>
 import UpperNav from './UpperNav.vue';
 import AccordionNav from './AccordionNav.vue';
-
 export default {
   name: 'Navbar',
-  props: [],
+  props: ['web3Plug'],
   components: {UpperNav,AccordionNav},
   data() {
     return {
-      showResponsiveMenu: false
+      showResponsiveMenu: false,
     }
   },
   methods: {
-
   }
 }
 </script>
