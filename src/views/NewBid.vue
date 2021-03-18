@@ -64,6 +64,26 @@
           </div>
 
 
+          <hr>
+          <div class="py-4">
+             
+ 
+
+            <div> nftAddress: {{formInputs.nftContractAddress}}</div>
+
+            <div> CurrencyAddress: {{formInputs.tokenContractAddress}}</div>
+
+            <div> bidAmount: {{formInputs.tokenBidAmount}}</div>
+
+                 <div class="  p-4">
+                     <div @click="signForBid" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Sign for Bid </div>
+                </div>
+
+
+          </div>
+
+
+
             <div id="output">
             
 
@@ -101,6 +121,8 @@ import Footer from './components/Footer.vue';
 
 import GenericDropdown from './components/GenericDropdown.vue'
 
+import BidPacketUtils from '../js/bidpacket-utils.js'
+
 const nftTokenContracts= ['cryptopunks','mooncats']
 
 const currencyTokenContracts= ['0xbtc','weth']
@@ -108,7 +130,7 @@ const currencyTokenContracts= ['0xbtc','weth']
 
 export default {
   name: 'Home',
-  props: [],
+  props: [ ],
   components: {Navbar, Footer, GenericDropdown},
   data() {
     return {
@@ -145,25 +167,60 @@ export default {
         console.error('error',errormessage);
          
         this.web3error = errormessage
-        // END CUSTOM CODE
+        
       }.bind(this));
+
+
+      setInterval(this.updateBalances, 5000);
    
     
   }, 
   methods: {
-         initOptionsLists(){
+         initOptionsLists(){ 
 
+          this.currencyTokensOptionsList=[{'name':'wEth','label':'wEth'},{'name':'0xbitcoin','label':'0xBTC'}],
+          this.nftOptionsList=[{'name':'wrappedcryptopunks','label':'Cryptopunks'}]
+
+         },
+         updateBalances(){
+
+
+
+         },
 
  
-              this.currencyTokensOptionsList=[{'name':'wEth'},{'name':'0xBTC'}],
-               this.nftOptionsList=[{'name':'mooncats'}]
 
+
+         async signForBid(){
+           console.log('sign for bid')
+
+           let args = [
+              this.web3Plug.getActiveAccountAddress(),
+              this.formInputs.nftContractAddress,
+              this.formInputs.tokenContractAddress,              
+              this.formInputs.tokenBidAmount,
+              this.formInputs.expiresAtBlock
+           ]
+
+            let signature = await BidPacketUtils.performOffchainSignForBidPacket(args, this.web3Plug)
+            
          },
         onNFTSelectCallback(optionData){
           console.log('callback2',optionData)
+           
+
+          let contractData = this.web3Plug.getContractDataForActiveNetwork()
+          let nftContract = contractData[optionData.name]
+
+ 
+          this.formInputs.nftContractAddress = nftContract.address
         },
         onCurrencySelectCallback(optionData){
-          console.log('callback3',optionData)
+            console.log('callback3',optionData)
+          let contractData = this.web3Plug.getContractDataForActiveNetwork()
+          let tokenContract = contractData[optionData.name]
+ 
+          this.formInputs.tokenContractAddress = tokenContract.address
         }
   }
 }

@@ -36,7 +36,7 @@
             >
               
 
-              {{selectedOptionData.name}}   
+              {{selectedOptionData.label}}   
 
               <span>
               <svg class="svg-icon mx-2" viewBox="0 0 20 20" style="stroke: #aaaaaa;">
@@ -58,7 +58,7 @@
             > 
              
 
-              {{option.name}}   
+              {{option.label}}   
               
             </button>
             
@@ -69,7 +69,7 @@
 
       
       <select @change="onChange($event)" id="optionselect" name="optionselect" class=" hidden focus:ring-indigo-500 focus:border-indigo-500 border-0 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-800   rounded-md">
-        <option v-for="option in optionList" class="bg-black text-white" >  {{option.name}} </option>
+        <option v-for="option in optionList" class="bg-black text-white" >  {{option.label}} </option>
        
       </select>
 

@@ -193,6 +193,16 @@ export default class Web3Plug {
   }
 
 
+  getContractDataForActiveNetwork( ){
+    let netName = this.getWeb3NetworkName(this.getActiveNetId())
+
+    if(netName){
+        return contractData[netName].contracts
+    }
+
+    return undefined
+  }
+
   getContractDataForNetworkID(networkId){
     let netName = this.getWeb3NetworkName(networkId)
 
@@ -202,6 +212,7 @@ export default class Web3Plug {
 
     return undefined
   }
+
 
 
   async getConnectedAccounts()

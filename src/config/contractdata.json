@@ -16,18 +16,18 @@
 
 
   },
-  "kovan":{
+  "goerli":{
     "contracts":{
-      "0xbitcoin":{"address":"0x24a19ee5a5c8757acdebe542a9436d9c796d1c9e"},
+      "0xbitcoin":{"address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f"},
 
-      "uniswapv2router":{"address":"0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"},
+      
+      "weth":{"address":"0x0bb7509324ce409f7bbc4b701f932eaca9736ab7"},
+
+      "buythefloor":{"address":"0x9a2118f019550f5d5b6909e4345d5d10c004a7b7"},
 
 
-
-      "uniswapv2add":{"address":"0x08cf6d4af1ca2cf978e42e706877f1c2d905b1d0"},
-      "uniswapv2remove":{"address":"0x388f486dbcbe05029ba7adf784459b580b427032"},
-      "weth":{"address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
-      "0xbitcoinmarketpair":{"address":"0x0638f19ea7748f4bc7d26898be8084b7e2905bf2"}
+      "cryptopunks":{"address":"0xf5b71f8d25d3e90b9ec0c08d890853187df4bef4"},
+      "wrappedcryptopunks":{"address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"}
 
 
     }
