@@ -24,21 +24,39 @@
 
           <div id="form  " class=" ">
             
-            <div>
+            <div class="mb-4">
+                <label   class="block text-md font-medium font-bold text-gray-800  ">NFT Type To Buy The Floor</label>
+                
+                <GenericDropdown
+                  v-bind:optionList="nftOptionsList" 
+                  v-bind:onSelectCallback="onNFTSelectCallback"
+                />
+            </div>
+
+
+             <div class="mb-4">
                 <label   class="block text-md font-medium font-bold text-gray-800  ">Bid Currency Token</label>
                 
                 <GenericDropdown
                   v-bind:optionList="currencyTokensOptionsList" 
-                  v-bind:onSelectCallback="onSelectCallback"
+                  v-bind:onSelectCallback="onCurrencySelectCallback"
                 />
             </div>
            
               
-           <div>
+           <div class="mb-4 ">
               <label   class="block text-md font-medium font-bold text-gray-800  ">Bid Amount</label>
-            
-            
-              <input type="text" name="price" v-model="formInputs.tokenBidAmount"  class="text-gray-900 font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
+
+              <div class="flex flex-row">
+              <div class="w-1/2 px-4">
+                    <input type="text" name="price" v-model="formInputs.tokenBidAmount"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
+                </div>
+
+                  <div class="w-1/2 px-4">
+                     <div class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Approve </div>
+                </div>
+              </div>
+           
             </div>
 
 
@@ -104,7 +122,8 @@ export default {
 
 
       },
-      currencyTokensOptionsList:[{'name':'mooncats'}]
+      currencyTokensOptionsList:[{'name':'wEth'},{'name':'0xBTC'}],
+      nftOptionsList:[{'name':'mooncats'}]
     }
   },
   mounted: function () {

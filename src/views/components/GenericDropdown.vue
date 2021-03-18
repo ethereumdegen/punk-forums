@@ -25,7 +25,7 @@
           >
             <button
               id="user-menu"
-              class="flex items-center pr-3   text-gray-100 transition duration-150 ease-in-out bg-transparent border-2 border-gray-200   focus:outline-none focus:shadow-solid"
+              class="flex items-center p-1 pr-2   text-gray-100 transition duration-150 ease-in-out bg-transparent border-2 border-gray-200   focus:outline-none focus:shadow-solid"
               :class="{ 'border-gray-700 bg-gray-500 text-white ': isShown }"
               aria-label="User menu"
               aria-haspopup="true"
