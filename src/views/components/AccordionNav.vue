@@ -1,5 +1,24 @@
 <template>
   <nav role="navigation" class="w-full m-2 p-2 inline-block">
+
+    <div class=" ">
+      <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button text-center bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded cursor-pointer">Connect to Web3</div>
+
+      <div v-if="web3Plug.connectedToWeb3() "   class="truncate text-center text-gray-800 p-2" style="   ">
+
+      <Web3NetButton
+         v-bind:providerNetworkID="activeNetworkId"
+          v-bind:web3Plug='web3Plug'
+       />
+
+        <span class="  " style=" ">
+        <a   v-bind:href="getEtherscanBaseURL()+'/address/'+web3Plug.getActiveAccountAddress()" class="text-gray-800  "   target="_blank">  {{web3Plug.getActiveAccountAddress()}} </a>
+       </span>
+       </div>
+    </div>
+
+
+
     <div class="w-full lg:w-auto block lg:inline-block" v-for="item in navConfig.dropdowns" :key="item.title">
 
 
@@ -8,7 +27,7 @@
         tag-name="nav"
         :classes="{}"
         :fixed-classes="{}"
-        class="bg-blue-800"
+        class="bg-gray-300"
       >
         <div
           slot="trigger"
@@ -25,11 +44,11 @@
             <div class="flex ml-auto">
               <div class="-ml-2 mr-2 flex items-center lg:hidden">
                 <!-- Mobile menu button -->
-                <div class="flex-shrink-0 flex items-center text-white">
+                <div class="flex-shrink-0 flex items-center text-gray-800">
                     <span class="px-2">{{item.title}}</span>
                 </div>
                 <button
-                  class="inline-flex items-center justify-center p-2 rounded-md text-blue-400 hover:text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 focus:text-white transition duration-150 ease-in-out"
+                  class="inline-flex items-center justify-center p-2 rounded-md text-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-600 focus:text-white transition duration-150 ease-in-out"
                   aria-label="Main menu"
                   aria-expanded="false"
                   @mousedown="mousedownHandler"
@@ -69,7 +88,7 @@
             :key="row.title"
             :href="row.url"
             target="_blank"
-            class="block px-3 py-2 my-2 rounded-md text-base font-medium text-white bg-blue-900 hover:bg-blue-500 focus:outline-none focus:text-white focus:bg-blue-700 transition duration-150 ease-in-out">
+            class="block px-3 py-2 my-2 rounded-md text-base font-medium text-gray-900 bg-gray-200 hover:bg-gray-500 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out">
             {{row.title}}
           </a>
            </div>
@@ -84,28 +103,45 @@
 
   </div>
 
+
+
 </nav>
 </template>
 
 
 <script>
-
+import Web3NetButton from './Web3NetButton.vue'
 import Config from '../config/UpperNav.js'
-
 export default {
   name: 'AccordionNav',
-  props: [],
+  props: ["web3Plug"],
+  components:{Web3NetButton},
   data() {
     return {
+      activeAccountAddress:null,
+      activeNetworkId: null,
       navConfig: null
     }
   },
   created(){
-
     this.navConfig = Config;
+    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+          console.log('stateChanged',connectionState);
+          this.activeAccountAddress = connectionState.activeAccountAddress
+          this.activeNetworkId = connectionState.activeNetworkId
+        }.bind(this));
   },
   methods: {
-
+   
+    connectToWeb3(){
+      this.web3Plug.connectWeb3( )
+    },
+    getEtherscanBaseURL(){
+        if(this.activeNetworkId == 42){
+          return  'https://kovan.etherscan.io'
+        }
+        return 'https://etherscan.io'
+    },
   }
 }
 </script>

@@ -17,43 +17,15 @@
 
    <div class="section  bg-white border-b-2 border-black">
      <div class="autospacing w-container">
+        
        <div class="w-row">
-
-       </div>
-       <div class="w-row">
-         <div class="column w-col w-col-6  ">
-
-
-
-              <router-link to="/newbid" class='text-gray-800 text-xl block'>-> Place a Bid for an NFT</router-link>
-
-               <router-link to="/profile" class='text-gray-800 text-xl block'>-> View and Sell your NFTs</router-link>
-
-           
-
-
-
-         </div>
-         <div class="column-2 w-col w-col-6"><img src="@/assets/images/coins.svg" width="125" height="125" alt="">
-
-         </div>
+          <div> Place a new bid </div>
        </div>
      </div>
    </div>
 
 
-    <div class="section  bg-white border-b-2 border-black ">
-     <div class="w-container pt-8">
-
-         
-
-        <div class="text-gray-100 p-8">
-         Lists of all Bids / Recent Sales 
-        </div>
-
-     </div>
-   </div>
-
+    
 
 
     
@@ -80,8 +52,7 @@ export default {
   components: {Navbar, Footer},
   data() {
     return {
-      web3Plug: new Web3Plug() ,
-      activePanelId: null
+      web3Plug: new Web3Plug() 
     }
   },
   mounted: function () {
@@ -100,16 +71,10 @@ export default {
         // END CUSTOM CODE
       }.bind(this));
    
-   //    this.generateMoonCatImage('0x0064c9c57b', 2 );
+    
   }, 
   methods: {
-          setActivePanel(panelId){
-              if(panelId == this.activePanelId){
-                this.activePanelId = null;
-                return 
-              }
-               this.activePanelId = panelId ;
-          } 
+           
   }
 }
 </script>

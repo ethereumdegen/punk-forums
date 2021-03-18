@@ -3,10 +3,10 @@
     <div class=" bg-transparent">
     <div class="container w-container">
       <div class="w-full flex flex-row">
-        <a href="/" class="brand w-nav-brand w--current flex-grow">
-          💰
-          <div class="inline text-xl text-gray-900 font-bold">BUY THE FLOOR</div>
-       </a>
+
+        <router-link to="/" class='brand w-nav-brand w--current flex-grow inline text-xl text-gray-900 font-bold'>BUY THE FLOOR</router-link>
+
+ 
  
        <div class="hidden lg:inline-block text-black  " >
           
