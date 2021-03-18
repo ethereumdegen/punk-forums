@@ -2,10 +2,12 @@
 
 <div>
 
-   <div class="section bg-world px-0 lg:px-1">
+   <div class="section  bg-white border-b-2 border-black px-0 lg:px-1">
 
      <div class=" ">
-       <Navbar />
+        <Navbar 
+        v-bind:web3Plug="web3Plug"
+       />
      </div>
 
 
@@ -13,7 +15,7 @@
 
   
 
-   <div class="section ctas">
+   <div class="section  bg-white border-b-2 border-black">
      <div class="autospacing w-container">
        <div class="w-row">
 
@@ -23,14 +25,14 @@
 
 
 
-            <h2 class="text-yellow-500"> 0xBTC-ETH Pair </h2>
+             
 
-            <a href="/newbid" target="_blank" class='text-gray-200'>
+            <a href="/newbid" target="_blank" class='text-gray-800 text-xl'>
                  -> Place a Bid for an NFT
                 </a>
                 <br>
 
-           <a href="/profile" target="_blank" class='text-gray-200'>
+           <a href="/profile" target="_blank" class='text-gray-800 text-xl'>
                 -> View and Sell your NFTs
 
                </a>
@@ -46,7 +48,7 @@
    </div>
 
 
-    <div class="section dark autospacing ">
+    <div class="section  bg-white border-b-2 border-black ">
      <div class="w-container pt-8">
 
          
@@ -60,10 +62,7 @@
 
 
 
-   <div class="section dark autospacing  ">
-
-   </div>
-
+    
   <Footer/>
 
 </div>
@@ -71,6 +70,12 @@
 
 
 <script>
+
+
+
+import Web3Plug from '../js/web3-plug.js' 
+
+
 import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
@@ -81,11 +86,36 @@ export default {
   components: {Navbar, Footer},
   data() {
     return {
-
+      web3Plug: new Web3Plug() ,
+      activePanelId: null
     }
   },
+  mounted: function () {
+    this.web3Plug.reconnectWeb()
+    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+        console.log('stateChanged',connectionState);
+         
+        this.activeAccountAddress = connectionState.activeAccountAddress
+        this.activeNetworkId = connectionState.activeNetworkId
+         
+      }.bind(this));
+   this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
+        console.error('error',errormessage);
+         
+        this.web3error = errormessage
+        // END CUSTOM CODE
+      }.bind(this));
+   
+   //    this.generateMoonCatImage('0x0064c9c57b', 2 );
+  }, 
   methods: {
-
+          setActivePanel(panelId){
+              if(panelId == this.activePanelId){
+                this.activePanelId = null;
+                return 
+              }
+               this.activePanelId = panelId ;
+          } 
   }
 }
 </script>

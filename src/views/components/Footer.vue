@@ -24,7 +24,7 @@
 
 
           <div class="text-yellow-400">
-           <span class="text-gray-400"> Powered by </span> <a href="https://zapper.fi" target="_blank" class="    ">Zapper.fi</a>
+            
          </div>
 
          </div>

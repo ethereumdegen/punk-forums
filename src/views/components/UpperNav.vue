@@ -52,7 +52,7 @@
 
 
       <div class="inline-block">
-        <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold my-2 py-1 px-2 rounded cursor-pointer">Connect to Web3</div>
+        <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button bg-blue-500 hover:bg-blue-700 text-sm text-black font-bold my-2 py-1 px-2 rounded cursor-pointer">Connect to Web3</div>
 
         <div v-if="web3Plug.connectedToWeb3() "   class="truncate  text-gray-800 p-2" style="max-width:250px;  ">
 
