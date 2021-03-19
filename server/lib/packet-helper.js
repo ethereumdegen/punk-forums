@@ -18,9 +18,11 @@ export default class PacketHelper  {
 
 
     static async getBidPackets(mongoInterface){
-        await mongoInterface.findAllSortedWithLimit('bidpackets',{},{},500)
+        return  await mongoInterface.findAllSortedWithLimit('bidpackets',{},{},500)
     }
-
+    static async findBidPacketBySignature(signature, mongoInterface){
+        return  await mongoInterface.findOne('bidpackets',{"signature.signature":signature}, )
+    }
 
 
 }

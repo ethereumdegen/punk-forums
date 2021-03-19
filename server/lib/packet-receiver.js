@@ -76,7 +76,7 @@ export default class PacketReceiver  {
       
     
     
-            socket.on('bidPacket', async function (data) {
+            socket.on('submitBidPacket', async function (data) {
     
                  let packet = data.packet 
     
@@ -98,7 +98,7 @@ export default class PacketReceiver  {
                     var result = await PacketHelper.storeNewBidPacket(packet,  mongoInterface);
      
     
-                 socket.emit('bidPacket',  {success:true, saved:result });
+                 socket.emit('submittedBidPacket',  {success:true, saved:result });
     
                  socket.disconnect()
     
@@ -108,7 +108,7 @@ export default class PacketReceiver  {
     
      
     
-             socket.on('getBidPackets', async function (data) {
+             socket.on('bidPackets', async function (data) {
     
                  var bidPackets = await PacketHelper.getBidPackets( mongoInterface)
 
@@ -117,6 +117,17 @@ export default class PacketReceiver  {
                 socket.emit('bidPackets',  bidPackets);
     
               });
+
+
+              socket.on('bidPacket', async function (data) {
+                        console.log('findBidPacketBySignature', data)
+                var bidPackets = await PacketHelper.findBidPacketBySignature(data.signature, mongoInterface)
+
+               
+   
+               socket.emit('bidPacket',  bidPackets);
+   
+             });
     
               
           

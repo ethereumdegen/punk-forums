@@ -47,9 +47,33 @@
 
          
 
-        <div class="text-gray-100 p-8">
-         Lists of all Bids / Recent Sales 
+        <div class="text-lg text-black p-8">
+         Lists of Recent Bids 
         </div>
+
+
+       <div>
+            <TabsBar
+                v-bind:tabArray="['Bids' ]"
+                v-bind:onTabSelect="onTabSelect" 
+            />
+          </div>
+        <div>
+
+          <div v-if="selectedTab=='bids'" class="mb-4 ">
+
+              <GenericTable
+                v-bind:labelsArray="['nftType','currencyType','bidAmount','expires']"
+                v-bind:rowsArray="bidRowsArray"
+                v-bind:clickedRowCallback="clickedBidRowCallback"
+               />
+
+          </div>
+
+
+        </div>
+
+
 
      </div>
    </div>
@@ -73,19 +97,33 @@ import Web3Plug from '../js/web3-plug.js'
 import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
+import TabsBar from './components/TabsBar.vue';
+import GenericTable from './components/GenericTable.vue';
+
+import BidPacketHelper from '../js/bidpacket-helper.js'
+
+
+
 
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer},
+  components: {Navbar, Footer, TabsBar, GenericTable},
   data() {
     return {
       web3Plug: new Web3Plug() ,
-      activePanelId: null
+      activePanelId: null,
+      selectedTab:"bids",
+      bidRowsArray:[],
+
+      contractNameLookupTable: {},
+      currencyDecimalsLookupTable: {}
     }
   },
-  mounted: function () {
-    this.web3Plug.reconnectWeb()
+
+  created(){
+
+ 
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
         console.log('stateChanged',connectionState);
          
@@ -97,10 +135,19 @@ export default {
         console.error('error',errormessage);
          
         this.web3error = errormessage
-        // END CUSTOM CODE
+       
       }.bind(this));
+
+      this.web3Plug.reconnectWeb()
+
+      this.populateContractAddressLookupTable()
+      this.fetchBidsData()
+
+  },
+  mounted: function () {
+    
    
-   //    this.generateMoonCatImage('0x0064c9c57b', 2 );
+   
   }, 
   methods: {
           setActivePanel(panelId){
@@ -109,7 +156,63 @@ export default {
                 return 
               }
                this.activePanelId = panelId ;
-          } 
+          },
+          onTabSelect(tabname){
+            console.log(tabname)
+
+
+
+
+          },
+          async fetchBidsData(){
+             var hostname = window.location.hostname; 
+
+                //'ws://localhost:8443'
+                let serverURL = 'ws://'+hostname+':8443'
+                console.log('serverURL',serverURL)
+
+            let bidPackets = await BidPacketHelper.getBidPackets(serverURL)
+            console.log('bidPackets',bidPackets)
+
+
+
+            this.bidRowsArray = bidPackets.map(pkt => (
+                                                           {
+                                                            nftContractAddress: this.getNameFromContractAddress(pkt.nftContractAddress),
+                                                            currencyTokenAddress: this.getNameFromContractAddress(pkt.currencyTokenAddress),
+                                                            currencyTokenAmount: this.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
+                                                            expires: pkt.expires,
+                                                            signature: pkt.signature.signature
+                                                          } 
+                                                        ))
+          },
+
+          populateContractAddressLookupTable(){
+              let contractData = this.web3Plug.getContractDataForActiveNetwork()
+
+              for (const [key, value] of Object.entries(contractData)) {
+               this.contractNameLookupTable[value.address] = value.name 
+               this.currencyDecimalsLookupTable[value.address] = value.decimals 
+              }
+              
+
+          },
+          getNameFromContractAddress(address){
+              
+
+              return this.contractNameLookupTable[address]
+
+          },
+          getFormattedCurrencyAmount(amount,address){
+            let decimals = this.currencyDecimalsLookupTable[address]
+
+            return parseFloat(this.web3Plug.rawAmountToFormatted(amount,decimals))
+          },
+          clickedBidRowCallback(row){
+            console.log('clicked bid row',row )
+
+            this.$router.push({ path: `/bid/${row.signature}` })
+          }
   }
 }
 </script>

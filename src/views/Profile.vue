@@ -20,6 +20,46 @@
         
        <div class="w-row">
           <div> Profile </div>
+
+          <div  class=" " v-if="!connectedToWeb3">
+              <NotConnectedToWeb3 />
+          </div>
+
+          <div  class=" " v-if=" connectedToWeb3">
+
+            <div v-if="!selectedNFTContractAddress">
+             
+              <ArtTypeTile 
+                v-bind:imageURL="",
+                v-bind:onClickCallback="onTileClicked('mooncats')"
+
+              />
+
+              <ArtTypeTile 
+                v-bind:imageURL="",
+                v-bind:onClickCallback="onTileClicked('punks')"
+
+              />
+
+          </div>
+
+
+          <div v-if="selectedNFTContractAddress">
+
+              <NFTGallery
+                  v-bind:nftContractAddress="selectedNFTContractAddress"
+               />
+
+
+          </div>
+
+
+
+
+          </div>
+
+
+          
        </div>
      </div>
    </div>
@@ -46,35 +86,48 @@ import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
 
+
+import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
+
+
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer},
+  components: {Navbar, Footer,NotConnectedToWeb3},
   data() {
     return {
-      web3Plug: new Web3Plug() 
+      web3Plug: new Web3Plug() ,
+      connectedToWeb3: false,
+      selectedNFTContractAddress:null 
     }
   },
-  mounted: function () {
-    this.web3Plug.reconnectWeb()
+  created  () {
+   
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
         console.log('stateChanged',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
          
+          this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
+        
+
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
         console.error('error',errormessage);
          
         this.web3error = errormessage
-        // END CUSTOM CODE
+        
       }.bind(this));
-   
+    this.web3Plug.reconnectWeb()
     
   }, 
   methods: {
-           
+        onTileClicked(name){
+          console.log('ontielclicked',name )
+
+          this.$router.push({ path: `/bid/${row.signature}` })
+        }
   }
 }
 </script>

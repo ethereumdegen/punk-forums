@@ -96,7 +96,7 @@
             <div> Decimals: {{this.formInputs.tokenDecimals}}</div>
 
                  <div class="  p-4">
-                     <div @click="signForBid" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Sign for Bid </div>
+                     <div @click="signForBid" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Submit New Bid </div>
                 </div>
 
 

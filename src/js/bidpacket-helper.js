@@ -17,13 +17,15 @@ export default class BidPacketHelper {
         const socket = io( serverURL );
 
         
-        socket.emit("bidPacket", {packet: packetData} );
+        
 
 
-        socket.on("bidPacket",(data) => {
+        socket.on("submitBidPacket",(data) => {
           console.log('got back',data)
           resolve(data)
         });
+
+        socket.emit("submittedBidPacket", {packet: packetData} );
 
        
 
@@ -31,6 +33,58 @@ export default class BidPacketHelper {
 
 
   }
+
+
+  static async getBidPackets( serverURL )
+  {
+ 
+
+      return new Promise(async resolve => {
+
+         
+
+        const socket = io( serverURL );
+
+        socket.on("bidPackets",(data) => {
+            console.log('got back',data)
+            resolve(data)
+          });
+        
+        socket.emit("bidPackets", { } ); 
+        
+
+       
+
+      })
+
+
+  }
+
+
+  static async findBidPacket( signature, serverURL )
+  {
+        
+      return new Promise(async resolve => {
+
+         
+
+        const socket = io( serverURL );
+
+        socket.on("bidPacket",(data) => {
+            console.log('got back',data)
+            resolve(data)
+          });
+        
+        socket.emit("bidPacket", {signature: signature} ); 
+        
+
+       
+
+      })
+
+
+  }
+
 
 
 
