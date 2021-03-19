@@ -13,6 +13,7 @@ Server requires node 14
 - if a bid had its liquidity or approval removed it will have its status 'disabled' 
 
 
+IMPROVE LATER: 
 - build subgraphs for wrapped mooncats and wrapped punks that give orig ids and wrap ids  !!! Per owner .
 
 
@@ -20,17 +21,13 @@ Server requires node 14
 1) Build the NEW BID page 
 -done
 
-2) Build the PROFILE page 
+2) Finish data querying using alchemy on server  to mark bids 
 
--user sees their mooncats and wrapped punks 
--User can click on one (/nfts/_contractaddress/_tokenid)
+3) build subgraphs to be able to show users items on website 
 
-3) Build the SHOW page
+4) make it easier to wrap things - wrapping on the site 
 
--user sees a rendering of the NFT and all bids that apply to that token 
--user can click a button to call the WEB3 method which will sell their NFT to the floor 
-
-
+ 
 
 
 ## Kovan
