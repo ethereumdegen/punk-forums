@@ -222,10 +222,17 @@ export default class Web3Plug {
   }
 
 
+  async getBlockNumber()
+  {
+    return await web3Instance.eth.getBlockNumber( )
+    
+  }
+
+
   getTokenContract(   contractAddress)
   { 
 
-    console.log('web3Instance', web3Instance)
+     
     var tokenContract = new web3Instance.eth.Contract(tokenContractABI,contractAddress)
 
     return tokenContract;

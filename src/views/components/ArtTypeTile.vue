@@ -1,21 +1,8 @@
 <template>
-  <div class=" ">
-     <table class="table-auto w-full">
-          <thead>
-            <tr>
-              <th style="text-align:left" v-for="(label, index) in labelsArray">{{label}}</th>
-               
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row of rowsArray" class="hover:bg-teal-200 cursor-pointer" @click="clickedRow(row)">
-               
-              <td v-for="(label, index) in labelsArray" >{{Object.values(row)[index]}}</td>
-              
-            </tr>
-             
-          </tbody>
-        </table>
+  <div class=" cursor-pointer select-none " @click="onClicked">
+
+    <img v-bind:src="imageURL" width="128" height="128" />
+      
   </div>
 </template>
 
@@ -24,8 +11,8 @@
 
 
 export default {
-  name: 'GenericTable',
-  props: ['labelsArray','rowsArray','clickedRowCallback'],
+  name: 'ArtTypeTile',
+  props: ['imageURL', 'onClickCallback'],
   data() {
     return {
 
@@ -35,8 +22,8 @@ export default {
 
   },
   methods: {
-      clickedRow(row){
-        this.clickedRowCallback(row)
+      onClicked(){
+        this.onClickCallback()
       }
   }
 }

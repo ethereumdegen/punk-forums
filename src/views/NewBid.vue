@@ -78,6 +78,20 @@
             </div>
 
 
+            <div class="mb-4 ">
+              <label   class="block text-md font-medium font-bold text-gray-800  ">Blocks until bid expiration</label>
+
+              <div class="flex flex-row">
+                  <div class="w-1/2 px-4">
+                      <input type="text"   v-model="formInputs.expiresInBlocks"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="100">
+                  </div>
+
+                   
+              </div>
+           
+            </div>
+
+
 
           </div>
 
@@ -199,11 +213,13 @@ export default {
 
         nftContractAddress: null,
         tokenBidAmountFormatted: 0,
-        expiresAtBlock:0 
+       // expiresAtBlock:0 ,
+        expiresInBlocks: 50000
         
       },
 
       connectedToWeb3: false,
+      currentBlockNumber: 0,
                          
       ApproveAllAmount: 1000000000000000000000000000000,
       tokensApproved:{},
@@ -222,13 +238,14 @@ export default {
   },
   created(){
 
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+    this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
         console.log('stateChanged',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
 
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
+        this.currentBlockNumber = await this.web3Plug.getBlockNumber()
          
          
       }.bind(this));
@@ -280,6 +297,9 @@ export default {
           this.tokenBalances[currencyAddress] = await this.web3Plug.getTokenBalance(currencyAddress,activeAddress)
           this.tokensApproved[currencyAddress] = await this.web3Plug.getTokenAllowance(currencyAddress,btfContractAddress,activeAddress)
 
+          this.currentBlockNumber = await this.web3Plug.getBlockNumber()
+        
+
           console.log('approve', this.tokensApproved)
           this.$forceUpdate()
          }, 
@@ -309,7 +329,8 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
-              this.formInputs.expiresAtBlock
+              this.getExpiresAtBlock()
+             // this.formInputs.expiresAtBlock
            ]
 
             let signature = await BidPacketUtils.performOffchainSignForBidPacket(args, this.web3Plug)
@@ -320,7 +341,8 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
-              this.formInputs.expiresAtBlock,
+               this.getExpiresAtBlock(),
+           //   this.formInputs.expiresAtBlock,
               signature
                 )
 
@@ -342,8 +364,7 @@ export default {
 
          },
         onNFTSelectCallback(optionData){
-          console.log('callback2',optionData)
-           
+            
 
           let contractData = this.web3Plug.getContractDataForActiveNetwork()
           let nftContract = contractData[optionData.name]
@@ -370,6 +391,9 @@ export default {
         },
         getTokenBidAmountRaw(){
           return this.web3Plug.formattedAmountToRaw( this.formInputs.tokenBidAmountFormatted, this.formInputs.tokenDecimals ) 
+        },
+        getExpiresAtBlock(){
+          return ( parseInt(this.currentBlockNumber) + parseInt(this.formInputs.expiresInBlocks))
         },
         getSelectedCurrencyBalance(){
           return this.tokenBalances[this.formInputs.tokenContractAddress]

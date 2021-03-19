@@ -30,13 +30,13 @@
             <div v-if="!selectedNFTContractAddress">
              
               <ArtTypeTile 
-                v-bind:imageURL="",
+                v-bind:imageURL="'mooncat.jpg'" 
                 v-bind:onClickCallback="onTileClicked('mooncats')"
 
               />
 
               <ArtTypeTile 
-                v-bind:imageURL="",
+                v-bind:imageURL="'punks.jpg'" 
                 v-bind:onClickCallback="onTileClicked('punks')"
 
               />
@@ -48,6 +48,7 @@
 
               <NFTGallery
                   v-bind:nftContractAddress="selectedNFTContractAddress"
+                  v-bind:web3Plug="web3Plug"
                />
 
 
@@ -86,6 +87,8 @@ import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
 
+import ArtTypeTile from './components/ArtTypeTile.vue'
+import NFTGallery from './components/NFTGallery.vue'
 
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
@@ -93,7 +96,7 @@ import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer,NotConnectedToWeb3},
+  components: {Navbar, Footer,NotConnectedToWeb3, ArtTypeTile, NFTGallery},
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -126,7 +129,7 @@ export default {
         onTileClicked(name){
           console.log('ontielclicked',name )
 
-          this.$router.push({ path: `/bid/${row.signature}` })
+          //this.$router.push({ path: `/bid/${row.signature}` })
         }
   }
 }

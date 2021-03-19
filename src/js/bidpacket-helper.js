@@ -16,16 +16,13 @@ export default class BidPacketHelper {
 
         const socket = io( serverURL );
 
-        
-        
-
-
-        socket.on("submitBidPacket",(data) => {
+         
+        socket.on("submittedBidPacket",(data) => {
           console.log('got back',data)
           resolve(data)
         });
 
-        socket.emit("submittedBidPacket", {packet: packetData} );
+        socket.emit("submitBidPacket", {packet: packetData} );
 
        
 

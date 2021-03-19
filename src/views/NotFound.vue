@@ -19,14 +19,13 @@
 <script>
 
 
-import Navbar from './components/Navbar.vue';
-import DocumentationNav from './components/DocumentationNav.vue';
+import Navbar from './components/Navbar.vue'; 
 import Footer from './components/Footer.vue'
 
 export default {
   name: 'NotFound',
   props: [],
-  components: {Navbar,DocumentationNav,Footer},
+  components: {Navbar,  Footer},
   data() {
     return {
 
