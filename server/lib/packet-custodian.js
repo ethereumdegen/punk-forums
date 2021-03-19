@@ -32,9 +32,16 @@ export default class PacketCustodian  {
 
     async init(){
         this.chainId = await Web3Helper.getNetworkId(this.web3);
+        this.blockNumber = await Web3Helper.getBlockNumber(this.web3);
         setInterval(this.updatePackets.bind(this),1000)
+
+        setInterval(this.updateNetData.bind(this),9000)
     }
 
+    async updateNetData( ){
+        this.blockNumber = await Web3Helper.getBlockNumber(this.web3);
+
+    }
     
     async updatePackets( ){
         console.log('updating packets')
@@ -42,7 +49,7 @@ export default class PacketCustodian  {
 
         let timeNow = Date.now()
 
-        this.blockNumber = await Web3Helper.getBlockNumber(this.web3);
+        
 
         let allActivePackets =   await this.mongoInterface.findAll('bidpackets', {status:'active'})
 
