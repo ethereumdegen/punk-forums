@@ -52,7 +52,7 @@
                     <input type="text" name="price" v-model="formInputs.tokenBidAmount"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
                 </div>
 
-                  <div class="w-1/2 px-4">
+                  <div class="w-1/2 px-4" @click="approveCurrencyToken" v-if=" !selectedCurrencyIsApproved">
                      <div class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Approve </div>
                 </div>
               </div>
@@ -65,7 +65,7 @@
 
 
           <hr>
-          <div class="py-4">
+          <div class="py-4" v-if="selectedCurrencyIsApproved">
              
  
 
@@ -127,6 +127,8 @@ const nftTokenContracts= ['cryptopunks','mooncats']
 
 const currencyTokenContracts= ['0xbtc','weth']
 
+import BigNumber from 'bignumber.js'
+
 
 export default {
   name: 'Home',
@@ -141,14 +143,25 @@ export default {
         nftContractAddress: null,
         tokenBidAmount: 0,
         expiresAtBlock:0 
-
-
+        
       },
+                         
+      ApproveAllAmount: 1000000000000000000000000000000,
+      tokensApproved:{},
+      tokenBalances:{},
       currencyTokensOptionsList:[ ],
       nftOptionsList:[ ]
     }
   },
+  computed: {
+    // a computed getter
+ 
 
+    selectedCurrencyIsApproved:  function () {
+ 
+       return (this.tokensApproved[this.formInputs.tokenContractAddress] >= this.ApproveAllAmount)
+    }
+  },
   created(){
 
     this.initOptionsLists()
@@ -171,25 +184,48 @@ export default {
       }.bind(this));
 
 
-      setInterval(this.updateBalances, 5000);
+      setInterval(this.updateBalances.bind(this), 5000);
    
     
   }, 
   methods: {
          initOptionsLists(){ 
 
-          this.currencyTokensOptionsList=[{'name':'wEth','label':'wEth'},{'name':'0xbitcoin','label':'0xBTC'}],
-          this.nftOptionsList=[{'name':'wrappedcryptopunks','label':'Cryptopunks'}]
+          this.currencyTokensOptionsList=[{'name':'weth','label':'wEth'},{'name':'0xbitcoin','label':'0xBTC'}],
+          this.nftOptionsList=[{'name':'artsale','label':'artsale'},{'name':'wrappedcryptopunks','label':'Cryptopunks'}]
 
          },
-         updateBalances(){
+         async updateBalances(){
+          
+          let contractData = this.web3Plug.getContractDataForActiveNetwork()
+
+          let activeAddress = this.web3Plug.getActiveAccountAddress()
+          let currencyAddress = this.formInputs.tokenContractAddress
+
+          
 
 
+          let btfContractAddress = contractData['buythefloor'].address
+          
+          this.tokenBalances[currencyAddress] = await this.web3Plug.getTokenBalance(currencyAddress,activeAddress)
+          this.tokensApproved[currencyAddress] = await this.web3Plug.getTokenAllowance(currencyAddress,btfContractAddress,activeAddress)
 
-         },
+          console.log('approve', this.tokensApproved)
+          this.$forceUpdate()
+         }, 
+          async approveCurrencyToken(){
+              let contractData = this.web3Plug.getContractDataForActiveNetwork()
 
- 
+              let activeAddress = this.web3Plug.getActiveAccountAddress()
+              let currencyAddress = this.formInputs.tokenContractAddress
 
+              let btfContractAddress = contractData['buythefloor'].address
+              let currencyTokenContract = this.web3Plug.getTokenContract(currencyAddress)
+              console.log(btfContractAddress)
+              await currencyTokenContract.methods.approve(btfContractAddress, new BigNumber(this.ApproveAllAmount)).send({from:activeAddress})
+
+          },
+         
 
          async signForBid(){
            console.log('sign for bid')
@@ -214,13 +250,21 @@ export default {
 
  
           this.formInputs.nftContractAddress = nftContract.address
+
+          //this.updateBalances();
         },
         onCurrencySelectCallback(optionData){
-            console.log('callback3',optionData)
+           
           let contractData = this.web3Plug.getContractDataForActiveNetwork()
+
+           console.log('contractData',contractData)
+
           let tokenContract = contractData[optionData.name]
  
           this.formInputs.tokenContractAddress = tokenContract.address
+          this.updateBalances();
+
+           
         }
   }
 }

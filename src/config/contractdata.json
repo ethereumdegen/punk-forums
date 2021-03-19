@@ -21,10 +21,11 @@
       "0xbitcoin":{"address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f"},
 
       
-      "weth":{"address":"0x0bb7509324ce409f7bbc4b701f932eaca9736ab7"},
+      "weth":{"address":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524"},
 
       "buythefloor":{"address":"0x9a2118f019550f5d5b6909e4345d5d10c004a7b7"},
 
+      "artsale":{"address":"0x39ec448b891c476e166b3c3242a90830db556661"},
 
       "cryptopunks":{"address":"0xf5b71f8d25d3e90b9ec0c08d890853187df4bef4"},
       "wrappedcryptopunks":{"address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"}

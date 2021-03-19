@@ -35,8 +35,9 @@
               @keydown="keydownHandler"
             >
               
-
+               <div class="" style="min-width:20px;min-height:20px">
               {{selectedOptionData.label}}   
+              </div>
 
               <span>
               <svg class="svg-icon mx-2" viewBox="0 0 20 20" style="stroke: #aaaaaa;">
@@ -49,16 +50,18 @@
 
           <div slot-scope="{ hide, blurHandler }" ref="optionSelect" class="border-2 border-white"> 
             <button 
-                @click="  onChange($event, hide); "
+               
                v-for="option in optionList"
+                v-on:click="onChange( option.name, hide); "
               class="block w-full px-4 py-2 text-sm leading-5 text-gray-100 transition duration-150 ease-in-out bg-black hover:bg-gray-800 focus:outline-none focus:bg-gray-100"
               role="menuitem"
               @blur="blurHandler"
               v-bind:value="option.name"
             > 
              
-
-              {{option.label}}   
+            <div class="" style="min-width:20px;min-height:20px"  >
+              {{option.label}}    
+              </div>
               
             </button>
             
@@ -68,7 +71,7 @@
         </t-dropdown>
 
       
-      <select @change="onChange($event)" id="optionselect" name="optionselect" class=" hidden focus:ring-indigo-500 focus:border-indigo-500 border-0 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-800   rounded-md">
+      <select  id="optionselect" name="optionselect" class=" hidden focus:ring-indigo-500 focus:border-indigo-500 border-0 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-800   rounded-md">
         <option v-for="option in optionList" class="bg-black text-white" >  {{option.label}} </option>
        
       </select>
@@ -110,13 +113,14 @@ export default {
      this.handleSelectedOptionChanged(this.optionList[0])
   },
   methods: {
-    onChange(event, hideMethod) {        
+    onChange(optionName, hideMethod) {        
         
          hideMethod() 
 
-        this.selectOptionByName(event.target.value)
+        this.selectOptionByName(optionName)
     },
     selectOptionByName(optionName){
+      console.log('sel 1', optionName)
        for(let optionData of this.optionList){
         if(optionData.name == (optionName)){
           
