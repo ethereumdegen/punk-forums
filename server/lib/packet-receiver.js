@@ -122,7 +122,7 @@ export default class PacketReceiver  {
 
               
                 socket.emit('bidPackets',  bidPackets);
-    
+                socket.disconnect()
               });
 
 
@@ -133,7 +133,7 @@ export default class PacketReceiver  {
                
    
                socket.emit('bidPacket',  bidPackets);
-   
+               socket.disconnect()
              });
     
               
