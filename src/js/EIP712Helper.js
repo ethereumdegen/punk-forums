@@ -1,7 +1,11 @@
-const ethUtil = require('ethereumjs-util');
-const abi = require('ethereumjs-abi');
+//const ethUtil = require('ethereumjs-util');
+//const abi = require('ethereumjs-abi');
 
-const web3utils = require('web3').utils
+//const web3utils = require('web3').utils
+
+import {keccak} from 'ethereumjs-util'
+import abi from 'ethereumjs-abi'
+//import web3utils from 'web3utils'
 
 export default class EIP712Helper{
 
@@ -40,7 +44,7 @@ export default class EIP712Helper{
     }
 
     static typeHash(primaryType, types) {
-        return ethUtil.keccak( Buffer.from(EIP712Helper.encodeType(primaryType, types)));
+        return keccak( Buffer.from(EIP712Helper.encodeType(primaryType, types)));
     }
 
     static encodeData(primaryType, data, types) {
@@ -51,21 +55,21 @@ export default class EIP712Helper{
         encTypes.push('bytes32');
         encValues.push(EIP712Helper.typeHash(primaryType, types));
 
-        console.log('typehash 1  ', Buffer.from( EIP712Helper.typeHash(primaryType, types) ).toString('hex'))
+        //console.log('typehash 1  ', Buffer.from( EIP712Helper.typeHash(primaryType, types) ).toString('hex'))
 
         // Add field contents
         for (let field of types[primaryType]) {
             let value = data[field.name];
             if (field.type == 'string' || field.type == 'bytes') {
                 encTypes.push('bytes32');
-                value = ethUtil.keccak(Buffer.from(value));
+                value = keccak(Buffer.from(value));
 
-                console.log('typehash 2  ', value)
+                //console.log('typehash 2  ', value)
 
                 encValues.push(value);
             } else if (types[field.type] !== undefined) {
                 encTypes.push('bytes32');
-                value = ethUtil.keccak(Buffer.from(EIP712Helper.encodeData(field.type, value, types)));
+                value = keccak(Buffer.from(EIP712Helper.encodeData(field.type, value, types)));
                 encValues.push(value);
             } else if (field.type.lastIndexOf(']') === field.type.length - 1) {
                 throw 'TODO: Arrays currently unimplemented in encodeData';
@@ -79,7 +83,7 @@ export default class EIP712Helper{
     }
 
     static structHash(primaryType, data, types) {
-        return ethUtil.keccak(Buffer.from(EIP712Helper.encodeData(primaryType, data, types)));
+        return keccak(Buffer.from(EIP712Helper.encodeData(primaryType, data, types)));
     }
 
 

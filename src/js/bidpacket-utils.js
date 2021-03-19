@@ -3,11 +3,9 @@ BID PACKET UTIL for NODEJS
 javascript library for NODEJS
 Version 0.10
 */
-import EIP712Helper from "./EIP712Helper" 
-
-var web3utils = require('web3-utils')
-
-const BTFcontractABI = require('../contracts/BuyTheFloorABI.json')
+import EIP712Helper from "./EIP712Helper.js" 
+import web3utils from 'web3-utils'
+ 
 
 //"BidPacket(address bidderAddress,address nftContractAddress,address currencyTokenAddress,uint256 currencyTokenAmount,uint256 expires)"
  
@@ -58,8 +56,8 @@ export default class BidPacketUtils {
         );
 
         
-        console.log('meep 1 - correct',Buffer.from(EIP712Helper.structHash('EIP712Domain', typedData.domain, typedData.types)).toString('hex')         )
-        console.log('meep 2 - correct', Buffer.from(EIP712Helper.structHash(typedData.primaryType, typedData.message, typedData.types)).toString('hex')   )
+        //console.log('meep 1 - correct',Buffer.from(EIP712Helper.structHash('EIP712Domain', typedData.domain, typedData.types)).toString('hex')         )
+        //console.log('meep 2 - correct', Buffer.from(EIP712Helper.structHash(typedData.primaryType, typedData.message, typedData.types)).toString('hex')   )
         return typedDataHash;
       }
 
@@ -99,7 +97,7 @@ export default class BidPacketUtils {
     {
 
       const msgHash = ethSigUtil.typedSignatureHash(msgParams.data)
-      console.log('msghash1',msgHash)
+       
 
       var msgBuffer= ethUtil.toBuffer(msgHash)
 
@@ -267,12 +265,12 @@ export default class BidPacketUtils {
 
 
     
-   static async sellNFTToBid(sellParams, web3Plug){
+   static async sellNFTToBid(sellParams, BTFContractABI, web3Plug){
 
     let contractData = web3Plug.getContractDataForActiveNetwork()
 
     let contractAddress = contractData['buythefloor'].address
-    let contract = web3Plug.getCustomContract( BTFcontractABI,contractAddress )
+    let contract = web3Plug.getCustomContract( BTFContractABI,contractAddress )
 
     console.log(sellParams)
 

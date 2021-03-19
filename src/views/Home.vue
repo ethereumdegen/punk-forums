@@ -175,7 +175,10 @@ export default {
             let bidPackets = await BidPacketHelper.getBidPackets(serverURL)
             console.log('bidPackets',bidPackets)
 
-
+             bidPackets = bidPackets.filter( (bid) => {
+              return (bid.status == 'active')
+            } )
+            
 
             this.bidRowsArray = bidPackets.map(pkt => (
                                                            {

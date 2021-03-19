@@ -16,6 +16,10 @@
              
           </tbody>
         </table>
+
+        <div v-if="!rowsArray || rowsArray.length == 0">
+          No records found.
+        </div>
   </div>
 </template>
 

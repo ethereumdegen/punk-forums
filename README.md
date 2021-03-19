@@ -23,9 +23,17 @@ IMPROVE LATER:
 
 2) Finish data querying using alchemy on server  to mark bids 
 
+2.5)   Limit users to only having 10 bids,  min amt for bid 
+
+
+
 3) build subgraphs to be able to show users items on website 
 
 4) make it easier to wrap things - wrapping on the site 
+
+
+
+
 
  
 

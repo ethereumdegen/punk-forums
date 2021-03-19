@@ -18,10 +18,10 @@
   },
   "goerli":{
     "contracts":{
-      "0xbitcoin":{"name":"0xBTC","address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f","decimals":8},
+      "0xbitcoin":{"name":"0xBTC","address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f","decimals":8,"minBidAmount":1},
 
       
-      "weth":{"name":"wEth","address":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524", "decimals":18},
+      "weth":{"name":"wEth","address":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524", "decimals":18, "minBidAmount":0.02},
 
       "buythefloor":{"address":"0xf8c3cf21c03a6440cd620ca531ae71d79312a70f"},
 

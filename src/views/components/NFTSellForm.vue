@@ -127,6 +127,11 @@ import BuyTheFloorHelper from '../../js/buythefloor-helper.js'
 import NFTHelper from '../../js/nft-helper.js'
 
 
+
+var BTFContractABI = require('../../contracts/BuyTheFloorABI.json')
+
+
+
 var updateApprovalsInterval;
  
 export default {
@@ -147,6 +152,7 @@ export default {
        rawBidsArray:{},
        selectedBidPacket:null,
 
+        
 
        currencyTokensOptionsList: [] ,
 
@@ -278,7 +284,7 @@ export default {
 
          }
 
-         let response = await BidPacketUtils.sellNFTToBid( sellParams, this.web3Plug)
+         let response = await BidPacketUtils.sellNFTToBid( sellParams, BTFContractABI , this.web3Plug)
 
          console.log(response)
        },
