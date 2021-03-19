@@ -13,7 +13,7 @@ export default class PacketHelper  {
 
 
         await mongoInterface.insertOne('bidpackets',packetData)
-
+        return packetData
     }
 
 

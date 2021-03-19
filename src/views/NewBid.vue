@@ -83,7 +83,7 @@
 
 
           <hr>
-          <div class="py-4" v-if="selectedCurrencyIsApproved()">
+          <div class="py-4" v-if="selectedCurrencyIsApproved() && !bidSubmitComplete">
              
  
 
@@ -104,10 +104,40 @@
 
 
 
-            <div id="output" v-if="submittedBidPacketResponse">
-            
+            <div id="output" v-if="submittedBidPacketResponse" class="p-4">
 
-                  {{ submittedBidPacketResponse }}
+                  <div  v-if="submittedBidPacketResponse.success && bidSubmitComplete">
+
+                    <div> Your bid has been submitted successfully! </div>
+
+                    <div>
+
+                      <div class="text-xl font-bold"> Your Bid  </div>
+                    <div>  nftContractAddress: {{submittedBidPacketResponse.saved.nftContractAddress}}</div>
+                     <div> currencyTokenAddress: {{submittedBidPacketResponse.saved.currencyTokenAddress}}</div>
+                      <div> currencyTokenAmount: {{submittedBidPacketResponse.saved.currencyTokenAmount}}</div>
+                      <div> expires:  {{submittedBidPacketResponse.saved.expires}}</div>
+
+                    </div>
+
+                    <div @click="resetForm" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Place another bid </div>
+         
+
+                  </div>
+
+                   <div  v-if="!submittedBidPacketResponse.success && bidSubmitComplete">
+
+                      <div>The server could not be contacted.  Please contact the web admin!</div>
+
+
+                     <div @click="resetForm" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Place another bid </div>
+         
+
+
+                   </div>
+
+ 
+                  
 
 
           </div>
@@ -181,6 +211,9 @@ export default {
       currencyTokensOptionsList:[ ],
       nftOptionsList:[ ],
       submittedBidPacketResponse: null,
+
+      
+      bidSubmitComplete: false
     }
   },
   computed: {
@@ -305,6 +338,8 @@ export default {
 
               this.submittedBidPacketResponse = reply
 
+              this.bidSubmitComplete = true 
+
          },
         onNFTSelectCallback(optionData){
           console.log('callback2',optionData)
@@ -341,6 +376,10 @@ export default {
         },
          getSelectedCurrencyBalanceFormatted(){
           return this.web3Plug.rawAmountToFormatted( this.getSelectedCurrencyBalance(), this.formInputs.tokenDecimals ) 
+        },
+
+        resetForm(){
+           this.bidSubmitComplete = false 
         }
   }
 }

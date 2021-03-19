@@ -98,7 +98,7 @@ export default class PacketReceiver  {
                     var result = await PacketHelper.storeNewBidPacket(packet,  mongoInterface);
      
     
-                 socket.emit('lavaPacket',  {success:true });
+                 socket.emit('bidPacket',  {success:true, saved:result });
     
                  socket.disconnect()
     
