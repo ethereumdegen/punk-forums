@@ -191,6 +191,18 @@ export default {
 
             let bidPackets = await BidPacketHelper.getBidPackets(serverURL,queryParams )
             console.log('bidPackets',bidPackets)
+
+
+            let ethBlockNumber = await this.web3Plug.getBlockNumber()
+
+             
+            bidPackets = bidPackets.filter( (bid) => {
+                                return (bid.expires == 0 || bid.expires > ethBlockNumber)
+                              } )
+
+            bidPackets = bidPackets.filter( (bid) => {
+              return (bid.status == 'active')
+            } )
             
             for(let bid of bidPackets){
                   this.rawBidsArray[bid.signature.signature] = bid

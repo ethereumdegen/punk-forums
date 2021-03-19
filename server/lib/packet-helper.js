@@ -10,7 +10,7 @@ export default class PacketHelper  {
         let packetData = Object.assign({},packet)
 
         packetData.createdAt = Date.now()
-
+        packetData.status = 'active'
 
         await mongoInterface.insertOne('bidpackets',packetData)
         return packetData

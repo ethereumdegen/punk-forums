@@ -7,24 +7,18 @@ Dev and building requires node 10 (fix later)
 Server requires node 14 
 
 
---  Need to hide expired and burned bids !!! 
+--  Need to hide expired and burned bids !!!   (need to check for burned bids on server side, use alchemy )
+--  if a bid has hash that is  burned, it will have its status marked as 'burned'
+
+- if a bid had its liquidity or approval removed it will have its status 'disabled' 
 
 
+- build subgraphs for wrapped mooncats and wrapped punks that give orig ids and wrap ids  !!! Per owner .
 
 
 ### TODO
 1) Build the NEW BID page 
-
--user picks their token currency from dropdown   (approval bar appears below )
--picks the NFT type they want from dropdown  (the address will appear below) 
-
--Specifies how much they are willing to pay 
--Specifies how many blocks it expires in 
-
--Clicks a button which does the personalsign,   an output is shown with their signature 
-
-- This signature is posted to MONGO 
-
+-done
 
 2) Build the PROFILE page 
 
