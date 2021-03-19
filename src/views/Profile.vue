@@ -18,9 +18,9 @@
    <div class="section  bg-white border-b-2 border-black">
      <div class="autospacing w-container">
         
-       <div class="w-row">
-          <div> Profile </div>
-
+       <div class="w-column">
+          <div class="text-lg font-bold"> Sell an NFT </div>
+          
           <div  class=" " v-if="!connectedToWeb3">
               <NotConnectedToWeb3 />
           </div>
@@ -28,16 +28,21 @@
           <div  class=" " v-if=" connectedToWeb3">
 
             <div v-if="!selectedNFTContractAddress">
+
+              <div class="text-xs  "> Select a type </div>
+
              
               <ArtTypeTile 
-                v-bind:imageURL="'mooncat.jpg'" 
-                v-bind:onClickCallback="onTileClicked('mooncats')"
+                v-bind:typeName="'wrappedmooncats'"
+                v-bind:imageURL="'/images/mooncats.jpg'" 
+                v-bind:onClickCallback="onTileClicked"
 
               />
 
               <ArtTypeTile 
-                v-bind:imageURL="'punks.jpg'" 
-                v-bind:onClickCallback="onTileClicked('punks')"
+                v-bind:typeName="'wrappedcryptopunks'"
+                v-bind:imageURL="'/images/cryptopunks.jpg'" 
+                v-bind:onClickCallback="onTileClicked"
 
               />
 
@@ -46,10 +51,22 @@
 
           <div v-if="selectedNFTContractAddress">
 
-              <NFTGallery
-                  v-bind:nftContractAddress="selectedNFTContractAddress"
+            <div class="flex flex-row">
+            
+              <div @click="resetNFTType()" class="p-1 mx-4 rounded text-xs select-none cursor-pointer bg-purple-500 text-white"> Go Back </div>
+                <div class="text-md  "> Selected Type: {{selectedNFTType}} </div>
+            </div>
+
+                 
+               
+
+               <NFTSellForm
+                v-bind:nftContractAddress="selectedNFTContractAddress"
                   v-bind:web3Plug="web3Plug"
-               />
+
+                />
+
+             
 
 
           </div>
@@ -88,7 +105,7 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 
 import ArtTypeTile from './components/ArtTypeTile.vue'
-import NFTGallery from './components/NFTGallery.vue'
+import NFTSellForm from './components/NFTSellForm.vue'
 
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
@@ -96,11 +113,12 @@ import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer,NotConnectedToWeb3, ArtTypeTile, NFTGallery},
+  components: {Navbar, Footer,NotConnectedToWeb3, ArtTypeTile, NFTSellForm},
   data() {
     return {
       web3Plug: new Web3Plug() ,
       connectedToWeb3: false,
+      selectedNFTType: null,
       selectedNFTContractAddress:null 
     }
   },
@@ -127,9 +145,19 @@ export default {
   }, 
   methods: {
         onTileClicked(name){
-          console.log('ontielclicked',name )
+          console.log('ontileclicked',name )
 
-          //this.$router.push({ path: `/bid/${row.signature}` })
+          let contractData = this.web3Plug.getContractDataForActiveNetwork()
+
+
+          this.selectedNFTType = name 
+          this.selectedNFTContractAddress = contractData[name].address
+         
+        },
+        resetNFTType(){
+
+          this.selectedNFTType = null 
+          this.selectedNFTContractAddress = null
         }
   }
 }

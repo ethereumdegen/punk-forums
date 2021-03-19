@@ -109,11 +109,18 @@ export default class PacketReceiver  {
      
     
              socket.on('bidPackets', async function (data) {
-    
-                 var bidPackets = await PacketHelper.getBidPackets( mongoInterface)
+             
+             
+              let query = {} 
+              if(data.query){
+                let queryString = JSON.stringify(data.query)
+                  query = JSON.parse(queryString.replace("$", " "))
+  
+              }
+             
+                var bidPackets = await PacketHelper.findBidPackets( mongoInterface, query )
 
-               //get from mongo 
-    
+              
                 socket.emit('bidPackets',  bidPackets);
     
               });

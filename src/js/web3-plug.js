@@ -60,6 +60,7 @@ import BigNumber from 'bignumber.js'
 
 const contractData = require('../config/contractdata.json')
 const tokenContractABI = require('../contracts/ERC20ABI')
+const nftContractABI = require('../contracts/ERC721ABI')
 
 const EventEmitter = require('events');
 class Web3PlugEmitter extends EventEmitter {}
@@ -231,11 +232,18 @@ export default class Web3Plug {
 
   getTokenContract(   contractAddress)
   { 
-
-     
+ 
     var tokenContract = new web3Instance.eth.Contract(tokenContractABI,contractAddress)
 
     return tokenContract;
+  }
+
+  getNFTContract(   contractAddress)
+  { 
+ 
+    var nftContract = new web3Instance.eth.Contract(nftContractABI,contractAddress)
+
+    return nftContract;
   }
 
 

@@ -103,7 +103,7 @@ import GenericTable from './components/GenericTable.vue';
 import BidPacketHelper from '../js/bidpacket-helper.js'
 
 
-
+import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 
 export default {
   name: 'Home',
@@ -116,8 +116,7 @@ export default {
       selectedTab:"bids",
       bidRowsArray:[],
 
-      contractNameLookupTable: {},
-      currencyDecimalsLookupTable: {}
+      buyTheFloorHelper: null
     }
   },
 
@@ -140,7 +139,9 @@ export default {
 
       this.web3Plug.reconnectWeb()
 
-      this.populateContractAddressLookupTable()
+      //this.populateContractAddressLookupTable()
+
+      this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
       this.fetchBidsData()
 
   },
@@ -178,16 +179,16 @@ export default {
 
             this.bidRowsArray = bidPackets.map(pkt => (
                                                            {
-                                                            nftContractAddress: this.getNameFromContractAddress(pkt.nftContractAddress),
-                                                            currencyTokenAddress: this.getNameFromContractAddress(pkt.currencyTokenAddress),
-                                                            currencyTokenAmount: this.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
+                                                            nftContractAddress: this.buyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress),
+                                                            currencyTokenAddress: this.buyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress),
+                                                            currencyTokenAmount: this.buyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
                                                             expires: pkt.expires,
                                                             signature: pkt.signature.signature
                                                           } 
                                                         ))
           },
 
-          populateContractAddressLookupTable(){
+          /*populateContractAddressLookupTable(){
               let contractData = this.web3Plug.getContractDataForActiveNetwork()
 
               for (const [key, value] of Object.entries(contractData)) {
@@ -198,16 +199,16 @@ export default {
 
           },
           getNameFromContractAddress(address){
-              
-
-              return this.contractNameLookupTable[address]
+               
+              return this.buyTheFloorHelper.contractNameLookupTable[address]
 
           },
           getFormattedCurrencyAmount(amount,address){
-            let decimals = this.currencyDecimalsLookupTable[address]
+            let decimals = buyTheFloorHelper.currencyDecimalsLookupTable[address]
 
             return parseFloat(this.web3Plug.rawAmountToFormatted(amount,decimals))
-          },
+          },*/
+
           clickedBidRowCallback(row){
             console.log('clicked bid row',row )
 

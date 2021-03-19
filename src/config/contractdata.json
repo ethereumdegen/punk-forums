@@ -28,6 +28,7 @@
       "artsale":{"name":"ArtSale","address":"0x39ec448b891c476e166b3c3242a90830db556661"},
 
       "cryptopunks":{"address":"0xf5b71f8d25d3e90b9ec0c08d890853187df4bef4"},
+      
       "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"}
 
 

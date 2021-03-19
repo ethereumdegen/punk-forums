@@ -32,7 +32,7 @@ export default class BidPacketHelper {
   }
 
 
-  static async getBidPackets( serverURL )
+  static async getBidPackets( serverURL , query )
   {
  
 
@@ -47,7 +47,7 @@ export default class BidPacketHelper {
             resolve(data)
           });
         
-        socket.emit("bidPackets", { } ); 
+        socket.emit("bidPackets", {query:query} ); 
         
 
        
