@@ -31,7 +31,15 @@
 
               <div class="text-xs  "> Select a type </div>
 
-             
+
+               <ArtTypeTile 
+                v-bind:typeName="'artsale'"
+                v-bind:imageURL="'/images/artblocks.jpg'" 
+                v-bind:onClickCallback="onTileClicked"
+
+              />
+
+
               <ArtTypeTile 
                 v-bind:typeName="'wrappedmooncats'"
                 v-bind:imageURL="'/images/mooncats.jpg'" 

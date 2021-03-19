@@ -7,6 +7,7 @@ import EIP712Helper from "./EIP712Helper"
 
 var web3utils = require('web3-utils')
 
+const BTFcontractABI = require('../contracts/BuyTheFloorABI.json')
 
 //"BidPacket(address bidderAddress,address nftContractAddress,address currencyTokenAddress,uint256 currencyTokenAmount,uint256 expires)"
  
@@ -246,4 +247,36 @@ export default class BidPacketUtils {
 
   }
 
+
+/*
+  let sellParams = {
+          
+    nftTokenAddress: this.selectedBidPacket.nftTokenAddress,
+    tokenId: this.ownedTokenIdToSell, 
+    from: this.web3Plug.getActiveAccountAddress(),
+    to:  this.selectedBidPacket.bidderAddress,
+    currencyToken: this.selectedBidPacket.currencyTokenAddress,
+    currencyAmount: this.selectedBidPacket.currencyTokenAmount,
+    expires: this.selectedBidPacket.expires,
+    buyerSignature: this.selectedBidPacket.signature
+
+
+   }*/
+
+   
+
+
+    
+   static async sellNFTToBid(sellParams, web3Plug){
+
+    let contractData = web3Plug.getContractDataForActiveNetwork()
+
+    let contractAddress = contractData['buythefloor'].address
+    let contract = web3Plug.getCustomContract( BTFcontractABI,contractAddress )
+
+    console.log(sellParams)
+
+    return await contract.methods.sellNFT(...Object.values(sellParams)).send({ from: sellParams.from })
+
+   }
 }

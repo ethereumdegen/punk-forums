@@ -7,7 +7,8 @@ Dev and building requires node 10 (fix later)
 Server requires node 14 
 
 
--- use sockets to post bids 
+--  Need to hide expired and burned bids !!! 
+
 
 
 
