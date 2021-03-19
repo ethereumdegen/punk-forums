@@ -393,11 +393,25 @@ export default class MongoInterface  {
 
     async findAllSorted(collectionName,query,sortBy)
     {
-    //  var query = { address: "Park Lane 38" };
-    //  var filter = { _id: 0, name: 1, address: 1 };
+     
       return new Promise(function(resolve, reject) {
 
         this.dbo.collection(collectionName).find(query).sort(sortBy).toArray(function(err, res) {
+           if (err) reject(err);
+           resolve(res);
+         });
+
+
+      }.bind(this));
+
+    }
+
+    async findAllSortedWithLimit(collectionName,query,sortBy,limit)
+    {
+     
+      return new Promise(function(resolve, reject) {
+
+        this.dbo.collection(collectionName).find(query).sort(sortBy).limit(limit).toArray(function(err, res) {
            if (err) reject(err);
            resolve(res);
          });

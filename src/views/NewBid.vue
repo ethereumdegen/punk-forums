@@ -67,7 +67,7 @@
 
               <div class="flex flex-row">
               <div class="w-1/2 px-4">
-                    <input type="text" name="price" v-model="formInputs.tokenBidAmount"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
+                    <input type="text" name="price" v-model="formInputs.tokenBidAmountFormatted"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
                 </div>
 
                   <div class="w-1/2 px-4" @click="approveCurrencyToken" v-if=" !selectedCurrencyIsApproved()">
@@ -91,7 +91,9 @@
 
             <div> CurrencyAddress: {{formInputs.tokenContractAddress}}</div>
 
-            <div> bidAmount: {{formInputs.tokenBidAmount}}</div>
+            <div> bidAmountRaw: {{getTokenBidAmountRaw()}}</div>
+
+            <div> Decimals: {{this.formInputs.tokenDecimals}}</div>
 
                  <div class="  p-4">
                      <div @click="signForBid" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Sign for Bid </div>
@@ -166,7 +168,7 @@ export default {
         tokenDecimals: 18,
 
         nftContractAddress: null,
-        tokenBidAmountRaw: 0,
+        tokenBidAmountFormatted: 0,
         expiresAtBlock:0 
         
       },
@@ -273,7 +275,7 @@ export default {
               this.web3Plug.getActiveAccountAddress(),
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
-              this.getTokenBidAmountFormatted(),
+              this.getTokenBidAmountRaw(),
               this.formInputs.expiresAtBlock
            ]
 
@@ -284,7 +286,7 @@ export default {
               this.web3Plug.getActiveAccountAddress(),
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
-              this.getTokenBidAmountFormatted(),
+              this.getTokenBidAmountRaw(),
               this.formInputs.expiresAtBlock,
               signature
                 )
@@ -323,15 +325,16 @@ export default {
            console.log('contractData',contractData)
 
           let tokenContract = contractData[optionData.name]
- 
-          this.formInputs.tokenContractAddress = tokenContract.address
+          
           this.formInputs.tokenDecimals = tokenContract.decimals
+          this.formInputs.tokenContractAddress = tokenContract.address
+          
           this.updateBalances();
 
            
         },
-        getTokenBidAmountFormatted(){
-          return this.web3Plug.rawAmountToFormatted( this.formInputs.tokenBidAmountRaw, this.formInputs.tokenDecimals ) 
+        getTokenBidAmountRaw(){
+          return this.web3Plug.formattedAmountToRaw( this.formInputs.tokenBidAmountFormatted, this.formInputs.tokenDecimals ) 
         },
         getSelectedCurrencyBalance(){
           return this.tokenBalances[this.formInputs.tokenContractAddress]
