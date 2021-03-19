@@ -5,7 +5,9 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import NewBid from './views/NewBid.vue'
 import Profile from './views/Profile.vue'
-import Show from './views/Show.vue'
+import nftToken from './views/nftToken.vue'
+import Bid from './views/Bid.vue'
+
 
 import NotFound from './views/NotFound.vue'
 
@@ -29,15 +31,21 @@ export default new Router({
     },
 
     {
+      path: '/bid/:signature',
+      name: 'bid',
+      component: Bid
+    },
+
+    {
       path: '/profile',
       name: 'profile',
       component: Profile
     },
 
     {
-      path: '/show/:contractaddress/:tokenid',
-      name: 'show',
-      component: Show
+      path: '/nft/:contractaddress/:tokenid',
+      name: 'nft',
+      component: nftToken
     },
 
     

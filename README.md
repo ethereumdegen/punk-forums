@@ -2,6 +2,14 @@
  
 
 
+Dev and building requires node 10 (fix later) 
+
+Server requires node 14 
+
+
+-- use sockets to post bids 
+
+
 
 ### TODO
 1) Build the NEW BID page 

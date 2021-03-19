@@ -102,10 +102,10 @@
 
 
 
-            <div id="output">
+            <div id="output" v-if="submittedBidPacketResponse">
             
 
-
+                  {{ submittedBidPacketResponse }}
 
 
           </div>
@@ -141,6 +141,8 @@ import GenericDropdown from './components/GenericDropdown.vue'
 
 import BidPacketUtils from '../js/bidpacket-utils.js'
 
+import BidPacketHelper from '../js/bidpacket-helper.js'
+
 const nftTokenContracts= ['cryptopunks','mooncats']
 
 const currencyTokenContracts= ['0xbtc','weth']
@@ -148,6 +150,8 @@ const currencyTokenContracts= ['0xbtc','weth']
 import BigNumber from 'bignumber.js'
 
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
+
+var updateTimer;
 
 export default {
   name: 'Home',
@@ -173,7 +177,8 @@ export default {
       tokensApproved:{},
       tokenBalances:{},
       currencyTokensOptionsList:[ ],
-      nftOptionsList:[ ]
+      nftOptionsList:[ ],
+      submittedBidPacketResponse: null,
     }
   },
   computed: {
@@ -209,10 +214,14 @@ export default {
     
 
 
-      setInterval(this.updateBalances.bind(this), 5000);
+      updateTimer = setInterval(this.updateBalances.bind(this), 5000);
    
     
   }, 
+
+  beforeDestroy(){
+      clearInterval(updateTimer) 
+  },
   methods: {
          initOptionsLists(){ 
 
@@ -270,6 +279,30 @@ export default {
 
             let signature = await BidPacketUtils.performOffchainSignForBidPacket(args, this.web3Plug)
             
+
+            let packetData = BidPacketUtils.getBidPacket(
+              this.web3Plug.getActiveAccountAddress(),
+              this.formInputs.nftContractAddress,
+              this.formInputs.tokenContractAddress,              
+              this.getTokenBidAmountFormatted(),
+              this.formInputs.expiresAtBlock,
+              signature
+                )
+
+
+              
+                var hostname = window.location.hostname; 
+
+                //'ws://localhost:8443'
+                let serverURL = 'ws://'+hostname+':8443'
+                console.log('serverURL',serverURL)
+
+            let reply = await BidPacketHelper.sendBidPacket(serverURL, packetData);
+
+              console.log('reply')
+
+              this.submittedBidPacketResponse = reply
+
          },
         onNFTSelectCallback(optionData){
           console.log('callback2',optionData)
