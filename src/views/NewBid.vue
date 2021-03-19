@@ -22,7 +22,11 @@
           <div class="text-xl font-bold mb-8"> Place a new bid </div>
 
 
-          <div id="form  " class=" ">
+          <div  class=" " v-if="!connectedToWeb3">
+              <NotConnectedToWeb3 />
+          </div>
+
+          <div id="form  " class=" " v-if="connectedToWeb3">
             
             <div class="mb-4">
                 <label   class="block text-md font-medium font-bold text-gray-800  ">NFT Type To Buy The Floor</label>
@@ -34,15 +38,29 @@
             </div>
 
 
+           
+
+
              <div class="mb-4">
                 <label   class="block text-md font-medium font-bold text-gray-800  ">Bid Currency Token</label>
                 
+
+                <div class="flex flex-row">
+
                 <GenericDropdown
                   v-bind:optionList="currencyTokensOptionsList" 
                   v-bind:onSelectCallback="onCurrencySelectCallback"
                 />
+                  <div class="mb-4 p-4 ml-8" v-if="formInputs.tokenContractAddress">
+                    Balance: {{ getSelectedCurrencyBalanceFormatted() }}
+                </div>
+                </div>
+
+
             </div>
-           
+
+            
+
               
            <div class="mb-4 ">
               <label   class="block text-md font-medium font-bold text-gray-800  ">Bid Amount</label>
@@ -129,22 +147,27 @@ const currencyTokenContracts= ['0xbtc','weth']
 
 import BigNumber from 'bignumber.js'
 
+import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
 export default {
   name: 'Home',
   props: [ ],
-  components: {Navbar, Footer, GenericDropdown},
+  components: {Navbar, Footer, GenericDropdown,NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug(),
       formInputs: {
         
         tokenContractAddress: null,
+        tokenDecimals: 18,
+
         nftContractAddress: null,
-        tokenBidAmount: 0,
+        tokenBidAmountRaw: 0,
         expiresAtBlock:0 
         
       },
+
+      connectedToWeb3: false,
                          
       ApproveAllAmount: 1000000000000000000000000000000,
       tokensApproved:{},
@@ -159,16 +182,14 @@ export default {
   },
   created(){
 
-    this.initOptionsLists()
-
-  },
-  mounted () {
-    this.web3Plug.reconnectWeb()
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
         console.log('stateChanged',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
+
+        this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
+         
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -177,6 +198,15 @@ export default {
         this.web3error = errormessage
         
       }.bind(this));
+
+
+      this.web3Plug.reconnectWeb()
+    this.initOptionsLists()
+
+  },
+  mounted () {
+    
+    
 
 
       setInterval(this.updateBalances.bind(this), 5000);
@@ -199,8 +229,9 @@ export default {
 
           
 
-
           let btfContractAddress = contractData['buythefloor'].address
+
+          console.log('currencyAddress',currencyAddress)
           
           this.tokenBalances[currencyAddress] = await this.web3Plug.getTokenBalance(currencyAddress,activeAddress)
           this.tokensApproved[currencyAddress] = await this.web3Plug.getTokenAllowance(currencyAddress,btfContractAddress,activeAddress)
@@ -233,7 +264,7 @@ export default {
               this.web3Plug.getActiveAccountAddress(),
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
-              this.formInputs.tokenBidAmount,
+              this.getTokenBidAmountFormatted(),
               this.formInputs.expiresAtBlock
            ]
 
@@ -261,9 +292,19 @@ export default {
           let tokenContract = contractData[optionData.name]
  
           this.formInputs.tokenContractAddress = tokenContract.address
+          this.formInputs.tokenDecimals = tokenContract.decimals
           this.updateBalances();
 
            
+        },
+        getTokenBidAmountFormatted(){
+          return this.web3Plug.rawAmountToFormatted( this.formInputs.tokenBidAmountRaw, this.formInputs.tokenDecimals ) 
+        },
+        getSelectedCurrencyBalance(){
+          return this.tokenBalances[this.formInputs.tokenContractAddress]
+        },
+         getSelectedCurrencyBalanceFormatted(){
+          return this.web3Plug.rawAmountToFormatted( this.getSelectedCurrencyBalance(), this.formInputs.tokenDecimals ) 
         }
   }
 }
