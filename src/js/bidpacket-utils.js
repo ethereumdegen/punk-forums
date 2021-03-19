@@ -44,20 +44,21 @@ export default class BidPacketUtils {
 
     }
  
- 
-
+  /// "\x19\x01",
+  ///  getEIP712DomainHash('BuyTheFloor','1',_chain_id,address(this)),
+   /// getBidPacketHash(bidderAddress,nftContractAddress,currencyTokenAddress,currencyTokenAmount,expires)
       static getBidTypedDataHash(typedData)
       {
-        var typedDataHash = web3utils.sha3(
-            Buffer.concat([
-                Buffer.from('1901', 'hex'),
+        var typedDataHash = web3utils.soliditySha3(
+                "\x19\x01",
                 EIP712Helper.structHash('EIP712Domain', typedData.domain, typedData.types),
                 EIP712Helper.structHash(typedData.primaryType, typedData.message, typedData.types),
-            ]),
+           
         );
 
-        console.log('meep 1', EIP712Helper.structHash('EIP712Domain', typedData.domain, typedData.types))
-        console.log('meep 2', EIP712Helper.structHash(typedData.primaryType, typedData.message, typedData.types))
+        
+        console.log('meep 1 - correct',Buffer.from(EIP712Helper.structHash('EIP712Domain', typedData.domain, typedData.types)).toString('hex')         )
+        console.log('meep 2 - correct', Buffer.from(EIP712Helper.structHash(typedData.primaryType, typedData.message, typedData.types)).toString('hex')   )
         return typedDataHash;
       }
 
@@ -123,20 +124,20 @@ export default class BidPacketUtils {
                       { name: 'nftContractAddress', type: 'address' },
                       { name: 'currencyTokenAddress', type: 'address' },
                       { name: 'currencyTokenAmount', type: 'uint256' },    
-                      { name: 'nonce', type: 'uint256' }
+                      { name: 'expires', type: 'uint256' }
                   ],
               },
               primaryType: 'BidPacket',
               domain: {
-                  contractName: 'BuyTheFloor',
-                  version: '1',
+                  contractName: "BuyTheFloor",
+                  version: "1",
                   chainId: _chainId,  
                   verifyingContract: web3utils.toChecksumAddress(_contractAddress)
               },
               message: {
-                bidderAddress:bidderAddress,
-                nftContractAddress: nftContractAddress,
-                currencyTokenAddress: currencyTokenAddress,
+                bidderAddress: web3utils.toChecksumAddress(bidderAddress),
+                nftContractAddress: web3utils.toChecksumAddress(nftContractAddress),
+                currencyTokenAddress: web3utils.toChecksumAddress(currencyTokenAddress),
                 currencyTokenAmount: currencyTokenAmount,
                 expires:expires,
               }
@@ -230,7 +231,9 @@ export default class BidPacketUtils {
         var stringifiedData = JSON.stringify(  typedData );
 
         
+        let typedDatahash = BidPacketUtils.getBidTypedDataHash(typedData)
 
+        console.log('typedDatahash',typedDatahash)
         let signResult = await  EIP712Helper.signTypedData( web3Plug.getWeb3Instance(), args[0], stringifiedData  )
         
         
