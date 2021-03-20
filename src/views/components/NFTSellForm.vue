@@ -195,6 +195,11 @@ export default {
   methods: {
         async fetchRelevantBids(){
 
+
+             let contractData = this.web3Plug.getContractDataForActiveNetwork() 
+             let btfContractAddress = contractData['buythefloor'].address
+
+
             var hostname = window.location.hostname; 
 
                 //'ws://localhost:8443'
@@ -229,6 +234,12 @@ export default {
             for(let bid of bidPackets){
                   this.rawBidsArray[bid.signature.signature] = bid
             }
+
+              bidPackets = bidPackets.filter( (bid) => {
+              return (bid.exchangeContractAddress == btfContractAddress.toLowerCase())
+            } )
+            
+
             
 
             this.formattedBidsArray = bidPackets.map(pkt => (

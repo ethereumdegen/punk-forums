@@ -169,16 +169,26 @@ export default {
           async fetchBidsData(){
              var hostname = window.location.hostname; 
 
-                //'ws://localhost:8443'
-                let serverURL = 'ws://'+hostname+':8443'
-                console.log('serverURL',serverURL)
+
+             let contractData = this.web3Plug.getContractDataForActiveNetwork() 
+             let btfContractAddress = contractData['buythefloor'].address
+
+
+            //'ws://localhost:8443'
+            let serverURL = 'ws://'+hostname+':8443'
+            console.log('serverURL',serverURL)
 
             let bidPackets = await BidPacketHelper.getBidPackets(serverURL)
             console.log('bidPackets',bidPackets)
 
-             bidPackets = bidPackets.filter( (bid) => {
+            bidPackets = bidPackets.filter( (bid) => {
               return (bid.status == 'active')
             } )
+
+             bidPackets = bidPackets.filter( (bid) => {
+              return (bid.exchangeContractAddress == btfContractAddress.toLowerCase())
+            } )
+            
             
 
             this.bidRowsArray = bidPackets.map(pkt => (

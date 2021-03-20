@@ -322,6 +322,12 @@ export default {
          async signForBid(){
            console.log('sign for bid')
 
+
+           let contractData = this.web3Plug.getContractDataForActiveNetwork() 
+ 
+           let btfContractAddress = contractData['buythefloor'].address
+              
+
            let args = [
               this.web3Plug.getActiveAccountAddress(),
               this.formInputs.nftContractAddress,
@@ -339,10 +345,11 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
-               this.getExpiresAtBlock(),
-           //   this.formInputs.expiresAtBlock,
+               this.getExpiresAtBlock(), 
               signature
                 )
+
+              packetData.exchangeContractAddress = btfContractAddress
 
 
               
@@ -352,7 +359,7 @@ export default {
                 let serverURL = 'ws://'+hostname+':8443'
                 console.log('serverURL',serverURL)
 
-            let reply = await BidPacketHelper.sendBidPacket(serverURL, packetData);
+              let reply = await BidPacketHelper.sendBidPacket(serverURL, packetData);
 
               console.log('reply')
 

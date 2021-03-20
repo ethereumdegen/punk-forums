@@ -91,7 +91,8 @@ export default class PacketReceiver  {
                         currencyTokenAddress: packet.currencyTokenAddress,
                         currencyTokenAmount: packet.currencyTokenAmount,
                         expires:packet.expires,
-                        signature:packet.signature
+                        signature:packet.signature,
+                        exchangeContractAddress: packet.exchangeContractAddress
                     }
                     console.log('got Websocket packet', bidPacket  )
     

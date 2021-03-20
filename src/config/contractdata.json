@@ -23,7 +23,7 @@
 
       "weth":{"name":"wEth","address":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524", "decimals":18, "minBidAmount":0.02},
 
-      "buythefloor":{"address":"0xf8c3cf21c03a6440cd620ca531ae71d79312a70f"},
+      "buythefloor":{"address":"0xaaa5ddbfd169f8f70c35a8638fe514e3a816f78a"},
 
       "artsale":{"name":"ArtSale","address":"0x39ec448b891c476e166b3c3242a90830db556661"},
 
