@@ -33,6 +33,13 @@ IMPROVE LATER:
 
 
 
+** FIX SSL
+
+I can ping pong to this 
+https://github.com/metawallet-web/meta-relay-node
+
+
+
 
  
 

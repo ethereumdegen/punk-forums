@@ -20,7 +20,7 @@ export default class PacketReceiver  {
 
         const app = express()
 
-
+        var server = http.createServer(app);
  
           
 
@@ -30,7 +30,7 @@ export default class PacketReceiver  {
             next();
         });
 
-        var server = http.createServer(app);
+       
 
         this.startSocketServer(server)
     }
