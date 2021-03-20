@@ -68,7 +68,7 @@ import BidPacketHelper from '../js/bidpacket-helper.js'
 import BidPacketUtils from '../js/bidpacket-utils.js'
 
 
-
+import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 
 var BTFContractABI = require('../contracts/BuyTheFloorABI.json')
 
@@ -107,8 +107,8 @@ export default {
 
         var hostname = window.location.hostname; 
 
-        //'wss://localhost:8443'
-        let serverURL = 'wss://'+hostname+':8443'
+         
+        let serverURL = BuyTheFloorHelper.getSocketURL()  
         console.log('serverURL',serverURL)
 
         this.bidPacketData = await BidPacketHelper.findBidPacket(signature, serverURL)

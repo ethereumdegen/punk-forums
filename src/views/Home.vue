@@ -167,6 +167,7 @@ export default {
 
           },
           async fetchBidsData(){
+            
              var hostname = window.location.hostname; 
 
 
@@ -174,8 +175,8 @@ export default {
              let btfContractAddress = contractData['buythefloor'].address
 
 
-            //'wss://localhost:8443'
-            let serverURL = 'wss://'+hostname+':8443'
+             
+            let serverURL = BuyTheFloorHelper.getSocketURL()
             console.log('serverURL',serverURL)
 
             let bidPackets = await BidPacketHelper.getBidPackets(serverURL)

@@ -1,7 +1,7 @@
 
 
  
- 
+ const clientConfig = require('../config/clientConfig.json')
 
 export default class BuyTheFloorHelper {
 
@@ -16,6 +16,14 @@ export default class BuyTheFloorHelper {
             this.contractNameLookupTable[value.address] = value.name 
             this.currencyDecimalsLookupTable[value.address] = value.decimals 
         }
+
+    }
+
+    static getSocketURL(){
+      let envmode = process.env.NODE_ENV
+
+      return clientConfig[envmode].SOCKET_URL
+
 
     }
      

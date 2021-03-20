@@ -1,0 +1,10 @@
+{
+    "development":{
+        "SOCKET_URL": "wss://localhost:8443"
+    },
+    "production":{
+        "SOCKET_URL": "wss://157.230.232.13:8443"
+    }
+
+
+}
