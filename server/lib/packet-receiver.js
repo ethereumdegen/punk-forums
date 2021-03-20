@@ -21,13 +21,10 @@ export default class PacketReceiver  {
         const app = express()
 
 
+ 
+          
 
-
-          app.use('/', express.static('public'))
-          app.use(bodyParser.urlencoded({ extended: false }));
-          app.use(bodyParser.json());
-
-          app.all('/*', function(req, res, next) {
+         app.all('/*', function(req, res, next) {
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
             next();
