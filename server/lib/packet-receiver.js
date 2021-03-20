@@ -9,6 +9,7 @@ import PacketHelper from './packet-helper.js'
 import { Server } from "socket.io";
 
 import http from 'http'
+import https from 'https'
 
 export default class PacketReceiver  {
 
@@ -18,7 +19,20 @@ export default class PacketReceiver  {
 
         const app = express()
 
-        var server = http.createServer(app);
+        //var server = http.createServer(app);
+
+        if(process.env.NODE_ENV == 'production'){
+          var server = https.createServer({
+            cert: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.pem'),
+            key: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.key')
+          });
+  
+        }else{
+          var server = http.createServer(app);
+        }
+       
+        
+
  
          app.use(cors());
 
