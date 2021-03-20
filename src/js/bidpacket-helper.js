@@ -19,7 +19,9 @@ export default class BidPacketHelper {
       socket.on("pong",(data) => {
         console.log('got back pong',data)
         resolve(data)
-      });
+      }); 
+
+      console.log('send ping')
 
       socket.emit("ping"  );
 
