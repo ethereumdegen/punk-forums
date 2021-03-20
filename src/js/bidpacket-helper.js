@@ -13,7 +13,7 @@ export default class BidPacketHelper {
          
 
       //const socket = io( 'wss://xdai.apexrelay.com:8443' );
-      const socket = io( 'wss://buythefloor.com:8443' );
+      const socket = io( 'wss://157.230.232.13:8443' );
 
        
       socket.on("pong",(data) => {
