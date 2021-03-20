@@ -20,16 +20,14 @@ export default class PacketReceiver  {
 
         var server = http.createServer(app);
  
-        //app.use(cors());
+         app.use(cors());
 
-          app.all('/*', function(req, res, next) {
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
+       /*   app.all('/*', function(req, res, next) {
+           
            // res.header('Access-Control-Allow-Origin', '*');
           //  res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
             next();
-        }); 
+        }); */
 
         
      
