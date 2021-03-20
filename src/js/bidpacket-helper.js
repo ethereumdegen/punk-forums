@@ -6,6 +6,29 @@ import { io } from "socket.io-client";
 export default class BidPacketHelper {
 
 
+  static async testSockets( )
+  {
+    return new Promise(async resolve => {
+
+         
+
+      const socket = io( 'wss://xdai.apexrelay.com:8443' );
+
+       
+      socket.on("pong",(data) => {
+        console.log('got back pong',data)
+        resolve(data)
+      });
+
+      socket.emit("ping"  );
+
+     
+
+    })
+
+  }
+
+
     static async sendBidPacket(serverURL, packetData)
   {
  

@@ -5,6 +5,9 @@
 Dev and building requires node 10 (fix later) 
 
 Server requires node 14 
+
+
+try to do ping/pong w apexrelay server. 
  
 
 

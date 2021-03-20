@@ -167,6 +167,10 @@ export default {
 
           },
           async fetchBidsData(){
+
+            let test = await BidPacketHelper.testSockets()
+
+            
             
              var hostname = window.location.hostname; 
 
