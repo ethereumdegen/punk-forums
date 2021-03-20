@@ -26,7 +26,7 @@ export default class PacketReceiver  {
             cert: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.pem'),
             key: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.key')
           });
-  
+          console.log('--using https--')
         }else{
           var server = http.createServer(app);
         }
