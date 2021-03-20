@@ -1,10 +1,8 @@
 
  
  import express from 'express'
-import fs from 'fs'
-
-
-import bodyParser from "body-parser"  //listen for POST
+ 
+ import cors from 'cors'
 
 
 import PacketHelper from './packet-helper.js'
@@ -22,13 +20,13 @@ export default class PacketReceiver  {
 
         var server = http.createServer(app);
  
-          
+        app.use(cors());
 
-         app.all('/*', function(req, res, next) {
+         /*app.all('/*', function(req, res, next) {
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
             next();
-        });
+        });*/
 
        
 
