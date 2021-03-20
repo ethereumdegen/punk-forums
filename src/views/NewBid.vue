@@ -355,7 +355,7 @@ export default {
               
                 var hostname = window.location.hostname; 
 
-                //'ws://localhost:8443'
+                //'wss://localhost:8443'
                 let serverURL = 'wss://'+hostname+':8443'
                 console.log('serverURL',serverURL)
 

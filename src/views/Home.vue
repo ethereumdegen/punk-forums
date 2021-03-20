@@ -174,8 +174,8 @@ export default {
              let btfContractAddress = contractData['buythefloor'].address
 
 
-            //'ws://localhost:8443'
-            let serverURL = 'ws://'+hostname+':8443'
+            //'wss://localhost:8443'
+            let serverURL = 'wss://'+hostname+':8443'
             console.log('serverURL',serverURL)
 
             let bidPackets = await BidPacketHelper.getBidPackets(serverURL)
