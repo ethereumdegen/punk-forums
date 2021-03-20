@@ -57,7 +57,7 @@ export default class PacketReceiver  {
 
       //const httpServer = createServer();
       const io = new Server(server, options);
-      io.set( 'origins', '*buythefloor.com*' );
+     // io.set( 'origins', '*buythefloor.com*' );
 
       //var io = require('socket.io')(server, options);
       var port = process.env.PORT || 8443;  //8443
