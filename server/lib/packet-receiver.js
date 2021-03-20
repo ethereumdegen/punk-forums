@@ -23,12 +23,17 @@ export default class PacketReceiver  {
         //app.use(cors());
 
           app.all('/*', function(req, res, next) {
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+           // res.header('Access-Control-Allow-Origin', '*');
+          //  res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
             next();
         }); 
 
-       
+        
+     
+
 
         this.startSocketServer(server)
     }
@@ -52,7 +57,7 @@ export default class PacketReceiver  {
 
       //const httpServer = createServer();
       const io = new Server(server, options);
-
+      io.set( 'origins', '*buythefloor.com*' );
 
       //var io = require('socket.io')(server, options);
       var port = process.env.PORT || 8443;  //8443
