@@ -17,51 +17,22 @@
 
    <div class="section  bg-white border-b-2 border-black">
      <div class="autospacing w-container">
-       <div class="w-row">
-
-       </div>
-       <div class="w-row">
-         <div class="column w-col w-col-6  ">
-
-
-
-              <router-link to="/newbid" class='text-gray-800 text-xl block'>-> Place a Bid for an NFT</router-link>
-
-               <router-link to="/sell" class='text-gray-800 text-xl block'>-> View and Sell your NFTs</router-link>
-            <br>
-             <router-link to="/dashboard" class='text-gray-800 text-xl block'>-> View your active bids</router-link>
-
-
-
-
-         </div>
-         <div class="column-2 w-col w-col-6"><img src="@/assets/images/coins.svg" width="125" height="125" alt="">
-
-         </div>
-       </div>
-     </div>
-   </div>
-
-
-    <div class="section  bg-white border-b-2 border-black ">
-     <div class="w-container pt-8">
-
-         
-
-        <div class="text-lg text-black p-8">
-         Lists of Recent Bids 
-        </div>
-
-
-       <div>
-            <TabsBar
-                v-bind:tabArray="['Bids' ]"
-                v-bind:onTabSelect="onTabSelect" 
-            />
+        
+       <div class="w-column">
+          <div class="text-lg font-bold"> Sell an NFT </div>
+          
+          <div  class=" " v-if="!connectedToWeb3">
+              <NotConnectedToWeb3 />
           </div>
-        <div>
 
-          <div v-if="selectedTab=='bids'" class="mb-4 ">
+          <div  class=" " v-if=" connectedToWeb3">
+
+             
+            <div class="text-lg text-black p-8">
+              Your Bids 
+              </div>
+
+            <div v-if="selectedTab=='bids'" class="mb-4 ">
 
               <GenericTable
                 v-bind:labelsArray="['nftType','currencyType','bidAmount','expires']"
@@ -69,16 +40,19 @@
                 v-bind:clickedRowCallback="clickedBidRowCallback"
                />
 
+           </div>
+
+
           </div>
 
 
-        </div>
-
-
-
+          
+       </div>
      </div>
    </div>
 
+
+    
 
 
     
@@ -91,6 +65,8 @@
 <script>
 
 
+
+import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
 import Web3Plug from '../js/web3-plug.js' 
 
@@ -107,9 +83,9 @@ import BidPacketHelper from '../js/bidpacket-helper.js'
 import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 
 export default {
-  name: 'Home',
+  name: 'Dashboard',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable},
+  components: {Navbar, Footer, TabsBar, GenericTable, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -117,18 +93,23 @@ export default {
       selectedTab:"bids",
       bidRowsArray:[],
 
-      buyTheFloorHelper: null
+      buyTheFloorHelper: null,
+      connectedToWeb3: false,
+      currentBlockNumber: 0
     }
   },
 
   created(){
 
  
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+    this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
         console.log('stateChanged',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
+        this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
+        this.currentBlockNumber = await this.web3Plug.getBlockNumber()
+         
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -192,27 +173,7 @@ export default {
                                                         ))
           },
 
-          /*populateContractAddressLookupTable(){
-              let contractData = this.web3Plug.getContractDataForActiveNetwork()
-
-              for (const [key, value] of Object.entries(contractData)) {
-               this.contractNameLookupTable[value.address] = value.name 
-               this.currencyDecimalsLookupTable[value.address] = value.decimals 
-              }
-              
-
-          },
-          getNameFromContractAddress(address){
-               
-              return this.buyTheFloorHelper.contractNameLookupTable[address]
-
-          },
-          getFormattedCurrencyAmount(amount,address){
-            let decimals = buyTheFloorHelper.currencyDecimalsLookupTable[address]
-
-            return parseFloat(this.web3Plug.rawAmountToFormatted(amount,decimals))
-          },*/
-
+          
           clickedBidRowCallback(row){
             console.log('clicked bid row',row )
 

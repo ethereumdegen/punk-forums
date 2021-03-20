@@ -5,12 +5,7 @@
 Dev and building requires node 10 (fix later) 
 
 Server requires node 14 
-
-
---  Need to hide expired and burned bids !!!   (need to check for burned bids on server side, use alchemy )
---  if a bid has hash that is  burned, it will have its status marked as 'burned'
-
-- if a bid had its liquidity or approval removed it will have its status 'disabled' 
+ 
 
 
 IMPROVE LATER: 
@@ -22,12 +17,13 @@ IMPROVE LATER:
 -done
 
 2) Finish data querying using alchemy on server  to mark bids 
+-done 
 
 2.5)   Limit users to only having 10 bids,  min amt for bid 
 
 
 
-3) build subgraphs to be able to show users items on website 
+3) build subgraphs to be able to show users items on website (subgraph for sales on this platform)
 
 4) make it easier to wrap things - wrapping on the site 
 

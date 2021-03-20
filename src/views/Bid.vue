@@ -26,12 +26,18 @@
           <div> currencyTokenAddress: {{bidPacketData.currencyTokenAddress}}</div>
             <div> currencyTokenAmount: {{bidPacketData.currencyTokenAmount}}</div>
             <div> expires:  {{bidPacketData.expires}}</div>
+             <div> hash:  {{bidPacketData.hash}}</div>
 
             <div> signature:  {{bidPacketData.signature.signature}}</div>
-
+          <div> status:  {{bidPacketData.status}}</div>
 
 
        </div>
+
+        <div @click="cancelBid()" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Cancel bid </div>
+         
+
+
      </div>
    </div>
 
@@ -59,8 +65,12 @@ import Footer from './components/Footer.vue';
 
 import BidPacketHelper from '../js/bidpacket-helper.js'
 
+import BidPacketUtils from '../js/bidpacket-utils.js'
 
 
+
+
+var BTFContractABI = require('../contracts/BuyTheFloorABI.json')
 
 
 export default {
@@ -103,7 +113,22 @@ export default {
 
         this.bidPacketData = await BidPacketHelper.findBidPacket(signature, serverURL)
 
+        let contractData = this.web3Plug.getContractDataForActiveNetwork()
+        let bidTheFloorAddress = contractData['buythefloor'].address
+
+        let typedData =  BidPacketUtils.getBidTypedDataFromParams(this.web3Plug.getActiveNetId( ), bidTheFloorAddress, this.bidPacketData.bidderAddress, this.bidPacketData.nftContractAddress, this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount, this.bidPacketData.expires   )
+        this.bidPacketData.hash = BidPacketUtils.getBidTypedDataHash(typedData)
+
+        
          console.log('fetched',this.bidPacketData)
+     },
+
+     async cancelBid(){
+         let contractData = this.web3Plug.getContractDataForActiveNetwork()
+        let bidTheFloorAddress = contractData['buythefloor'].address
+
+        let btfContract = this.web3Plug.getCustomContract(BTFContractABI,bidTheFloorAddress )
+         await btfContract.methods.cancelBid(this.bidPacketData.nftContractAddress, this.bidPacketData.bidderAddress,  this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount, this.bidPacketData.expires,this.bidPacketData.signature.signature ).send({from: this.web3Plug.getActiveAccountAddress()})
      }
   }
 }

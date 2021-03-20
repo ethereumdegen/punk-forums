@@ -32,27 +32,14 @@
               <div class="text-xs  "> Select a type </div>
 
 
-               <ArtTypeTile 
-                v-bind:typeName="'artsale'"
-                v-bind:imageURL="'/images/artblocks.jpg'" 
+               <ArtTypeTile v-for="type of nftTypes"
+                v-bind:typeName="type.name"
+                v-bind:imageURL="type.imgurl" 
                 v-bind:onClickCallback="onTileClicked"
 
               />
 
-
-              <ArtTypeTile 
-                v-bind:typeName="'wrappedmooncats'"
-                v-bind:imageURL="'/images/mooncats.jpg'" 
-                v-bind:onClickCallback="onTileClicked"
-
-              />
-
-              <ArtTypeTile 
-                v-bind:typeName="'wrappedcryptopunks'"
-                v-bind:imageURL="'/images/cryptopunks.jpg'" 
-                v-bind:onClickCallback="onTileClicked"
-
-              />
+ 
 
           </div>
 
@@ -117,6 +104,8 @@ import NFTSellForm from './components/NFTSellForm.vue'
 
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
+const CryptoAssets = require('../config/cryptoassets.json')
+
 
 export default {
   name: 'Home',
@@ -125,6 +114,7 @@ export default {
   data() {
     return {
       web3Plug: new Web3Plug() ,
+      nftTypes:  CryptoAssets.nftTypes,
       connectedToWeb3: false,
       selectedNFTType: null,
       selectedNFTContractAddress:null 

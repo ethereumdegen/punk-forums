@@ -188,10 +188,8 @@ import GenericDropdown from './components/GenericDropdown.vue'
 import BidPacketUtils from '../js/bidpacket-utils.js'
 
 import BidPacketHelper from '../js/bidpacket-helper.js'
-
-const nftTokenContracts= ['cryptopunks','mooncats']
-
-const currencyTokenContracts= ['0xbtc','weth']
+ 
+const CryptoAssets = require('../config/cryptoassets.json')
 
 import BigNumber from 'bignumber.js'
 
@@ -277,8 +275,8 @@ export default {
   methods: {
          initOptionsLists(){ 
 
-          this.currencyTokensOptionsList=[{'name':'weth','label':'wEth'},{'name':'0xbitcoin','label':'0xBTC'}],
-          this.nftOptionsList=[{'name':'artsale','label':'artsale'},{'name':'wrappedcryptopunks','label':'Cryptopunks'}]
+          this.currencyTokensOptionsList= CryptoAssets.currencyTokens 
+          this.nftOptionsList=CryptoAssets.nftTypes 
 
          },
          async updateBalances(){

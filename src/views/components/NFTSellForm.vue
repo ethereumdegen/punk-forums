@@ -27,6 +27,20 @@
 
                 
             </div>
+
+
+
+
+            <NFTGallery 
+            v-bind:web3Plug="web3Plug"
+            v-bind:nftContractAddress="nftContractAddress"
+            />
+
+
+
+
+
+
         
           </div>
 
@@ -117,6 +131,7 @@
  
 import GenericTable from './GenericTable.vue';
 import GenericDropdown from './GenericDropdown.vue';
+import NFTGallery from './NFTGallery.vue';
 
 
 import BidPacketHelper from '../../js/bidpacket-helper.js'
@@ -130,6 +145,7 @@ import NFTHelper from '../../js/nft-helper.js'
 
 var BTFContractABI = require('../../contracts/BuyTheFloorABI.json')
 
+const CryptoAssets = require('../../config/cryptoassets.json')
 
 
 var updateApprovalsInterval;
@@ -137,7 +153,7 @@ var updateApprovalsInterval;
 export default {
   name: 'NFTSellForm',
   props: ['nftContractAddress', 'web3Plug'],
-  components:{GenericTable,GenericDropdown},
+  components:{GenericTable,GenericDropdown,NFTGallery},
   data() {
     return {
 
@@ -168,7 +184,7 @@ export default {
 
       updateApprovalsInterval = setInterval(this.updateApproval, 5000)
 
-      this.currencyTokensOptionsList=[{'name':null,'label':'all'},{'name':'weth','label':'wEth'},{'name':'0xbitcoin','label':'0xBTC'}];
+      this.currencyTokensOptionsList=[{'name':null,'label':'all'} ].concat( CryptoAssets.currencyTokens);
           
   },
   beforeDestroy(){

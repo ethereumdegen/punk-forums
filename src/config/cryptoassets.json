@@ -1,17 +1,11 @@
 {
-  "assets":{
-    "ETH":{
-        "Decimals": 18
-    },
-    "0xBTC":{
-        "Decimals": 8
-    },
-    "LPToken":{
-        "Decimals": 18
-    }
-
-
-  }
+  "currencyTokens": [{"name":"weth","label":"wEth"},{"name":"0xbitcoin","label":"0xBTC"}],
+  
+  "nftTypes": [
+    {"name":"artsale","label":"Artsale","imgurl":"/images/artblocks.jpg"},
+    {"name":"cryptovoxels","label":"Cryptovoxels","imgurl":"/images/cryptovoxels.jpg"},
+    {"name":"wrappedmooncats","label":"Mooncats","imgurl":"/images/mooncats.jpg"},
+    {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.jpg"} ]
 
 
 

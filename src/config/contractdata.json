@@ -2,16 +2,14 @@
   "mainnet":{
     "contracts":{
       "0xbitcoin":{"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
-
-      "uniswapv2router":{"address":"0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"},
-
-
-      "uniswapv2add":{"address":"0xD3cF4e98e1e432B3d6Ae42AE406A78F2AC8293D0"},
-      "uniswapv2remove":{"address":"0x79B6C6F8634ea477ED725eC23b7b6Fcb41F00E58"},
+ 
       "weth":{"address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
-      "0xbitcoinmarketpair":{"address":"0xc12c4c3e0008b838f75189bfb39283467cf6e5b3"}
+      "buythefloor":{"address":""},
+
+      "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 
 
 
+      "cryptovoxels":{"name":"Cryptovoxels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
     }
 
 
@@ -21,6 +19,8 @@
       "0xbitcoin":{"name":"0xBTC","address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f","decimals":8,"minBidAmount":1},
 
       
+
+
       "weth":{"name":"wEth","address":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524", "decimals":18, "minBidAmount":0.02},
 
       "buythefloor":{"address":"0xf8c3cf21c03a6440cd620ca531ae71d79312a70f"},
@@ -29,9 +29,11 @@
 
       "cryptopunks":{"address":"0xf5b71f8d25d3e90b9ec0c08d890853187df4bef4"},
       
-      "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"}
+      "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"},
 
+      "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 
 
+      "cryptovoxels":{"name":"Cryptovoxels","address":"0xe51750e911724772a597f47e002de891bfc9adf9"}
     }
 
 
