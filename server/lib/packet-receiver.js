@@ -13,7 +13,7 @@ import https from 'https'
 
 export default class PacketReceiver  {
 
-    constructor(mongoInterface){
+    constructor(mongoInterface,serverConfig){
         this.mongoInterface = mongoInterface;
 
 
@@ -21,7 +21,7 @@ export default class PacketReceiver  {
 
         //var server = http.createServer(app);
 
-        if(process.env.NODE_ENV == 'production'){
+        if(serverConfig.servermode == 'production'){
           var server = https.createServer({
             cert: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.pem'),
             key: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.key')

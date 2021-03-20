@@ -18,7 +18,7 @@ let serverConfig = FileHelper.readJSONFile('./server/serverconfig.json')
     let mongoInterface = new MongoInterface( 'bidthefloor' ) 
 
 
-    let packetReceiver = new PacketReceiver(mongoInterface)
+    let packetReceiver = new PacketReceiver(mongoInterface,serverConfig)
  
      
     let web3 = new Web3( serverConfig.web3provider  )
