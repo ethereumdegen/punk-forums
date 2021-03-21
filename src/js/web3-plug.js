@@ -171,10 +171,16 @@ export default class Web3Plug {
   }
 
   getActiveAccountAddress(){
+    if(!window.ethereum){
+      return null
+    }
     return window.ethereum.selectedAddress
 
   }
   getActiveNetId(){
+    if(!window.ethereum){
+      return null
+    }
     return window.ethereum.chainId
 
   }

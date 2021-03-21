@@ -21,7 +21,10 @@ export default class PacketReceiver  {
 
         //var server = http.createServer(app);
 
-        if(serverConfig.servermode == 'production'){
+        let envmode = process.env.NODE_ENV
+
+
+        if(serverConfig.useHTTPS == true ){
           var server = https.createServer({
             cert: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.pem'),
             key: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.key')

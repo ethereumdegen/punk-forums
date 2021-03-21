@@ -19,8 +19,12 @@ export default class BuyTheFloorHelper {
 
     }
 
-    static getSocketURL(){
+    static getSocketURL(netId){
       let envmode = process.env.NODE_ENV
+
+      if(netId != 1 && envmode == 'production'){
+        envmode = staging
+      }
 
       return clientConfig[envmode].SOCKET_URL
 

@@ -142,7 +142,11 @@ export default {
 
       //this.populateContractAddressLookupTable()
 
-      this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
+      if(this.web3Plug.connectedToWeb3()){
+        this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
+      }
+
+     
       this.fetchBidsData()
 
   },
@@ -169,15 +173,22 @@ export default {
           async fetchBidsData(){
 
             
-             var hostname = window.location.hostname; 
+             var hostname = window.location.hostname;
+             
+             let chainId = this.web3Plug.getActiveNetId()
+
+             if(chainId==null){
+               chainId = 1 
+               console.log('no web3 connection')
+             }
 
 
-             let contractData = this.web3Plug.getContractDataForActiveNetwork() 
+             let contractData = this.web3Plug.getContractDataForNetworkID(chainId) 
              let btfContractAddress = contractData['buythefloor'].address
 
 
              
-            let serverURL = BuyTheFloorHelper.getSocketURL()
+            let serverURL = BuyTheFloorHelper.getSocketURL(chainId)
             console.log('serverURL',serverURL)
 
             let query = {exchangeContractAddress: btfContractAddress, status:'active', suspended:false  }

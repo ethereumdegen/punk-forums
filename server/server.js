@@ -11,11 +11,17 @@ import PacketCustodian from './lib/packet-custodian.js'
 
 import Web3 from 'web3'
 
-let serverConfig = FileHelper.readJSONFile('./server/serverconfig.json')
+let envmode = process.env.NODE_ENV
 
+let serverConfigFile = FileHelper.readJSONFile('./server/serverconfig.json')
+let serverConfig = serverConfigFile[envmode]
 
   async function start(){
-    let mongoInterface = new MongoInterface( 'bidthefloor' ) 
+
+    console.log('server config: ',serverConfig)
+
+
+    let mongoInterface = new MongoInterface( 'bidthefloor_'.concat(envmode) ) 
 
 
     let packetReceiver = new PacketReceiver(mongoInterface,serverConfig)

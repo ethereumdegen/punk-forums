@@ -360,7 +360,7 @@ export default {
                 var hostname = window.location.hostname; 
 
              
-                let serverURL =  BuyTheFloorHelper.getSocketURL()
+                let serverURL =  BuyTheFloorHelper.getSocketURL(this.web3Plug.activeNetworkId())
                 console.log('serverURL',serverURL)
 
               let reply = await BidPacketHelper.sendBidPacket(serverURL, packetData);
