@@ -220,7 +220,7 @@ export default {
 
             let queryParams = {nftContractAddress: this.nftContractAddress, 
                         exchangeContractAddress: btfContractAddress ,
-                        status:active,
+                        status:'active',
                         suspended:false 
                         }
 
