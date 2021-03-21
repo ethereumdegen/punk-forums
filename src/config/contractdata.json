@@ -4,7 +4,7 @@
       "0xbitcoin":{"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
  
       "weth":{"address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
-      "buythefloor":{"address":""},
+      "buythefloor":{"address":"0x20eb324ab10fb83ebe90a3f5d863068faba10124"},
 
       "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 
 
