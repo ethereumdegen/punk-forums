@@ -184,18 +184,19 @@ export default class PacketCustodian  {
 
 
         let activePackets = await this.mongoInterface.findAll('bidpackets', {bidderAddress: bidderData.publicAddress, status:'active'    } )
-        let suspendedPackets =  await this.mongoInterface.findAll('bidpackets', {bidderAddress: bidderData.publicAddress, status:'suspended'    }  )
-        let packetsOfBidder =  activePackets.concat( suspendedPackets )
+        
  
-        for(let packet of packetsOfBidder){
+        for(let packet of activePackets){
 
             let isNowSuspended = false 
 
             if(packet.currencyTokenAmount > balanceApprovalData.balance ){
+                console.log('suspending', packet.currencyTokenAmount, balanceApprovalData.balance)
                 isNowSuspended = true
             }
 
             if(packet.currencyTokenAmount > balanceApprovalData.approved ){
+                console.log('suspending', packet.currencyTokenAmount, balanceApprovalData.balance)
                 isNowSuspended = true
             }
 
