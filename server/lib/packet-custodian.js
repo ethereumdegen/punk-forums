@@ -190,12 +190,12 @@ export default class PacketCustodian  {
 
             let isNowSuspended = false 
 
-            if(packet.currencyTokenAmount > balanceApprovalData.balance ){
+            if(parseInt(packet.currencyTokenAmount) > parseInt(balanceApprovalData.balance) ){
                 console.log('suspending', packet.currencyTokenAmount, balanceApprovalData.balance)
                 isNowSuspended = true
             }
 
-            if(packet.currencyTokenAmount > balanceApprovalData.approved ){
+            if(parseInt(packet.currencyTokenAmount) > parseInt(balanceApprovalData.approved) ){
                 console.log('suspending', packet.currencyTokenAmount, balanceApprovalData.balance)
                 isNowSuspended = true
             }
