@@ -222,7 +222,7 @@ export default {
 
       maxExpiresInBlocks: 100000,
                          
-      ApproveAllAmount: 1000000000000000000000000000000,
+      ApproveAllAmount: "1000000000000000000000000000000",
       tokensApproved:{},
       tokenBalances:{},
       currencyTokensOptionsList:[ ],
@@ -312,7 +312,8 @@ export default {
 
               let btfContractAddress = contractData['buythefloor'].address
               let currencyTokenContract = this.web3Plug.getTokenContract(currencyAddress)
-              console.log(btfContractAddress)
+             
+             console.log('new approve' , btfContractAddress, this.ApproveAllAmount)
               await currencyTokenContract.methods.approve(btfContractAddress, new BigNumber(this.ApproveAllAmount)).send({from:activeAddress})
 
           },
