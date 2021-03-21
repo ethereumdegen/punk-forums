@@ -314,7 +314,7 @@ export default {
               let currencyTokenContract = this.web3Plug.getTokenContract(currencyAddress)
              
              console.log('new approve' , btfContractAddress, this.ApproveAllAmount)
-              await currencyTokenContract.methods.approve(btfContractAddress, new BigNumber(this.ApproveAllAmount)).send({from:activeAddress})
+              await currencyTokenContract.methods.approve(btfContractAddress, this.ApproveAllAmount ).send({from:activeAddress})
 
           },
 
