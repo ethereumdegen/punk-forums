@@ -19,7 +19,7 @@
      <div class="autospacing w-container">
         
        <div class="w-column">
-          <div class="text-lg font-bold"> Sell an NFT </div>
+          <div class="text-lg font-bold"> Your Bids  </div>
           
           <div  class=" " v-if="!connectedToWeb3">
               <NotConnectedToWeb3 />
@@ -28,9 +28,7 @@
           <div  class=" " v-if=" connectedToWeb3">
 
              
-            <div class="text-lg text-black p-8">
-              Your Bids 
-              </div>
+            
 
             <div v-if="selectedTab=='bids'" class="mb-4 ">
 
