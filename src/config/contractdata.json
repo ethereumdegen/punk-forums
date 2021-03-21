@@ -1,9 +1,10 @@
 {
   "mainnet":{
     "contracts":{
-      "0xbitcoin":{"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
+      "0xbitcoin":{"name":"0xBTC","address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31","decimals":8,"minBidAmount":1},
  
-      "weth":{"address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
+      "weth":{"name":"wEth","address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", "decimals":18, "minBidAmount":0.02},
+     
       "buythefloor":{"address":"0x20eb324ab10fb83ebe90a3f5d863068faba10124"},
 
       "hashmasks":{"name":"hashmasks","address":"0xc2c747e0f7004f9e8817db2ca4997657a7746928"},
