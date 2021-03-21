@@ -151,10 +151,16 @@ export default {
              var hostname = window.location.hostname; 
 
                  
-                let serverURL = BuyTheFloorHelper.getSocketURL()  
-                console.log('serverURL',serverURL)
+            let serverURL = BuyTheFloorHelper.getSocketURL()  
+            console.log('serverURL',serverURL)
 
-            let bidPackets = await BidPacketHelper.getBidPackets(serverURL)
+            let contractData = this.web3Plug.getContractDataForActiveNetwork()
+            let btfContractAddress = contractData['buythefloor'].address
+
+
+            let query = {bidderAddress: this.web3Plug.getActiveAccountAddress() , exchangeContractAddress: btfContractAddress }
+
+            let bidPackets = await BidPacketHelper.getBidPackets(serverURL,query)
             console.log('bidPackets',bidPackets)
 
              bidPackets = bidPackets.filter( (bid) => {

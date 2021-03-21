@@ -262,7 +262,34 @@ export default class BidPacketUtils {
    }*/
 
    
+   static async getPacketBurnStatus(packet, BTFContractABI, web3Plug){
 
+    let contractData = web3Plug.getContractDataForActiveNetwork()
+
+    let contractAddress = contractData['buythefloor'].address
+    let contract = web3Plug.getCustomContract( BTFContractABI,contractAddress )
+
+    
+    let typedData = BidPacketUtils.getBidTypedDataFromParams( 
+      web3Plug.getActiveNetId(), 
+      contractAddress,
+      packet.bidderAddress, 
+      packet.nftContractAddress, 
+      packet.currencyTokenAddress, 
+      packet.currencyTokenAmount, 
+      packet.expires
+       )
+
+
+
+    let sigHash = BidPacketUtils.getBidTypedDataHash( typedData )
+
+
+    let status =  await contract.methods.burnedSignatures(sigHash).call()
+    console.log('burn status', packet, status )
+
+    return parseInt(status)
+   }
 
     
    static async sellNFTToBid(sellParams, BTFContractABI, web3Plug){

@@ -34,6 +34,7 @@ export default class PacketCustodian  {
         this.chainId = await Web3Helper.getNetworkId(this.web3);
         this.blockNumber = await Web3Helper.getBlockNumber(this.web3);
         setInterval(this.updatePackets.bind(this),1000)
+        setInterval(this.updateBidders.bind(this),1000)
 
         setInterval(this.updateNetData.bind(this),9000)
     }
@@ -53,25 +54,51 @@ export default class PacketCustodian  {
 
         let allActivePackets =   await this.mongoInterface.findAll('bidpackets', {status:'active'})
 
-        const RefreshWaitTime = (1 + allActivePackets.length)*1000;  //change this to 60 
+        const RefreshWaitTime = (1 + allActivePackets.length)*1000;  
 
         console.log('RefreshWaitTime',RefreshWaitTime)
 
         let activePackets = await this.mongoInterface.findAll('bidpackets', {status:'active', lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   } )
 
-        let suspendedPackets =  await this.mongoInterface.findAll('bidpackets', {status:'suspended', lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   }  )
+       // let suspendedPackets =  await this.mongoInterface.findAll('bidpackets', {status:'suspended', lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   }  )
 
 
-        let activeSuspendedPackets =  activePackets.concat( suspendedPackets )
+       // let activeSuspendedPackets =  activePackets.concat( suspendedPackets )
 
-        if(activeSuspendedPackets && activeSuspendedPackets.length > 0){
-            let nextPacket = activeSuspendedPackets[0]
+        if(activePackets && activePackets.length > 0){
+            let nextPacket = activePackets[0]
 
             this.refreshPacket(nextPacket)
         }
+
+
+ 
+
+
+    }
+
+    async updateBidders( ){
+        console.log('updating bidders') 
+
+        let timeNow = Date.now()
+        let ONE_DAY = 1000*60*60*24
+
+        let allActiveBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY }    })
+
+        const RefreshWaitTime = (1 + allActiveBidders.length)*1000;  
+
+        let activeBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY },lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   })
+        let newBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY }, lastRefreshed: null   })
         
+        let activeNewBidders = activeBidders.concat( newBidders )
 
+        if(activeNewBidders && activeNewBidders.length > 0){
+            let nextBidder = activeNewBidders[0]
 
+            this.refreshAccount(nextBidder)
+        }
+
+        
     }
 
     async refreshPacket(   packet ){
@@ -112,10 +139,12 @@ export default class PacketCustodian  {
 
         // ------ Check buyers approvals and balance ----   
 
-        let bidCurrencyAmountRaw = packet.currencyTokenAmount
-        let buyerAddress = packet.bidderAddress 
+        //let bidCurrencyAmountRaw = packet.currencyTokenAmount
+        //let buyerAddress = packet.bidderAddress 
 
-        let currencyTokenContract = Web3Helper.getCustomContract( ERC20ContractABI, packet.currencyTokenAddress  , web3 )
+        await PacketCustodian.requestMonitorBidderBalance( packet.bidderAddress, packet.currencyTokenAddress  , this.mongoInterface)
+
+        /*let currencyTokenContract = Web3Helper.getCustomContract( ERC20ContractABI, packet.currencyTokenAddress  , web3 )
 
         let bidderBalance = await currencyTokenContract.methods.balanceOf(buyerAddress)
         let bidderApproval = await currencyTokenContract.methods.allowance(buyerAddress,BTFContractAddress)
@@ -126,7 +155,7 @@ export default class PacketCustodian  {
 
         if(bidderApproval < bidCurrencyAmountRaw){
             newStatus = 'suspended'
-        } 
+        } */
 
         // ------
 
@@ -146,6 +175,64 @@ export default class PacketCustodian  {
 
         await this.mongoInterface.updateCustomAndFindOne('bidpackets', { _id: packetId }, updates   )
 
+    }
+
+
+    async refreshAccount( bidderData ){
+
+        let balanceApprovalData = await this.getBalanceAndApprovalDataForAccount(bidderData.publicAddress, bidderData.currencyTokenAddress)
+
+
+        let activePackets = await this.mongoInterface.findAll('bidpackets', {bidderAddress: bidderData.publicAddress, status:'active'    } )
+        let suspendedPackets =  await this.mongoInterface.findAll('bidpackets', {bidderAddress: bidderData.publicAddress, status:'suspended'    }  )
+        let packetsOfBidder =  activePackets.concat( suspendedPackets )
+ 
+        for(let packet of packetsOfBidder){
+
+            let isNowSuspended = false 
+
+            if(packet.currencyTokenAmount > balanceApprovalData.balance ){
+                isNowSuspended = true
+            }
+
+            if(packet.currencyTokenAmount > balanceApprovalData.approved ){
+                isNowSuspended = true
+            }
+
+            let updates = {
+                $set: {  suspended: isNowSuspended  } 
+            }
+
+            await this.mongoInterface.updateCustomAndFindOne('bidpackets', { _id: packet._id }, updates   )
+
+        }
+
+    }
+
+
+
+
+    static async requestMonitorBidderBalance(publicAddress, currencyTokenAddress,mongoInterface){
+        await mongoInterface.upsertOne('monitored_accounts', {publicAddress:publicAddress,currencyTokenAddress:currencyTokenAddress }, { publicAddress:publicAddress,currencyTokenAddress:currencyTokenAddress,lastRequested: Date.now() } )
+    }
+
+
+      async getBalanceAndApprovalDataForAccount( publicAddress, currencyTokenAddress){
+
+        let chainId = this.chainId 
+        let web3 = this.web3
+
+        let contractData = Web3Helper.getContractDataForNetwork(chainId)
+ 
+        let BTFContractAddress = contractData['buythefloor'].address;
+
+        let currencyTokenContract = Web3Helper.getCustomContract( ERC20ContractABI, currencyTokenAddress , web3 )
+ 
+        let bidderBalance = await currencyTokenContract.methods.balanceOf(publicAddress).call()
+        let bidderApproval = await currencyTokenContract.methods.allowance(publicAddress,BTFContractAddress).call()
+
+        console.log('balance', bidderBalance)
+        return {balance:bidderBalance, approved: bidderApproval }
     }
 
 }

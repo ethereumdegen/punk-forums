@@ -170,7 +170,7 @@ export default {
 
             let test = await BidPacketHelper.testSockets()
 
-            
+
             
              var hostname = window.location.hostname; 
 
@@ -183,16 +183,18 @@ export default {
             let serverURL = BuyTheFloorHelper.getSocketURL()
             console.log('serverURL',serverURL)
 
-            let bidPackets = await BidPacketHelper.getBidPackets(serverURL)
+            let query = {exchangeContractAddress: btfContractAddress, status:'active', suspended:false  }
+
+            let bidPackets = await BidPacketHelper.getBidPackets(serverURL, query)
             console.log('bidPackets',bidPackets)
 
-            bidPackets = bidPackets.filter( (bid) => {
+           /* bidPackets = bidPackets.filter( (bid) => {
               return (bid.status == 'active')
             } )
 
              bidPackets = bidPackets.filter( (bid) => {
               return (bid.exchangeContractAddress == btfContractAddress.toLowerCase())
-            } )
+            } )*/
             
             
 

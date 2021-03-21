@@ -30,6 +30,7 @@
 
             <div> signature:  {{bidPacketData.signature.signature}}</div>
           <div> status:  {{bidPacketData.status}}</div>
+           <div> suspended:  {{bidPacketData.suspended}}</div>
 
 
        </div>

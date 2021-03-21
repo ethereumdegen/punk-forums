@@ -94,11 +94,19 @@
                     <div @click="resetBid()" class="p-1 mx-4 rounded text-xs select-none cursor-pointer bg-purple-500 text-white inline-block"> Select a Different Bid </div>
                   </div>
                   <div> bidder: {{selectedBidPacket.bidderAddress}}</div>
+                  <div> nftContractName: {{selectedBidPacket.nftContractName}}</div>
                   <div> nftContractAddress: {{selectedBidPacket.nftContractAddress}}</div>
+                  <div> currencyTokenName: {{selectedBidPacket.currencyTokenName}}</div>
                   <div> currencyTokenAddress: {{selectedBidPacket.currencyTokenAddress}}</div>
+ 
+
+
+                  <div> currencyTokenAmount: {{selectedBidPacket.currencyTokenAmountFormatted}}</div>
                   <div> currencyTokenAmountRaw: {{selectedBidPacket.currencyTokenAmount}}</div>
                   <div> expires:  {{selectedBidPacket.expires}}</div> 
-                  <div> signature:  {{selectedBidPacket.signature.signature}}</div> 
+                  <div> signature:  {{selectedBidPacket.signature}}</div> 
+
+                  <div v-if="this.selectedBidBurnStatus > 0" class="bg-red-200 p-1"> WARN: This bid signature has been burned. </div>
 
 
                   <div class="  p-4" v-if="!hasGivenApprovalForSelectedToken()">
@@ -144,9 +152,7 @@ import NFTHelper from '../../js/nft-helper.js'
 
 
 var BTFContractABI = require('../../contracts/BuyTheFloorABI.json')
-
-const CryptoAssets = require('../../config/cryptoassets.json')
-
+ 
 
 var updateApprovalsInterval;
  
@@ -164,8 +170,7 @@ export default {
         ownerOfSelectedToken: null,
         hasApprovedSelectedTokenForBTF: false,
 
-       formattedBidsArray: [] ,
-       rawBidsArray:{},
+       formattedBidsArray: [] , 
        selectedBidPacket:null,
 
         
@@ -184,7 +189,12 @@ export default {
 
       updateApprovalsInterval = setInterval(this.updateApproval, 5000)
 
-      this.currencyTokensOptionsList=[{'name':null,'label':'all'} ].concat( CryptoAssets.currencyTokens);
+      let activeNetworkId = this.web3Plug.getActiveNetId()
+
+      let currencyOptions = BuyTheFloorHelper.getClientConfigForNetworkId(activeNetworkId).currencyTokens 
+     
+
+      this.currencyTokensOptionsList=[{'name':null,'label':'all'} ].concat( currencyOptions );
           
   },
   beforeDestroy(){
@@ -206,10 +216,15 @@ export default {
                 let serverURL = BuyTheFloorHelper.getSocketURL()
                 console.log('serverURL',serverURL)
 
+    
 
-            let queryParams = {nftContractAddress: this.nftContractAddress}
+            let queryParams = {nftContractAddress: this.nftContractAddress, 
+                        exchangeContractAddress: btfContractAddress ,
+                        status:active,
+                        suspended:false 
+                        }
 
-            queryParams = {}
+            //queryParams = {}
 
             if(this.filterByCurrencyAddress){
               queryParams.currencyTokenAddress = this.filterByCurrencyAddress
@@ -227,28 +242,37 @@ export default {
                                 return (bid.expires == 0 || bid.expires > ethBlockNumber)
                               } )
 
-            bidPackets = bidPackets.filter( (bid) => {
+            /*bidPackets = bidPackets.filter( (bid) => {
               return (bid.status == 'active')
             } )
-            
-            for(let bid of bidPackets){
-                  this.rawBidsArray[bid.signature.signature] = bid
-            }
+
 
               bidPackets = bidPackets.filter( (bid) => {
               return (bid.exchangeContractAddress == btfContractAddress.toLowerCase())
             } )
+
+            
+            for(let bid of bidPackets){
+                  this.rawBidsArray[bid.signature.signature] = bid
+            }*/
+
             
 
             
 
             this.formattedBidsArray = bidPackets.map(pkt => (
                                                            {
-                                                           // nftContractAddress: this.getNameFromContractAddress(pkt.nftContractAddress),
-                                                            currencyTokenAddress: this.buyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress),
-                                                            currencyTokenAmount: this.buyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
+                                                           
+                                                            currencyTokenName: this.buyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress),
+                                                            currencyTokenAmountFormatted: this.buyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
                                                             expires: pkt.expires,
-                                                            signature: pkt.signature.signature
+                                                            signature: pkt.signature.signature,
+
+                                                            nftContractName: this.buyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress),
+                                                            nftContractAddress: pkt.nftContractAddress,
+                                                            currencyTokenAddress: pkt.currencyTokenAddress,
+                                                            currencyTokenAmount: pkt.currencyTokenAmount,
+                                                            bidderAddress: pkt.bidderAddress
                                                           } 
                                                         ))
 
@@ -275,11 +299,13 @@ export default {
          this.ownedTokenIdToSell = null
          this.selectedBidPacket = null 
        },
-       clickedBidRowCallback(row){
+       async clickedBidRowCallback(row){
          console.log('clicked bid row', row)
 
 
-          this.selectedBidPacket= this.rawBidsArray[row.signature ]
+          this.selectedBidPacket = row  
+
+          this.selectedBidBurnStatus = await BidPacketUtils.getPacketBurnStatus( row, BTFContractABI, this.web3Plug )
 
            console.log('this.selectedBidPacket', this.selectedBidPacket)
        },
@@ -306,7 +332,7 @@ export default {
           currencyToken: this.selectedBidPacket.currencyTokenAddress,
           currencyAmount: this.selectedBidPacket.currencyTokenAmount,
           expires: this.selectedBidPacket.expires,
-          buyerSignature: this.selectedBidPacket.signature.signature
+          buyerSignature: this.selectedBidPacket.signature
 
 
          }

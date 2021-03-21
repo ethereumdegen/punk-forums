@@ -35,7 +35,7 @@
               @keydown="keydownHandler"
             >
               
-               <div class="" style="min-width:20px;min-height:20px">
+               <div class="" style="min-width:20px;min-height:20px" v-if="selectedOptionData">
               {{selectedOptionData.label}}   
               </div>
 
@@ -110,7 +110,7 @@ export default {
   },
   mounted(){
       
-     this.handleSelectedOptionChanged(this.optionList[0])
+     //this.handleSelectedOptionChanged(this.optionList[0])
   },
   methods: {
     onChange(optionName, hideMethod) {        
@@ -132,8 +132,10 @@ export default {
     handleSelectedOptionChanged(optionData){
       this.selectedOptionData = optionData
       console.log('selected option changed', optionData)
-
-      this.onSelectCallback(optionData)
+      if(optionData){
+        this.onSelectCallback(optionData)
+      }
+      
     } 
 
 

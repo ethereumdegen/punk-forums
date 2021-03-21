@@ -67,7 +67,7 @@
 
               <div class="flex flex-row">
               <div class="w-1/2 px-4">
-                    <input type="text" name="price" v-model="formInputs.tokenBidAmountFormatted"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
+                    <input type="number" v-on:blur="restrictBidAmount()"  v-model="formInputs.tokenBidAmountFormatted"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
                 </div>
 
                   <div class="w-1/2 px-4" @click="approveCurrencyToken" v-if=" !selectedCurrencyIsApproved()">
@@ -79,11 +79,11 @@
 
 
             <div class="mb-4 ">
-              <label   class="block text-md font-medium font-bold text-gray-800  ">Blocks until bid expiration</label>
+              <label   class="block text-md font-medium font-bold text-gray-800  ">Blocks until bid expiration  (~{{getDaysFromBlocks(formInputs.expiresInBlocks)}}  days) </label>
 
               <div class="flex flex-row">
                   <div class="w-1/2 px-4">
-                      <input type="text"   v-model="formInputs.expiresInBlocks"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="100">
+                      <input type="number" v-on:blur="handleExpiresBlur()" v-model="formInputs.expiresInBlocks"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="100">
                   </div>
 
                    
@@ -190,8 +190,7 @@ import BidPacketUtils from '../js/bidpacket-utils.js'
 import BidPacketHelper from '../js/bidpacket-helper.js'
 
 import BuyTheFloorHelper from '../js/buythefloor-helper.js'
- 
-const CryptoAssets = require('../config/cryptoassets.json')
+
 
 import BigNumber from 'bignumber.js'
 
@@ -214,12 +213,14 @@ export default {
         nftContractAddress: null,
         tokenBidAmountFormatted: 0,
        // expiresAtBlock:0 ,
-        expiresInBlocks: 50000
+        expiresInBlocks: 50000,
         
       },
 
       connectedToWeb3: false,
       currentBlockNumber: 0,
+
+      maxExpiresInBlocks: 100000,
                          
       ApproveAllAmount: 1000000000000000000000000000000,
       tokensApproved:{},
@@ -247,7 +248,12 @@ export default {
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
         this.currentBlockNumber = await this.web3Plug.getBlockNumber()
          
-         
+           
+        this.currencyTokensOptionsList= BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).currencyTokens 
+        this.nftOptionsList=BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).nftTypes 
+
+        console.log(' this.currencyTokensOptionsList',  this.currencyTokensOptionsList)
+
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
         console.error('error',errormessage);
@@ -258,7 +264,7 @@ export default {
 
 
       this.web3Plug.reconnectWeb()
-    this.initOptionsLists()
+    
 
   },
   mounted () {
@@ -275,12 +281,7 @@ export default {
       clearInterval(updateTimer) 
   },
   methods: {
-         initOptionsLists(){ 
-
-          this.currencyTokensOptionsList= CryptoAssets.currencyTokens 
-          this.nftOptionsList=CryptoAssets.nftTypes 
-
-         },
+         
          async updateBalances(){
           
           let contractData = this.web3Plug.getContractDataForActiveNetwork()
@@ -394,6 +395,8 @@ export default {
           
           this.updateBalances();
 
+          this.restrictBidAmount()
+
            
         },
         getTokenBidAmountRaw(){
@@ -411,6 +414,20 @@ export default {
 
         resetForm(){
            this.bidSubmitComplete = false 
+        },
+
+        handleExpiresBlur(){
+          if(this.formInputs.expiresInBlocks > this.maxExpiresInBlocks){
+            this.formInputs.expiresInBlocks = this.maxExpiresInBlocks
+          }
+        },
+        restrictBidAmount(){
+          if(parseFloat(this.formInputs.tokenBidAmountFormatted) > this.getSelectedCurrencyBalanceFormatted() ){
+            this.formInputs.tokenBidAmountFormatted = this.getSelectedCurrencyBalanceFormatted()
+          }
+        },
+        getDaysFromBlocks(blocks){
+          return parseFloat(blocks / 5760).toFixed(2)
         }
   }
 }

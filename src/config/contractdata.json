@@ -6,9 +6,16 @@
       "weth":{"address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
       "buythefloor":{"address":"0x20eb324ab10fb83ebe90a3f5d863068faba10124"},
 
+      "hashmasks":{"name":"hashmasks","address":"0xc2c747e0f7004f9e8817db2ca4997657a7746928"},
+ 
+      "0xbitcoinmemes":{"name":"0xBitcoinMemes","address":"0x6c10511ddea5f3ed38a0163224198e37b81525bc"},
+
       "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 
-
-
+      
+      "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xb7f7f6c52f2e2fdb1963eab30438024864c313f6"} , 
+    
+      "bganpunks":{"name":"BGanPunks","address":"0x9126b817ccca682beaa9f4eae734948ee1166af1"} , 
+ 
       "cryptovoxels":{"name":"Cryptovoxels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
     }
 
@@ -17,18 +24,18 @@
   "goerli":{
     "contracts":{
       "0xbitcoin":{"name":"0xBTC","address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f","decimals":8,"minBidAmount":1},
-
-      
-
-
+ 
       "weth":{"name":"wEth","address":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524", "decimals":18, "minBidAmount":0.02},
+
+
 
       "buythefloor":{"address":"0xaaa5ddbfd169f8f70c35a8638fe514e3a816f78a"},
 
+
+
       "artsale":{"name":"ArtSale","address":"0x39ec448b891c476e166b3c3242a90830db556661"},
 
-      "cryptopunks":{"address":"0xf5b71f8d25d3e90b9ec0c08d890853187df4bef4"},
-      
+       
       "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"},
 
       "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 

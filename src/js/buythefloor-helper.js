@@ -26,6 +26,14 @@ export default class BuyTheFloorHelper {
 
 
     }
+    static getClientConfigForNetworkId(netId){
+      if(netId == 1){
+        return clientConfig['production'] 
+      }
+      return clientConfig['development'] 
+
+
+    }
      
 
     getNameFromContractAddress( address )

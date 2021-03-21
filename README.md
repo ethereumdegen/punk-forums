@@ -31,17 +31,11 @@ IMPROVE LATER:
 4) make it easier to wrap things - wrapping on the site 
 
 
-
-
-** FIX SSL
-
-I can ping pong to this 
-https://github.com/metawallet-web/meta-relay-node
-
-
-
-
  
+
+
+ -test bid filter
+ -test max expires in 
 
 
 ## Kovan

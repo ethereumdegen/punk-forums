@@ -1,16 +1,5 @@
 {
-    "development":{
-        "SOCKET_URL": "wss://localhost:8443",
-        "currencyTokens": [{"name":"weth","label":"wEth"},
-            {"name":"0xbitcoin","label":"0xBTC"}], 
-          "nftTypes": [
-            {"name":"artsale","label":"Artsale","imgurl":"/images/artblocks.jpg"},
-            {"name":"cryptovoxels","label":"Cryptovoxels","imgurl":"/images/cryptovoxels.jpg"},
-            {"name":"wrappedmooncats","label":"Mooncats","imgurl":"/images/mooncats.jpg"},
-            {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.jpg"} ]
-        
-        
-    },
+   
     "production":{
         "SOCKET_URL": "wss://buythefloor.com:8443",
         "currencyTokens": [{"name":"weth","label":"wEth"},
@@ -18,6 +7,23 @@
           
           "nftTypes": [
             
+            {"name":"cryptovoxels","label":"Cryptovoxels","imgurl":"/images/cryptovoxels.jpg"},
+            {"name":"bganpunks","label":"BGanPunks","imgurl":"/images/bganpunks.jpg"},
+            {"name":"hashmasks","label":"Hashmasks","imgurl":"/images/hashmasks.jpg"},
+            {"name":"0xbitcoinmemes","label":"0xBitcoinMemes","imgurl":"/images/0xbitcoinmemes.gif"},
+            {"name":"wrappedmooncats","label":"Mooncats","imgurl":"/images/mooncats.jpg"},
+            {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.jpg"}
+        
+        ]
+        
+        
+    },
+    "development":{
+        "SOCKET_URL": "ws://localhost:8443",
+        "currencyTokens": [{"name":"weth","label":"wEth"},
+            {"name":"0xbitcoin","label":"0xBTC"}], 
+          "nftTypes": [
+            {"name":"artsale","label":"Artsale","imgurl":"/images/artblocks.jpg"},
             {"name":"cryptovoxels","label":"Cryptovoxels","imgurl":"/images/cryptovoxels.jpg"},
             {"name":"wrappedmooncats","label":"Mooncats","imgurl":"/images/mooncats.jpg"},
             {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.jpg"} ]

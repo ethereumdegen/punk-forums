@@ -104,8 +104,7 @@ import NFTSellForm from './components/NFTSellForm.vue'
 
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
-const CryptoAssets = require('../config/cryptoassets.json')
-
+import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 
 export default {
   name: 'Home',
@@ -114,7 +113,7 @@ export default {
   data() {
     return {
       web3Plug: new Web3Plug() ,
-      nftTypes:  CryptoAssets.nftTypes,
+      nftTypes:  [],
       connectedToWeb3: false,
       selectedNFTType: null,
       selectedNFTContractAddress:null 
@@ -128,8 +127,8 @@ export default {
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
          
-          this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-        
+        this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
+        this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).nftTypes
 
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
