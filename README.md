@@ -16,11 +16,7 @@ IMPROVE LATER:
 
 
 ### TODO
-1) Build the NEW BID page 
--done
-
-2) Finish data querying using alchemy on server  to mark bids 
--done 
+ 
 
 2.5)   Limit users to only having 10 bids,  min amt for bid 
 
@@ -33,9 +29,7 @@ IMPROVE LATER:
 
  
 
-
- -test bid filter
- -test max expires in 
+- on place a new bid page, make links tt very bottom to etherscan 
 
 
 ## Kovan
