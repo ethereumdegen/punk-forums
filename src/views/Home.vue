@@ -130,7 +130,9 @@ export default {
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
 
-        this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
+        if(this.web3Plug.connectedToWeb3()){
+          this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
+        }
         this.fetchBidsData()
 
          
