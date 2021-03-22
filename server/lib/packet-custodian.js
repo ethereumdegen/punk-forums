@@ -208,7 +208,7 @@ export default class PacketCustodian  {
 
         }
  
-        await this.mongoInterface.updateCustomAndFindOne('monitored_accounts', {publicAddress:publicAddress,currencyTokenAddress:currencyTokenAddress }, { $set: {  lastRefreshed: Date.now() }}  )
+        await this.mongoInterface.updateCustomAndFindOne('monitored_accounts', {publicAddress:bidderData.publicAddress,currencyTokenAddress:bidderData.currencyTokenAddress }, { $set: {  lastRefreshed: Date.now() }}  )
 
 
     }
