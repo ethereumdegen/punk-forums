@@ -10,7 +10,15 @@ export default class BuyTheFloorHelper {
         this.contractNameLookupTable = {} 
         this.currencyDecimalsLookupTable = {} 
 
-        let contractData =  web3Plug.getContractDataForActiveNetwork()
+        let chainId = web3Plug.getActiveNetId()
+
+        if(chainId==null){
+          chainId = 1 
+          console.log('no web3 connection')
+        }
+
+
+        let contractData =  web3Plug.getContractDataForNetworkID(chainId)
 
         for (const [key, value] of Object.entries(contractData)) {
             this.contractNameLookupTable[value.address] = value.name 

@@ -27,15 +27,12 @@ IMPROVE LATER:
 4) make it easier to wrap things - wrapping on the site 
 
 
- 
+ -better filter on front page (later)
 
 - on place a new bid page, make links tt very bottom to etherscan 
-
-
-## Kovan
+- also on sell nft page above token id select 
  
-
-
+ -hide cancel bid if it is not you 
 
 ### Development commands
 ```
