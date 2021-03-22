@@ -35,7 +35,7 @@
 
        </div>
 
-        <div @click="cancelBid()" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Cancel bid </div>
+        <div @click="cancelBid()" v-if="userIsOwnerOfBid()" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Cancel bid </div>
          
 
 
@@ -97,7 +97,7 @@ export default {
         console.error('error',errormessage);
          
         this.web3error = errormessage
-        // END CUSTOM CODE
+        
       }.bind(this));
    
       this.fetchPacketData(this.$route.params.signature)
@@ -108,8 +108,15 @@ export default {
 
         var hostname = window.location.hostname; 
 
+        let chainId = this.web3Plug.getActiveNetId()
+
+        if(chainId==null){
+          chainId = 1 
+          console.log('no web3 connection')
+        } 
+
          
-        let serverURL = BuyTheFloorHelper.getSocketURL(this.web3Plug.getActiveNetId())  
+        let serverURL = BuyTheFloorHelper.getSocketURL( chainId )  
         console.log('serverURL',serverURL)
 
         this.bidPacketData = await BidPacketHelper.findBidPacket(signature, serverURL)
@@ -130,6 +137,10 @@ export default {
 
         let btfContract = this.web3Plug.getCustomContract(BTFContractABI,bidTheFloorAddress )
          await btfContract.methods.cancelBid(this.bidPacketData.nftContractAddress, this.bidPacketData.bidderAddress,  this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount, this.bidPacketData.expires,this.bidPacketData.signature.signature ).send({from: this.web3Plug.getActiveAccountAddress()})
+     } ,
+
+     userIsOwnerOfBid(){
+       return (this.bidPacketData.bidderAddress && this.bidPacketData.bidderAddress.toLowerCase() == this.web3Plug.getActiveAccountAddress())
      }
   }
 }

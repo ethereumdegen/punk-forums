@@ -32,7 +32,7 @@
         <a
         :href="row.url"
         v-for="row in item.rows"
-        target="_blank"
+       
         :key="row.title"
         class="block w-full px-4 py-2 leading-5 hover:bg-gray-600 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
         role="menuitem"
@@ -52,7 +52,7 @@
 
 
       <div class="inline-block">
-        <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button bg-blue-500 hover:bg-blue-700 text-sm text-black font-bold my-2 py-1 px-2 rounded cursor-pointer">Connect to Web3</div>
+        <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button bg-blue-500 hover:bg-blue-700 text-sm text-black font-bold my-2 py-1 px-2 rounded cursor-pointer">Login with Web3</div>
 
         <div v-if="web3Plug.connectedToWeb3() "   class="truncate  text-gray-800 p-2" style="max-width:250px;  ">
 

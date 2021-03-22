@@ -15,7 +15,8 @@
       
       "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xb7f7f6c52f2e2fdb1963eab30438024864c313f6"} , 
     
-      "bganpunks":{"name":"BGanPunks","address":"0x9126b817ccca682beaa9f4eae734948ee1166af1"} , 
+      "bganpunksv1":{"name":"BGanPunksV1","address":"0x9126b817ccca682beaa9f4eae734948ee1166af1"} , 
+      "bganpunksv2":{"name":"BGanPunksV2","address":"0x31385d3520bced94f77aae104b406994d8f2168c"} , 
  
       "cryptovoxels":{"name":"Cryptovoxels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
     }

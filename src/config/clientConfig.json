@@ -6,13 +6,16 @@
             {"name":"0xbitcoin","label":"0xBTC"}],
           
           "nftTypes": [
-            
-            {"name":"cryptovoxels","label":"Cryptovoxels","imgurl":"/images/cryptovoxels.jpg"},
-            {"name":"bganpunks","label":"BGanPunks","imgurl":"/images/bganpunks.jpg"},
-            {"name":"hashmasks","label":"Hashmasks","imgurl":"/images/hashmasks.jpg"},
-            {"name":"0xbitcoinmemes","label":"0xBitcoinMemes","imgurl":"/images/0xbitcoinmemes.gif"},
+            {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.gif"},
             {"name":"wrappedmooncats","label":"Mooncats","imgurl":"/images/mooncats.jpg"},
-            {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.jpg"}
+            {"name":"cryptovoxels","label":"Cryptovoxels","imgurl":"/images/cryptovoxels.jpg"},
+
+            {"name":"0xbitcoinmemes","label":"0xBitcoinMemes","imgurl":"/images/0xbitcoinmemes.gif"},
+            {"name":"bganpunksv1","label":"BGanPunksV1","imgurl":"/images/bganpunksV1.gif"},
+            {"name":"bganpunksv2","label":"BGanPunksV2","imgurl":"/images/bganpunksV2.gif"},
+            {"name":"hashmasks","label":"Hashmasks","imgurl":"/images/hashmasks.jpg"}
+        
+           
         
         ]
         

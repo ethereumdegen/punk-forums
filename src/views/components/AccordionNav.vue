@@ -2,7 +2,7 @@
   <nav role="navigation" class="w-full m-2 p-2 inline-block">
 
     <div class=" ">
-      <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button text-center bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded cursor-pointer">Connect to Web3</div>
+      <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button text-center bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded cursor-pointer">Login with Web3</div>
 
       <div v-if="web3Plug.connectedToWeb3() "   class="truncate text-center text-gray-800 p-2" style="   ">
 

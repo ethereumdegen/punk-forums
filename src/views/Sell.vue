@@ -21,11 +21,8 @@
        <div class="w-column">
           <div class="text-lg font-bold"> Sell an NFT </div>
           
-          <div  class=" " v-if="!connectedToWeb3">
-              <NotConnectedToWeb3 />
-          </div>
-
-          <div  class=" " v-if=" connectedToWeb3">
+         
+          <div  class=" "  >
 
             <div v-if="!selectedNFTContractAddress">
 
@@ -46,6 +43,10 @@
 
           <div v-if="selectedNFTContractAddress">
 
+
+
+
+
             <div class="flex flex-row">
             
               <div @click="resetNFTType()" class="p-1 mx-4 rounded text-xs select-none cursor-pointer bg-purple-500 text-white"> Go Back </div>
@@ -58,6 +59,7 @@
                <NFTSellForm
                 v-bind:nftContractAddress="selectedNFTContractAddress"
                   v-bind:web3Plug="web3Plug"
+                  v-bind:connectedToWeb3="connectedToWeb3"
 
                 />
 
@@ -119,7 +121,7 @@ export default {
       selectedNFTContractAddress:null 
     }
   },
-  created  () {
+  async created  () {
    
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
         console.log('stateChanged',connectionState);
@@ -128,7 +130,8 @@ export default {
         this.activeNetworkId = connectionState.activeNetworkId
          
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-        this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).nftTypes
+        this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(this.web3Plug.getActiveNetId()).nftTypes
+    
 
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -137,14 +140,29 @@ export default {
         this.web3error = errormessage
         
       }.bind(this));
-    this.web3Plug.reconnectWeb()
+
+
+    await this.web3Plug.reconnectWeb()
+
+
+    let chainId = this.web3Plug.getActiveNetId()
+    if(!chainId){
+      chainId = 1
+    }
+
+    this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes
     
   }, 
   methods: {
         onTileClicked(name){
           console.log('ontileclicked',name )
 
-          let contractData = this.web3Plug.getContractDataForActiveNetwork()
+           let chainId = this.web3Plug.getActiveNetId()
+            if(!chainId){
+              chainId = 1
+            }
+
+          let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
 
 
           this.selectedNFTType = name 

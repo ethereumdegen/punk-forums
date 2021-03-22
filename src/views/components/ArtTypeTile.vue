@@ -1,7 +1,12 @@
 <template>
-  <div class=" cursor-pointer select-none inline-block m-4" @click="onClicked()">
+  <div class=" cursor-pointer select-none inline-block m-4 relative" @mouseover="overlayShown=true" @mouseleave="overlayShown=false" @click="onClicked()">
 
     <img v-bind:src="imageURL" width="128" height="128" />
+
+
+    <div v-if="overlayShown" class="w-full h-full absolute left-0 top-0 text-white " style="background:#2226; pointer-events:none;"> 
+      <div class="absolute w-full text-center" style="top:40%;">  {{typeName}} </div>
+    </div>
       
   </div>
 </template>
@@ -15,7 +20,7 @@ export default {
   props: ['imageURL', 'onClickCallback','typeName'],
   data() {
     return {
-
+      overlayShown: false
     }
   },
   created(){

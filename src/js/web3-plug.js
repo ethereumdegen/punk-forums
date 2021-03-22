@@ -88,7 +88,7 @@ export default class Web3Plug {
       web3Instance = window.web3
 
       window.ethereum.on('accountsChanged', (accounts) => {
-        web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+            web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
       });
 
       window.ethereum.on('chainChanged', (chainId) => {
@@ -198,6 +198,15 @@ export default class Web3Plug {
      console.error('Invalid network Id: ',networkId)
     return null
   }
+
+
+  getChainExplorerURL(networkId){ 
+    if(networkId == 5){
+      return 'https://goerli.etherscan.io'
+    }
+    
+  return 'https://etherscan.io'
+}
 
 
   getContractDataForActiveNetwork( ){
