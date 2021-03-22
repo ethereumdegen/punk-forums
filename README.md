@@ -30,10 +30,8 @@ IMPROVE LATER:
  -better filter on front page (later)
 
  -API 
-
-- on place a new bid page, make links tt very bottom to etherscan 
-- also on sell nft page above token id select 
  
+ - develop a subgraph to do data collection and show sales on front page 
  
 
 ### Development commands
