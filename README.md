@@ -29,6 +29,8 @@ IMPROVE LATER:
 
  -better filter on front page (later)
 
+ -API 
+
 - on place a new bid page, make links tt very bottom to etherscan 
 - also on sell nft page above token id select 
  
