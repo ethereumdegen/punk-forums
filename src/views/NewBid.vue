@@ -320,7 +320,7 @@ export default {
 
            selectedCurrencyIsApproved() {
  
-            return (this.tokensApproved[this.formInputs.tokenContractAddress] >= parseInt(this.ApproveAllAmount))
+            return (this.tokensApproved[this.formInputs.tokenContractAddress] >= parseInt(this.getTokenBidAmountRaw()))
           },
 
          async signForBid(){
