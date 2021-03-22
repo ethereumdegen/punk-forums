@@ -213,14 +213,14 @@ export default {
         nftContractAddress: null,
         tokenBidAmountFormatted: 0,
        // expiresAtBlock:0 ,
-        expiresInBlocks: 50000,
+        expiresInBlocks: 100000,
         
       },
 
       connectedToWeb3: false,
       currentBlockNumber: 0,
 
-      maxExpiresInBlocks: 100000,
+      maxExpiresInBlocks: 250000,
                          
       ApproveAllAmount: "1000000000000000000000000000000",
       tokensApproved:{},
