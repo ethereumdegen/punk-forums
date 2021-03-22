@@ -183,7 +183,7 @@ export default class PacketCustodian  {
         let balanceApprovalData = await this.getBalanceAndApprovalDataForAccount(bidderData.publicAddress, bidderData.currencyTokenAddress)
 
 
-        let activePackets = await this.mongoInterface.findAll('bidpackets', {bidderAddress: bidderData.publicAddress, status:'active'    } )
+        let activePackets = await this.mongoInterface.findAll('bidpackets', {bidderAddress: bidderData.publicAddress, currencyTokenAddress: bidderData.currencyTokenAddress, status:'active'    } )
         
  
         for(let packet of activePackets){
@@ -232,7 +232,7 @@ export default class PacketCustodian  {
         let bidderBalance = await currencyTokenContract.methods.balanceOf(publicAddress).call()
         let bidderApproval = await currencyTokenContract.methods.allowance(publicAddress,BTFContractAddress).call()
 
-        console.log('balance', bidderBalance)
+        console.log('balance', bidderBalance, currencyTokenAddress)
         return {balance:bidderBalance, approved: bidderApproval }
     }
 
