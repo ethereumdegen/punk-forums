@@ -34,6 +34,9 @@ IMPROVE LATER:
  - develop a subgraph to do data collection and show sales on front page 
  
 
+- FIX memory leak in the server 
+
+
 ### Development commands
 ```
 npm install
