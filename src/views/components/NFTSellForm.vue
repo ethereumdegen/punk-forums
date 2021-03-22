@@ -213,7 +213,7 @@ export default {
             var hostname = window.location.hostname; 
 
                  
-            let serverURL = BuyTheFloorHelper.getSocketURL(this.web3Plug.activeNetworkId())
+            let serverURL = BuyTheFloorHelper.getSocketURL(this.web3Plug.getActiveNetId())
             console.log('serverURL',serverURL)
 
     
