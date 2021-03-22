@@ -126,7 +126,7 @@ export default class PacketReceiver  {
                         signature:packet.signature,
                         exchangeContractAddress: packet.exchangeContractAddress
                     }
-                    console.log('got Websocket packet', bidPacket  )
+                    //console.log('got Websocket packet', bidPacket  )
     
                     var result = await PacketHelper.storeNewBidPacket(packet,  mongoInterface);
      
@@ -172,7 +172,7 @@ export default class PacketReceiver  {
               
           
         socket.on('disconnect', function () {
-          console.log(socket.sid, 'disconnected');
+          //console.log(socket.sid, 'disconnected');
           delete sockets[socket.sid];
         });
       }.bind(this));

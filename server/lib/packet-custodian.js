@@ -54,7 +54,7 @@ export default class PacketCustodian  {
 
         let allActivePackets =   await this.mongoInterface.findAll('bidpackets', {status:'active'})
 
-        const RefreshWaitTime = (1 + allActivePackets.length)*1000;  
+        let RefreshWaitTime = (1 + allActivePackets.length)*1000;  
 
         console.log('RefreshWaitTime',RefreshWaitTime)
 
@@ -85,7 +85,7 @@ export default class PacketCustodian  {
 
         let allActiveBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY }    })
 
-        const RefreshWaitTime = (1 + allActiveBidders.length)*1000;  
+        let RefreshWaitTime = (1 + allActiveBidders.length)*1000;  
 
         let activeBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY },lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   })
         let newBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY }, lastRefreshed: null   })
@@ -124,13 +124,13 @@ export default class PacketCustodian  {
         let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.expires   )
         let packetHash = BidPacketUtils.getBidTypedDataHash( typedData, typedData.types  )
         
-        console.log('packetHash', packetHash)
+        //console.log('packetHash', packetHash)
 
         let BTFContract = Web3Helper.getCustomContract( BTFContractABI, BTFContractAddress , web3 )
 
         let signatureStatus = await BTFContract.methods.burnedSignatures( packetHash ).call()
 
-        console.log('signatureStatus', signatureStatus)
+        //console.log('signatureStatus', signatureStatus)
 
         if(  signatureStatus != 0  ){
             newStatus = 'burned'
@@ -236,7 +236,7 @@ export default class PacketCustodian  {
         let bidderApproval = await currencyTokenContract.methods.allowance(publicAddress,BTFContractAddress).call()
 
        
-        console.log('balance', bidderBalance, publicAddress, currencyTokenAddress)
+        //console.log('balance', bidderBalance, publicAddress, currencyTokenAddress)
         return {balance:bidderBalance, approved: bidderApproval }
     }
 
