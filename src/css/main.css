@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
 
-
+[v-cloak] { display:none; }
 
 a {
   color: #2299a1;
