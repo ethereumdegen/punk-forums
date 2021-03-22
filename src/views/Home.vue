@@ -16,12 +16,12 @@
   
 
    <div class="section  bg-white border-b-2 border-black">
-     <div class="autospacing w-container">
+     <div class=" w-container">
        <div class="w-row">
 
        </div>
        <div class="w-row">
-         <div class="column w-col w-col-6  ">
+         <div class="column w-col w-col-6  py-24">
 
 
 
@@ -35,7 +35,13 @@
 
 
          </div>
-         <div class="column-2 w-col w-col-6"><img src="@/assets/images/coins.svg" width="125" height="125" alt="">
+         <div class="column-2 w-col w-col-6  ">
+           
+              <FrontPageMedia />
+
+             
+
+
 
          </div>
        </div>
@@ -100,6 +106,7 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
 import GenericTable from './components/GenericTable.vue';
+import FrontPageMedia from './components/FrontPageMedia.vue';
 
 import BidPacketHelper from '../js/bidpacket-helper.js'
 
@@ -109,7 +116,7 @@ import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable},
+  components: {Navbar, Footer, TabsBar, GenericTable, FrontPageMedia},
   data() {
     return {
       web3Plug: new Web3Plug() ,
