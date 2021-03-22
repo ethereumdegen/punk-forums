@@ -130,7 +130,9 @@ export default {
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
 
+        this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
         this.fetchBidsData()
+
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
