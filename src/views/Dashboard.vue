@@ -107,7 +107,8 @@ export default {
         this.activeNetworkId = connectionState.activeNetworkId
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
         this.currentBlockNumber = await this.web3Plug.getBlockNumber()
-         
+
+        this.fetchBidsData()
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
