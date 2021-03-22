@@ -1,5 +1,17 @@
 {
-
-    "web3provider":""
-
+    "development":{
+        "useHTTPS":false,
+        "web3provider":"https://eth-goerli.alchemyapi.io/v2/" 
+    },
+    "staging":{
+        "useHTTPS":true,
+        "web3provider":"https://eth-goerli.alchemyapi.io/v2/" 
+    },
+    "production":{
+        "useHTTPS":true,
+        "web3provider":"https://eth-mainnet.alchemyapi.io/v2/"
+    }
+    
+    
+   
 }
