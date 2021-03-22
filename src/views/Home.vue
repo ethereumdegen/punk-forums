@@ -260,6 +260,10 @@ export default {
                                                             signature: pkt.signature.signature
                                                           } 
                                                         ))
+
+             this.bidRowsArray.sort(function(a, b) {
+              return b.currencyTokenAmount - a.currencyTokenAmount;
+            })
           },
 
           /*populateContractAddressLookupTable(){
