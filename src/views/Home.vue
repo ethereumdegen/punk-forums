@@ -69,6 +69,26 @@
 
           <div v-if="selectedTab=='bids'" class="mb-4 ">
 
+
+              <div class="mb-4">
+                        <label class="hidden block text-md font-medium font-bold text-gray-800  ">Filter by NFT Type</label>
+                        
+
+                        <div class="flex flex-row">
+
+                            <GenericDropdown
+                              v-bind:optionList="nftContractOptionsList" 
+                              v-bind:onSelectCallback="onNFTContractSelectCallback"
+                            />
+                          
+                        </div>
+
+
+               </div>
+
+
+
+
               <GenericTable
                 v-bind:labelsArray="['nftType','currencyType','bidAmount','expires']"
                 v-bind:rowsArray="bidRowsArray"
@@ -106,6 +126,7 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
 import GenericTable from './components/GenericTable.vue';
+import GenericDropdown from './components/GenericDropdown.vue';
 import FrontPageMedia from './components/FrontPageMedia.vue';
 
 import BidPacketHelper from '../js/bidpacket-helper.js'
@@ -116,13 +137,15 @@ import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable, FrontPageMedia},
+  components: {Navbar, Footer, TabsBar, GenericTable, GenericDropdown,FrontPageMedia},
   data() {
     return {
       web3Plug: new Web3Plug() ,
       activePanelId: null,
       selectedTab:"bids",
       bidRowsArray:[],
+      nftContractOptionsList: [] ,
+      filterByNFTContractAddress: null,
 
       buyTheFloorHelper: null
     }
@@ -157,6 +180,8 @@ export default {
 
        
       this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
+
+ 
         
       this.fetchBidsData()
 
@@ -193,6 +218,10 @@ export default {
                console.log('no web3 connection')
              }
 
+              let allNFTTypes = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes 
+             this.nftContractOptionsList = [{'name':null,'label':'all'} ].concat( allNFTTypes )
+     
+
 
              let contractData = this.web3Plug.getContractDataForNetworkID(chainId) 
              let btfContractAddress = contractData['buythefloor'].address
@@ -203,6 +232,11 @@ export default {
             console.log('serverURL',serverURL)
 
             let query = {exchangeContractAddress: btfContractAddress, status:'active', suspended:false  }
+
+             if(this.filterByNFTContractAddress){
+              query.nftContractAddress = this.filterByNFTContractAddress
+            }
+
 
             let bidPackets = await BidPacketHelper.getBidPackets(serverURL, query)
             console.log('bidPackets',bidPackets)
@@ -253,6 +287,23 @@ export default {
             console.log('clicked bid row',row )
 
             this.$router.push({ path: `/bid/${row.signature}` })
+          },
+
+          onNFTContractSelectCallback(nftType){
+            let name = nftType.name 
+
+            let contractData = this.web3Plug.getContractDataForActiveNetwork()
+
+              if(contractData[name]){
+                let contractAddress = contractData[name].address
+
+                this.filterByNFTContractAddress = contractAddress
+            }else{
+              this.filterByNFTContractAddress = null
+            }
+
+            this.fetchBidsData()
+             
           }
   }
 }
