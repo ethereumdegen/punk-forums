@@ -207,6 +207,9 @@ export default class PacketCustodian  {
             await this.mongoInterface.updateCustomAndFindOne('bidpackets', { _id: packet._id }, updates   )
 
         }
+ 
+        await this.mongoInterface.updateCustomAndFindOne('monitored_accounts', {publicAddress:publicAddress,currencyTokenAddress:currencyTokenAddress }, { $set: {  lastRefreshed: Date.now() }}  )
+
 
     }
 
@@ -218,7 +221,7 @@ export default class PacketCustodian  {
     }
 
 
-      async getBalanceAndApprovalDataForAccount( publicAddress, currencyTokenAddress){
+      async getBalanceAndApprovalDataForAccount( publicAddress, currencyTokenAddress, mongoInterface){
 
         let chainId = this.chainId 
         let web3 = this.web3
@@ -232,12 +235,7 @@ export default class PacketCustodian  {
         let bidderBalance = await currencyTokenContract.methods.balanceOf(publicAddress).call()
         let bidderApproval = await currencyTokenContract.methods.allowance(publicAddress,BTFContractAddress).call()
 
-        let updates = {
-            $set: {  lastRefreshed: Date.now() } 
-        }
-
-        await mongoInterface.updateCustomAndFindOne('monitored_accounts', {publicAddress:publicAddress,currencyTokenAddress:currencyTokenAddress },  updates )
-
+       
         console.log('balance', bidderBalance, publicAddress, currencyTokenAddress)
         return {balance:bidderBalance, approved: bidderApproval }
     }
