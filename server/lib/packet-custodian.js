@@ -232,7 +232,13 @@ export default class PacketCustodian  {
         let bidderBalance = await currencyTokenContract.methods.balanceOf(publicAddress).call()
         let bidderApproval = await currencyTokenContract.methods.allowance(publicAddress,BTFContractAddress).call()
 
-        console.log('balance', bidderBalance, currencyTokenAddress)
+        let updates = {
+            $set: {  lastRefreshed: Date.now() } 
+        }
+
+        await mongoInterface.updateCustomAndFindOne('monitored_accounts', {publicAddress:publicAddress,currencyTokenAddress:currencyTokenAddress },  updates )
+
+        console.log('balance', bidderBalance, publicAddress, currencyTokenAddress)
         return {balance:bidderBalance, approved: bidderApproval }
     }
 
