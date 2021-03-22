@@ -1,8 +1,11 @@
 const config={
 
   "dropdowns":[
-    {"title":"DOCS","rows":[
-      {"title":"BuyTheFloor Docs","url":"https://docs.buythefloor.com"} 
+    {"title":"Navigation","rows":[
+      {"title":"Home","url":"/"},    
+      {"title":"New Bid","url":"/newbid"},    
+      {"title":"Sell NFTs","url":"/sell"},
+      {"title":"My Active Bids","url":"/dashboard"}
     ]}  
   ]
 
