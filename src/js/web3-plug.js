@@ -200,6 +200,14 @@ export default class Web3Plug {
   }
 
 
+  getExplorerLinkForAddress(address){
+    let chainId = this.getActiveNetId()
+    
+    return this.getChainExplorerURL(chainId).concat('/address/').concat(address)
+
+  }
+
+
   getChainExplorerURL(networkId){ 
     if(networkId == 5){
       return 'https://goerli.etherscan.io'

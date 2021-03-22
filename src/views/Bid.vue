@@ -21,9 +21,9 @@
        <div class="w-row text-xs">
           <div class="text-lg font-bold"> Bid Information </div>
 
-          <div>  bidder: {{bidPacketData.bidderAddress}}</div>
-          <div>  nftContractAddress: {{bidPacketData.nftContractAddress}}</div>
-          <div> currencyTokenAddress: {{bidPacketData.currencyTokenAddress}}</div>
+          <div>  bidder: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.bidderAddress)">  {{bidPacketData.bidderAddress}} </a> </div>
+          <div>  nftContractAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.nftContractAddress)"> {{bidPacketData.nftContractAddress}} </a></div>
+          <div> currencyTokenAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.currencyTokenAddress)"> {{bidPacketData.currencyTokenAddress}} </a></div>
             <div> currencyTokenAmount: {{bidPacketData.currencyTokenAmount}}</div>
             <div> expires:  {{bidPacketData.expires}}</div>
              <div> hash:  {{bidPacketData.hash}}</div>
@@ -35,9 +35,11 @@
 
        </div>
 
+       <div class="my-8">
+
         <div @click="cancelBid()" v-if="userIsOwnerOfBid()" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Cancel bid </div>
          
-
+        </div>
 
      </div>
    </div>

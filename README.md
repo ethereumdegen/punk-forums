@@ -34,7 +34,7 @@ IMPROVE LATER:
 - on place a new bid page, make links tt very bottom to etherscan 
 - also on sell nft page above token id select 
  
- -hide cancel bid if it is not you 
+ 
 
 ### Development commands
 ```

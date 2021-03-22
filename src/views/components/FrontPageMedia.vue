@@ -1,5 +1,5 @@
 <template> 
-<div class="pt-8 relative">
+<div class="pt-8 relative pb-2 mb-12" style="min-height:300px">
             
             
              <img   src="@/assets/images/coins.svg" width="125" height="125" alt="">
@@ -10,7 +10,7 @@
            
              <img v-if="getTimeElapsed() >= 1500" class="absolute" style="top:55%; left:20%" src="@/assets/images/bganpunksV2.jpg" width="125" height="125" alt="">
 
-            <img v-if="getTimeElapsed() >= 2000" class="absolute" style="top:85%; left:40%" src="@/assets/images/cryptopunks.gif" width="125" height="125" alt="">
+            <img v-if="getTimeElapsed() >= 2000" class="absolute" style="top:72%; left:30%" src="@/assets/images/cryptopunks.gif" width="125" height="125" alt="">
 
             <div v-if="getTimeElapsed() >= 2500" class="absolute  text-white text-2xl p-2" style="top:35%; left:30%; background: #222b" > Demand-side NFT Auctions </div>
 

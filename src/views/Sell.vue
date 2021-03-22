@@ -19,10 +19,18 @@
      <div class="autospacing w-container">
         
        <div class="w-column">
+
+
+         <div v-if="selectedNFTContractAddress" @click="resetNFTType()" class="p-2  rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </div>
+
+
           <div class="text-lg font-bold"> Sell an NFT </div>
           
          
           <div  class=" "  >
+
+
+             
 
             <div v-if="!selectedNFTContractAddress">
 
@@ -49,7 +57,7 @@
 
             <div class="flex flex-row">
             
-              <div @click="resetNFTType()" class="p-1 mx-4 rounded text-xs select-none cursor-pointer bg-purple-500 text-white"> Go Back </div>
+             
                 <div class="text-md  "> Selected Type: {{selectedNFTType}} </div>
             </div>
 

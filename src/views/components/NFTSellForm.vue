@@ -3,7 +3,7 @@
         
         <div class="mb-4 my-4">
             <label   class="block text-md    text-gray-800  ">NFT Contract Address</label>
-            <label   class="block text-md   text-gray-800  "> {{nftContractAddress}}</label>
+            <a v-bind:href="web3Plug.getExplorerLinkForAddress(nftContractAddress)"  target="_blank" class="block text-md    "> {{nftContractAddress}}</a>
         </div>
 
          <div  class=" " v-if="!connectedToWeb3">

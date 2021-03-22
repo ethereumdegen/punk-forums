@@ -21,7 +21,7 @@
 
        </div>
        <div class="w-row">
-         <div class="column w-col w-col-6  py-24">
+         <div class="column w-col w-col-6 mt-8 py-8">
 
 
 

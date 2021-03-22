@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
 
+
+
+a {
+  color: #2299a1;
+ text-decoration: underline;
+ font-weight: bold;
+}
+
+
 .loader {
   border: 3px solid #f3f3f3; /* Light grey */
   border-top: 3px solid #3498db; /* Blue */

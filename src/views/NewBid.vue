@@ -101,9 +101,9 @@
              
  
 
-            <div> nftAddress: {{formInputs.nftContractAddress}}</div>
+            <div> nftAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.nftContractAddress)"> {{formInputs.nftContractAddress}} </a> </div>
 
-            <div> CurrencyAddress: {{formInputs.tokenContractAddress}}</div>
+            <div> CurrencyAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.tokenContractAddress)"> {{formInputs.tokenContractAddress}} </a> </div>
 
             <div> bidAmountRaw: {{getTokenBidAmountRaw()}}</div>
 
@@ -127,8 +127,8 @@
                     <div>
 
                       <div class="text-xl font-bold"> Your Bid  </div>
-                    <div>  nftContractAddress: {{submittedBidPacketResponse.saved.nftContractAddress}}</div>
-                     <div> currencyTokenAddress: {{submittedBidPacketResponse.saved.currencyTokenAddress}}</div>
+                    <div>  nftContractAddress: <a target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(submittedBidPacketResponse.saved.nftContractAddress)"> {{submittedBidPacketResponse.saved.nftContractAddress}} </a></div>
+                     <div> currencyTokenAddress: <a target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(submittedBidPacketResponse.saved.currencyTokenAddress)"> {{submittedBidPacketResponse.saved.currencyTokenAddress}} </a></div>
                       <div> currencyTokenAmount: {{submittedBidPacketResponse.saved.currencyTokenAmount}}</div>
                       <div> expires:  {{submittedBidPacketResponse.saved.expires}}</div>
 
