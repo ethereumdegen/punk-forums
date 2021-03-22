@@ -383,7 +383,11 @@ export default {
 
          let currencyName = selectedCurrency.name 
 
-         let contractData = this.web3Plug.getContractDataForActiveNetwork()
+          let chainId = this.web3Plug.getActiveNetId()
+            if(!chainId) chainId = 1;
+
+
+         let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
 
          if(contractData[currencyName]){
             let currencyAddress = contractData[currencyName].address
