@@ -107,7 +107,9 @@ export default {
   watch: {
     optionList: function (optionList) {
         if(optionList && optionList.length > 0){
-          this.selectedOptionData = optionList[0]
+          //this.selectedOptionData = optionList[0]
+           //this.handleSelectedOptionChanged( this.selectedOptionData )
+           this.handleSelectedOptionChanged( this.optionList[0] )
       }
     } 
   },
@@ -115,7 +117,7 @@ export default {
 
   created(){
       if(this.optionList && this.optionList.length > 0){
-          this.selectedOptionData = this.optionList[0] 
+         // this.selectedOptionData = this.optionList[0] 
           
       }
        
@@ -124,7 +126,7 @@ export default {
 
         if(this.optionList && this.optionList.length > 0){ 
 
-          this.handleSelectedOptionChanged( this.selectedOptionData )
+          this.handleSelectedOptionChanged( this.optionList[0] )
       }
 
       

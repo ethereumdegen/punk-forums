@@ -94,7 +94,7 @@
 
           </div>
 
-           <div v-if="selectedTab=='sales'" class="mb-4 ">
+           <div v-if="selectedTab=='sales'" class="mb-4 hidden ">
 
 
               <GenericTable
