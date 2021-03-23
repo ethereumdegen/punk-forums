@@ -104,9 +104,13 @@ export default {
       selectedOptionData: {} 
     }
   },
+
+
   created(){
-      
-      //  this.selectedOptionData = this.optionList[0]
+      if(this.optionList && this.optionList.length > 0){
+          this.selectedOptionData = this.optionList[0]
+      }
+       
   },
   mounted(){
       
