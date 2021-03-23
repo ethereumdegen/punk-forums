@@ -3,6 +3,12 @@
   "description": "Innovative NFT Exchange",
   "version": "0.1.0",
   "type": "module",
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {}
+    }
+  },
   "scripts": {
     "regenerate": "node tasks/generateContractLookup.js",
     "dev": "vue-cli-service serve",
