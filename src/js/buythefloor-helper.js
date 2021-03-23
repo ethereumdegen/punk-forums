@@ -19,7 +19,8 @@ export default class BuyTheFloorHelper {
 
 
         let contractData =  web3Plug.getContractDataForNetworkID(chainId)
-
+        
+         
         for (const [key, value] of Object.entries(contractData)) {
             this.contractNameLookupTable[value.address] = value.name 
             this.currencyDecimalsLookupTable[value.address] = value.decimals 

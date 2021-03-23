@@ -94,13 +94,13 @@
 
           </div>
 
-           <div v-if="selectedTab=='sales'" class="mb-4 hidden ">
+           <div v-if="selectedTab=='sales'" class="mb-4   ">
 
 
               <GenericTable
-                v-bind:labelsArray="['nftType','currencyType','bidAmount','expires']"
-                v-bind:rowsArray="bidRowsArray"
-                v-bind:clickedRowCallback="clickedBidRowCallback"
+                v-bind:labelsArray="['blockNumber','nftType','currencyType','bidAmount' ]"
+                v-bind:rowsArray="salesRowsArray"
+                v-bind:clickedRowCallback="clickedSalesRowCallback"
                />
 
            </div> 
@@ -142,6 +142,7 @@ import BidPacketHelper from '../js/bidpacket-helper.js'
 
 
 import BuyTheFloorHelper from '../js/buythefloor-helper.js'
+import TheGraphHelper from '../js/the-graph-helper.js';
 
 export default {
   name: 'Home',
@@ -153,6 +154,7 @@ export default {
       activePanelId: null,
       selectedTab:"bids",
       bidRowsArray:[],
+      salesRowsArray: [], 
       nftContractOptionsList: [] ,
       filterByNFTContractAddress: null,
 
@@ -173,6 +175,7 @@ export default {
         this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
          
         this.fetchBidsData()
+        this.fetchSalesData()
 
          
       }.bind(this));
@@ -191,6 +194,7 @@ export default {
  
         
       this.fetchBidsData()
+      this.fetchSalesData()
 
   },
   mounted: function () {
@@ -273,31 +277,34 @@ export default {
             })
           },
 
-          /*populateContractAddressLookupTable(){
-              let contractData = this.web3Plug.getContractDataForActiveNetwork()
+         async fetchSalesData(){
+              let recentSales = await TheGraphHelper.findBoughtTheFloorHistory()
+      
 
-              for (const [key, value] of Object.entries(contractData)) {
-               this.contractNameLookupTable[value.address] = value.name 
-               this.currencyDecimalsLookupTable[value.address] = value.decimals 
-              }
-              
+               this.salesRowsArray = recentSales.map(sale => (
+                                                           {
+                                                             blockNumber: sale.blockNumber ,
+                                                            nftContractAddress: this.buyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress),
+                                                            currencyTokenAddress: this.buyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress),
+                                                            currencyTokenAmount: this.buyTheFloorHelper.getFormattedCurrencyAmount(sale.currencyTokenAmount,sale.currencyTokenAddress).toFixed(4),
+                                                            
+                                                            txHash: sale.id
+                                                          } 
+                                                        ))
 
-          },
-          getNameFromContractAddress(address){
-               
-              return this.buyTheFloorHelper.contractNameLookupTable[address]
 
-          },
-          getFormattedCurrencyAmount(amount,address){
-            let decimals = buyTheFloorHelper.currencyDecimalsLookupTable[address]
+              console.log('recentSales', this.salesRowsArray)
 
-            return parseFloat(this.web3Plug.rawAmountToFormatted(amount,decimals))
-          },*/
+         },
 
           clickedBidRowCallback(row){
             console.log('clicked bid row',row )
 
             this.$router.push({ path: `/bid/${row.signature}` })
+          },
+
+          clickedSalesRowCallback(row){
+            console.log('clicked sales row',row )
           },
 
           onNFTContractSelectCallback(nftType){

@@ -160,7 +160,36 @@ export default class TheGraphHelper {
 
         
 
-
+        static async findBoughtTheFloorHistory( )
+        {
+       
+       
+              let graphURL = "https://api.thegraph.com/subgraphs/name/admazzola/buy-the-floor"
+      
+              let queryString = `
+                                {
+                                  boughtTheFloors(last: 15) {
+                                    id
+                                    bidderAddress
+                                    sellerAddress
+                                    nftContractAddress
+                                    currencyTokenAddress
+                                    currencyTokenAmount
+                                    blockNumber
+                                  }
+                                
+                                }
+              
+                                  `
+    
+    
+              let result = await TheGraphHelper.resolveGraphQuery(graphURL , queryString  )
+      
+              console.log('graph', result)
+              
+              return result.data.boughtTheFloors
+      
+          }
      
       
 
