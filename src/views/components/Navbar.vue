@@ -4,7 +4,7 @@
     <div class="container w-container">
       <div class="w-full flex flex-row">
         <div class="brand">
-        <img class="inline-block  " width="24" height="24" src="/logo.png" />
+        <img class="inline-block  " width="24" height="24" src="/logo2.png" />
         </div>
         <router-link to="/" class='brand w-nav-brand w--current flex-grow inline text-xl text-gray-900 font-bold'>BUY THE FLOOR</router-link>
 
