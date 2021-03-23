@@ -3,28 +3,13 @@
  
  const clientConfig = require('../config/clientConfig.json')
 
+ const contractDataLookup = require('../config/generated/contractlookup.json')
+ import BigNumber from 'bignumber.js'
+
 export default class BuyTheFloorHelper {
 
-    constructor(web3Plug){
-        this.web3Plug = web3Plug
-        this.contractNameLookupTable = {} 
-        this.currencyDecimalsLookupTable = {} 
-
-        let chainId = web3Plug.getActiveNetId()
-
-        if(chainId==null){
-          chainId = 1 
-          console.log('no web3 connection')
-        }
-
-
-        let contractData =  web3Plug.getContractDataForNetworkID(chainId)
-        
-         
-        for (const [key, value] of Object.entries(contractData)) {
-            this.contractNameLookupTable[value.address] = value.name 
-            this.currencyDecimalsLookupTable[value.address] = value.decimals 
-        }
+    constructor( ){
+      
 
     }
 
@@ -49,27 +34,61 @@ export default class BuyTheFloorHelper {
     }
      
 
-    getNameFromContractAddress( address )
+    static getNameFromContractAddress( address, netId )
   {
+    let networkName = 'mainnet'
+    if(netId == 5){
+      networkName = 'goerli'
+    }
+
+    console.log('get name', contractDataLookup[networkName] , address)
+
+
+    return contractDataLookup[networkName][address].name  //this.contractNameLookupTable[address]
  
-    return this.contractNameLookupTable[address]
+
+  }
+
+  static getDecimalsFromContractAddress( address, netId )
+  {
+    let networkName = 'mainnet'
+    if(netId == 5){
+      networkName = 'goerli'
+    }
+
+    console.log('get decimals', contractDataLookup[networkName] , address)
+
+    return contractDataLookup[networkName][address].decimals  //this.contractNameLookupTable[address]
  
 
   }
 
 
-  getFormattedCurrencyAmount( tokenAmount, tokenAddress )
+  static getFormattedCurrencyAmount( tokenAmount, tokenAddress, netId )
   {
+    
         
-    let decimals = this.currencyDecimalsLookupTable[tokenAddress]
+    let decimals = this.getDecimalsFromContractAddress(tokenAddress, netId)
 
-    return parseFloat(this.web3Plug.rawAmountToFormatted(tokenAmount,decimals))
+    return parseFloat(BuyTheFloorHelper.rawAmountToFormatted(tokenAmount,decimals))
 
 
   }
 
 
+  static rawAmountToFormatted(amount,decimals)
+  {
+    return (amount * Math.pow(10,-1 * decimals)).toFixed(decimals);
+  }
 
+  static formattedAmountToRaw(amountFormatted,decimals)
+  { 
+       
+    var multiplier = new BigNumber( 10 ).exponentiatedBy( decimals ) ;
+
+
+    return multiplier.multipliedBy(amountFormatted).toFixed() ;
+  }
 
 
 }

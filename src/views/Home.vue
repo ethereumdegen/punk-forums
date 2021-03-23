@@ -158,7 +158,7 @@ export default {
       nftContractOptionsList: [] ,
       filterByNFTContractAddress: null,
 
-      buyTheFloorHelper: null
+      
     }
   },
 
@@ -172,7 +172,7 @@ export default {
         this.activeNetworkId = connectionState.activeNetworkId
 
         
-        this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
+         
          
         this.fetchBidsData()
         this.fetchSalesData()
@@ -189,9 +189,7 @@ export default {
       this.web3Plug.reconnectWeb()
 
          
-      this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
-
- 
+       
         
       this.fetchBidsData()
       this.fetchSalesData()
@@ -261,12 +259,11 @@ export default {
             } )*/
             
             
-
             this.bidRowsArray = bidPackets.map(pkt => (
                                                            {
-                                                            nftContractAddress: this.buyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress),
-                                                            currencyTokenAddress: this.buyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress),
-                                                            currencyTokenAmount: this.buyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
+                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId).toFixed(4),
                                                             expires: pkt.expires,
                                                             signature: pkt.signature.signature
                                                           } 
@@ -278,15 +275,19 @@ export default {
           },
 
          async fetchSalesData(){
+
+            let chainId =  1
+            
+
               let recentSales = await TheGraphHelper.findBoughtTheFloorHistory()
-      
+
 
                this.salesRowsArray = recentSales.map(sale => (
                                                            {
                                                              blockNumber: sale.blockNumber ,
-                                                            nftContractAddress: this.buyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress),
-                                                            currencyTokenAddress: this.buyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress),
-                                                            currencyTokenAmount: this.buyTheFloorHelper.getFormattedCurrencyAmount(sale.currencyTokenAmount,sale.currencyTokenAddress).toFixed(4),
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress, chainId),
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress, chainId),
+                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(sale.currencyTokenAmount,sale.currencyTokenAddress, chainId).toFixed(4),
                                                             
                                                             txHash: sale.id
                                                           } 
@@ -305,6 +306,9 @@ export default {
 
           clickedSalesRowCallback(row){
             console.log('clicked sales row',row )
+
+
+            window.open(this.web3Plug.getExplorerLinkForTxHash(row.txHash, 1  ));
           },
 
           onNFTContractSelectCallback(nftType){

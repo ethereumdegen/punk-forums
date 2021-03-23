@@ -190,9 +190,7 @@ export default {
 
         
 
-       currencyTokensOptionsList: [] ,
-
-       buyTheFloorHelper: new BuyTheFloorHelper(this.web3Plug)
+       currencyTokensOptionsList: []  
     }
   },
   created(){
@@ -289,12 +287,12 @@ export default {
             this.formattedBidsArray = bidPackets.map(pkt => (
                                                            {
                                                            
-                                                            currencyTokenName: this.buyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress),
-                                                            currencyTokenAmountFormatted: this.buyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
+                                                            currencyTokenName: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
+                                                            currencyTokenAmountFormatted: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId).toFixed(4),
                                                             expires: pkt.expires,
                                                             signature: pkt.signature.signature,
 
-                                                            nftContractName: this.buyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress),
+                                                            nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
                                                             nftContractAddress: pkt.nftContractAddress,
                                                             currencyTokenAddress: pkt.currencyTokenAddress,
                                                             currencyTokenAmount: pkt.currencyTokenAmount,

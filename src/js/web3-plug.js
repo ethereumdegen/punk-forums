@@ -208,6 +208,14 @@ export default class Web3Plug {
   }
 
 
+  getExplorerLinkForTxHash(txhash,chainId){
+     
+    
+    return this.getChainExplorerURL(chainId).concat('/tx/').concat(txhash)
+
+  }
+
+
   getChainExplorerURL(networkId){ 
     if(networkId == 5){
       return 'https://goerli.etherscan.io'

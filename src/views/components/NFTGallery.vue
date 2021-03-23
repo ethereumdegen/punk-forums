@@ -36,21 +36,19 @@ export default {
   data() {
     return {
       nftType: null,
-      ownedTokenIdsArray: [] ,
-      buyTheFloorHelper: null
+      ownedTokenIdsArray: [] 
     }
   },
    watch: {
     nftContractAddress: function (contractAddress) {
-       this.nftType = this.buyTheFloorHelper.getNameFromContractAddress(contractAddress)
+       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(contractAddress, this.web3Plug.getActiveNetId())
         
          this.fetchOwnedTokenIds()
     } 
   },
   created(){
-      this.buyTheFloorHelper= new BuyTheFloorHelper(this.web3Plug)
-
-      this.nftType = this.buyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress)
+      
+      this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.web3Plug.getActiveNetId())
        
 
       this.fetchOwnedTokenIds()

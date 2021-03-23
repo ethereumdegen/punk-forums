@@ -91,7 +91,7 @@ export default {
       selectedTab:"bids",
       bidRowsArray:[],
 
-      buyTheFloorHelper: null,
+       
       connectedToWeb3: false,
       currentBlockNumber: 0
     }
@@ -122,7 +122,7 @@ export default {
 
       //this.populateContractAddressLookupTable()
 
-      this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
+       
       this.fetchBidsData()
 
   },
@@ -165,13 +165,15 @@ export default {
              bidPackets = bidPackets.filter( (bid) => {
               return (bid.status == 'active')
             } )
+
+            let chainId = this.web3Plug.getActiveNetId()
             
 
             this.bidRowsArray = bidPackets.map(pkt => (
                                                            {
-                                                            nftContractAddress: this.buyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress),
-                                                            currencyTokenAddress: this.buyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress),
-                                                            currencyTokenAmount: this.buyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress).toFixed(4),
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,chainId),
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress,chainId),
+                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId).toFixed(4),
                                                             expires: pkt.expires,
                                                             signature: pkt.signature.signature
                                                           } 
