@@ -5,7 +5,7 @@
 
 
     <div v-if="overlayShown" class="w-full h-full absolute left-0 top-0 text-white " style="background:#2226; pointer-events:none;"> 
-      <div class="absolute w-full text-center p-2" style="top:40%;">  {{typeName}} </div>
+      <div class="absolute w-full text-center p-2" style="top:40%;">  {{type.label}} </div>
     </div>
       
   </div>
@@ -17,7 +17,7 @@
 
 export default {
   name: 'ArtTypeTile',
-  props: ['imageURL', 'onClickCallback','typeName'],
+  props: ['imageURL', 'onClickCallback','type'],
   data() {
     return {
       overlayShown: false
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
       onClicked(){
-        this.onClickCallback(this.typeName)
+        this.onClickCallback(this.type.name)
       }
   }
 }

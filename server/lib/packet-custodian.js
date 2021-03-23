@@ -21,9 +21,10 @@ const ERC20ContractABI = FileHelper.readJSONFile('./src/contracts/ERC20ABI.json'
 
 export default class PacketCustodian  {
 
-    constructor(web3, mongoInterface){
+    constructor(web3, mongoInterface, serverConfig){
         this.mongoInterface = mongoInterface;
         this.web3 = web3;
+        this.serverConfig = serverConfig
 
         this.init() 
 
@@ -31,7 +32,7 @@ export default class PacketCustodian  {
     }
 
     async init(){
-        this.chainId = await Web3Helper.getNetworkId(this.web3);
+        this.chainId =  this.serverConfig.chainId //await Web3Helper.getNetworkId(this.web3);
         this.blockNumber = await Web3Helper.getBlockNumber(this.web3);
         setInterval(this.updatePackets.bind(this),1000)
         setInterval(this.updateBidders.bind(this),1000)
@@ -60,11 +61,7 @@ export default class PacketCustodian  {
 
         let activePackets = await this.mongoInterface.findAll('bidpackets', {status:'active', lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   } )
 
-       // let suspendedPackets =  await this.mongoInterface.findAll('bidpackets', {status:'suspended', lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   }  )
-
-
-       // let activeSuspendedPackets =  activePackets.concat( suspendedPackets )
-
+      
         if(activePackets && activePackets.length > 0){
             let nextPacket = activePackets[0]
 
@@ -112,7 +109,7 @@ export default class PacketCustodian  {
 
         let web3 = this.web3 
 
-        //this.web3 
+         
 
         let chainId = this.chainId 
         let blockNumber = this.blockNumber
@@ -124,7 +121,7 @@ export default class PacketCustodian  {
         let BTFContractAddress = contractData['buythefloor'].address;
 
         let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.expires   )
-        let packetHash = BidPacketUtils.getBidTypedDataHash( typedData, typedData.types  )
+        let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
         
         //console.log('packetHash', packetHash)
 

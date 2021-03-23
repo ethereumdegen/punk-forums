@@ -38,7 +38,7 @@
 
 
                <ArtTypeTile v-for="type of nftTypes"
-                v-bind:typeName="type.label"
+                v-bind:type="type"
                 v-bind:imageURL="type.imgurl" 
                 v-bind:onClickCallback="onTileClicked"
 

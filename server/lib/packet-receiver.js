@@ -13,9 +13,10 @@ import https from 'https'
 
 export default class PacketReceiver  {
 
-    constructor(mongoInterface,serverConfig){
+    constructor(web3, mongoInterface,serverConfig){
         this.mongoInterface = mongoInterface;
-
+        this.web3 = web3;
+        this.serverConfig=serverConfig;
 
         const app = express()
 
@@ -39,15 +40,7 @@ export default class PacketReceiver  {
  
          app.use(cors());
 
-       /*   app.all('/*', function(req, res, next) {
-           
-           // res.header('Access-Control-Allow-Origin', '*');
-          //  res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
-            next();
-        }); */
-
-        
-     
+      
 
 
         this.startSocketServer(server)
@@ -78,6 +71,7 @@ export default class PacketReceiver  {
       var port = process.env.PORT || 8443;  //8443
       
       var mongoInterface = this.mongoInterface
+      var serverConfig = this.serverConfig 
     
       ///  https://socket.io/docs/rooms-and-namespaces/#
     
@@ -127,12 +121,19 @@ export default class PacketReceiver  {
                         exchangeContractAddress: packet.exchangeContractAddress
                     }
                     //console.log('got Websocket packet', bidPacket  )
-    
-                    var result = await PacketHelper.storeNewBidPacket(packet,  mongoInterface);
-     
-    
-                 socket.emit('submittedBidPacket',  {success:true, saved:result });
-    
+
+                    let packetIsValid = PacketHelper.checkPacketValidity(packet, serverConfig)
+                    
+                    if(packetIsValid){
+                      var result = await PacketHelper.storeNewBidPacket(packet,  mongoInterface);
+      
+                      socket.emit('submittedBidPacket',  {success:true, saved:result });
+        
+                    }else{
+                      socket.emit('submittedBidPacket',  {success:false, error: 'invalid packet signature' });
+        
+                    }
+                      
                  socket.disconnect()
     
             }.bind(this));

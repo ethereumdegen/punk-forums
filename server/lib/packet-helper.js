@@ -1,6 +1,14 @@
 
 
 
+import Web3Helper from './web3-helper.js'
+import BidPacketUtils from '../../src/js/bidpacket-utils.js'
+
+import FileHelper from './file-helper.js'
+
+const BTFContractABI = FileHelper.readJSONFile('./src/contracts/BuyTheFloorABI.json')
+const ERC20ContractABI = FileHelper.readJSONFile('./src/contracts/ERC20ABI.json')
+
 
 export default class PacketHelper  {
 
@@ -24,6 +32,22 @@ export default class PacketHelper  {
     }
     static async findBidPacketBySignature(signature, mongoInterface){
         return  await mongoInterface.findOne('bidpackets',{"signature.signature":signature}, )
+    }
+
+    static checkPacketValidity(packet, serverConfig){
+        let chainId = serverConfig.chainId
+
+        let contractData = Web3Helper.getContractDataForNetwork(chainId)
+        let BTFContractAddress = contractData['buythefloor'].address;
+
+        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.expires   )
+        let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
+        
+
+        let recoveredAddress = BidPacketUtils.recoverBidPacketSigner(typedData, packet.signature.signature)
+
+        return (recoveredAddress == packet.bidderAddress.toLowerCase())
+
     }
 
 

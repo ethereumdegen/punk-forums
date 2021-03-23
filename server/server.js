@@ -24,14 +24,15 @@ let serverConfig = serverConfigFile[envmode]
     let mongoInterface = new MongoInterface( 'bidthefloor_'.concat(envmode) ) 
 
 
-    let packetReceiver = new PacketReceiver(mongoInterface,serverConfig)
- 
-     
     let web3 = new Web3( serverConfig.web3provider  )
+
+    let packetReceiver = new PacketReceiver(web3, mongoInterface,serverConfig)
+ 
+      
     
     console.log('web3 ready with provider ',serverConfig.web3provider )
 
-    let packetCustodian = new PacketCustodian(web3,mongoInterface)
+    let packetCustodian = new PacketCustodian(web3,mongoInterface, serverConfig)
 
 
 

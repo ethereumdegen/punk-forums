@@ -140,9 +140,20 @@
 
                   </div>
 
-                   <div  v-if="!submittedBidPacketResponse.success && bidSubmitComplete">
+                   <div  v-if="!submittedBidPacketResponse.success && submittedBidPacketResponse.error && bidSubmitComplete">
 
-                      <div>The server could not be contacted.  Please contact the web admin!</div>
+                      <div class="p-4"> ERROR: {{ submittedBidPacketResponse.error }} </div>
+
+
+                     <div @click="resetForm" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Place another bid </div>
+         
+
+
+                   </div>
+
+                    <div  v-if="!submittedBidPacketResponse.success && !submittedBidPacketResponse.error && bidSubmitComplete">
+
+                      <div class="p-4"> The server could not be reached. </div>
 
 
                      <div @click="resetForm" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Place another bid </div>

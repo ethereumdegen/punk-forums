@@ -5,7 +5,11 @@ Version 0.10
 */
 import EIP712Helper from "./EIP712Helper.js" 
 import web3utils from 'web3-utils'
+
+import ethUtil from 'ethereumjs-util'
  
+ 
+
 
 //"BidPacket(address bidderAddress,address nftContractAddress,address currencyTokenAddress,uint256 currencyTokenAmount,uint256 expires)"
  
