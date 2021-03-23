@@ -249,10 +249,12 @@ export default {
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
         this.currentBlockNumber = await this.web3Plug.getBlockNumber()
          
-           
-        this.currencyTokensOptionsList= BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).currencyTokens 
-        this.nftOptionsList=BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).nftTypes 
+        if(this.connectedToWeb3){
+           this.currencyTokensOptionsList= BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).currencyTokens 
+           this.nftOptionsList=BuyTheFloorHelper.getClientConfigForNetworkId(this.activeNetworkId).nftTypes 
 
+        }
+       
         console.log(' this.currencyTokensOptionsList',  this.currencyTokensOptionsList)
 
       }.bind(this));
