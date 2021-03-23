@@ -56,7 +56,7 @@ export default class PacketCustodian  {
 
         let RefreshWaitTime = (1 + allActivePackets.length)*1000;  
 
-        console.log('RefreshWaitTime',RefreshWaitTime)
+        console.log('RefreshWaitTime - bidpackets',RefreshWaitTime)
 
         let activePackets = await this.mongoInterface.findAll('bidpackets', {status:'active', lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   } )
 
@@ -86,6 +86,8 @@ export default class PacketCustodian  {
         let allActiveBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY }    })
 
         let RefreshWaitTime = (1 + allActiveBidders.length)*1000;  
+
+        console.log('RefreshWaitTime - bidders',RefreshWaitTime)
 
         let activeBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY },lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   })
         let newBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY }, lastRefreshed: null   })
