@@ -20,26 +20,41 @@
         
        <div class="w-row text-xs">
           <div class="text-lg font-bold"> Bid Information </div>
+          <div>  bidder: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.bidderAddress)">  {{bidPacketData.bidderAddress}} </a> </div>
+          <div> network: {{ bidPacketData.bidNetworkName }} </div>
+          <div> nftType: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.nftContractAddress)">  {{bidPacketData.nftContractName}}  </a></div>
+          <div> currencyType: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.currencyTokenAddress)"> {{bidPacketData.currencyTokenName}} </a> </div>
+          <div v-if="bidPacketData.expirationFormatted != null"> expiration:  ~{{bidPacketData.expirationFormatted}} days </div>
+          <div> status:  {{bidPacketData.status}}</div>
+          <div> suspended:  {{bidPacketData.suspended}}</div>
+
+           <div class="my-8">
+
+        <div @click="cancelBid()" v-if="userIsOwnerOfBid()" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Cancel bid </div>
+           <a href='/sell' class="mx-2 select-none bg-teal-300 p-2 no-underline inline-block rounded border-black border-2 cursor-pointer text-black text-md"> Fulfill this bid </a>
+         
+        </div>
+
+          <div class="my-4"></div>
+          <div class="text-md font-bold"> Advanced Information </div>
 
           <div>  bidder: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.bidderAddress)">  {{bidPacketData.bidderAddress}} </a> </div>
-          <div>  nftContractAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.nftContractAddress)"> {{bidPacketData.nftContractAddress}} </a></div>
-          <div> currencyTokenAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.currencyTokenAddress)"> {{bidPacketData.currencyTokenAddress}} </a></div>
-            <div> currencyTokenAmount: {{bidPacketData.currencyTokenAmount}}</div>
-            <div> expires:  {{bidPacketData.expires}}</div>
+          <div>  nftContractAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.nftContractAddress)"> {{bidPacketData.nftContractAddress}} </a>  ( {{bidPacketData.nftContractName}} ) </div>
+          <div> currencyTokenAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.currencyTokenAddress)"> {{bidPacketData.currencyTokenAddress}} </a>  ( {{bidPacketData.currencyTokenName}} ) </div>
+            <div> currencyTokenAmount: {{bidPacketData.currencyTokenAmount}}   ( {{bidPacketData.currencyTokenAmountFormatted}} ) </div>
+            <div> expires:  {{bidPacketData.expires}} <span v-if="bidPacketData.expirationFormatted != null">( ~{{bidPacketData.expirationFormatted}} days )</span> </div>
              <div> hash:  {{bidPacketData.hash}}</div>
 
             <div> signature:  {{bidPacketData.signature.signature}}</div>
-          <div> status:  {{bidPacketData.status}}</div>
-           <div> suspended:  {{bidPacketData.suspended}}</div>
+            <div> status:  {{bidPacketData.status}}</div>
+             <div> suspended:  {{bidPacketData.suspended}}</div>
 
 
        </div>
 
-       <div class="my-8">
+           
 
-        <div @click="cancelBid()" v-if="userIsOwnerOfBid()" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Cancel bid </div>
-         
-        </div>
+      
 
      </div>
    </div>
@@ -93,6 +108,8 @@ export default {
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
+
+         this.fetchPacketData(this.$route.params.signature)
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -117,19 +134,54 @@ export default {
           console.log('no web3 connection')
         } 
 
+
+
+        
          
         let serverURL = BuyTheFloorHelper.getSocketURL( chainId )  
         console.log('serverURL',serverURL)
 
         this.bidPacketData = await BidPacketHelper.findBidPacket(signature, serverURL)
+        
+        let bidChainId = this.bidPacketData.chainId
+        this.bidPacketData.bidNetworkName = this.web3Plug.getWeb3NetworkName(bidChainId)
 
-        let contractData = this.web3Plug.getContractDataForActiveNetwork()
+        if(bidChainId){
+          chainId = bidChainId; //interim soln
+        }
+
+        let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
         let bidTheFloorAddress = contractData['buythefloor'].address
 
-        let typedData =  BidPacketUtils.getBidTypedDataFromParams(this.web3Plug.getActiveNetId( ), bidTheFloorAddress, this.bidPacketData.bidderAddress, this.bidPacketData.nftContractAddress, this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount, this.bidPacketData.expires   )
-        this.bidPacketData.hash = BidPacketUtils.getBidTypedDataHash(typedData)
+        let typedData =  BidPacketUtils.getBidTypedDataFromParams( chainId , bidTheFloorAddress, this.bidPacketData.bidderAddress, this.bidPacketData.nftContractAddress, this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount, this.bidPacketData.expires   )
+        
+        if(chainId == parseInt(bidChainId)){
+         this.bidPacketData.hash = BidPacketUtils.getBidTypedDataHash(typedData)
+        }
+       
 
         
+        this.bidPacketData.nftContractName = BuyTheFloorHelper.getNameFromContractAddress(this.bidPacketData.nftContractAddress, chainId)
+        this.bidPacketData.currencyTokenName = BuyTheFloorHelper.getNameFromContractAddress(this.bidPacketData.currencyTokenAddress, chainId)
+         
+ 
+        
+        this.bidPacketData.currencyTokenAmountFormatted = BuyTheFloorHelper.getFormattedCurrencyAmount( this.bidPacketData.currencyTokenAmount, this.bidPacketData.currencyTokenAddress, chainId)
+        
+
+        if(this.web3Plug.connectedToWeb3()){
+           
+           let currentBlockNumber = await this.web3Plug.getBlockNumber()
+           let blockDifference = (this.bidPacketData.expires - parseInt(currentBlockNumber))
+           
+            
+
+           this.bidPacketData.expirationFormatted = BuyTheFloorHelper.getDaysFromBlocks(blockDifference)
+        
+        }
+       
+ 
+
          console.log('fetched',this.bidPacketData)
      },
 

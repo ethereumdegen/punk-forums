@@ -118,14 +118,16 @@ export default class PacketReceiver  {
                         currencyTokenAmount: packet.currencyTokenAmount,
                         expires:packet.expires,
                         signature:packet.signature,
-                        exchangeContractAddress: packet.exchangeContractAddress
-                    }
-                    //console.log('got Websocket packet', bidPacket  )
 
-                    let packetIsValid = PacketHelper.checkPacketValidity(packet, serverConfig)
+                        exchangeContractAddress: packet.exchangeContractAddress,
+                        chainId: packet.chainId
+                    }
+                     
+
+                    let packetIsValid = PacketHelper.checkPacketValidity(bidPacket, serverConfig)
                     
                     if(packetIsValid){
-                      var result = await PacketHelper.storeNewBidPacket(packet,  mongoInterface);
+                      var result = await PacketHelper.storeNewBidPacket(bidPacket,  mongoInterface);
                       
                       if(result.success){
                         socket.emit('submittedBidPacket',  result );

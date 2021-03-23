@@ -43,10 +43,13 @@ export default class BuyTheFloorHelper {
 
     console.log('get name', contractDataLookup[networkName] , address)
 
-
-    return contractDataLookup[networkName][address.toLowerCase()].name  //this.contractNameLookupTable[address]
+    let contractData = contractDataLookup[networkName][address.toLowerCase()]
+    if(contractData){
+      return contractData.name 
+    }
+     //this.contractNameLookupTable[address]
  
-
+    return '?'
   }
 
   static getDecimalsFromContractAddress( address, netId )
@@ -89,6 +92,10 @@ export default class BuyTheFloorHelper {
 
     return multiplier.multipliedBy(amountFormatted).toFixed() ;
   }
+ 
+   static getDaysFromBlocks(blocks){
+          return parseFloat(blocks / 5760).toFixed(2)
+      }
 
 
 }

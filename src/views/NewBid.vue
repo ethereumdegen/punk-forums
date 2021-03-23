@@ -377,6 +377,8 @@ export default {
                 let serverURL =  BuyTheFloorHelper.getSocketURL(this.web3Plug.getActiveNetId())
                 console.log('serverURL',serverURL)
 
+              packetData.chainId = this.web3Plug.getActiveNetId()
+
               let reply = await BidPacketHelper.sendBidPacket(serverURL, packetData);
 
               console.log('reply')
