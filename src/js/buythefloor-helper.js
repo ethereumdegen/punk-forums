@@ -41,10 +41,10 @@ export default class BuyTheFloorHelper {
       networkName = 'goerli'
     }
 
-    console.log('get name', contractDataLookup[networkName] , address.toLowercase())
+    console.log('get name', contractDataLookup[networkName] , address)
 
 
-    return contractDataLookup[networkName][address.toLowercase()].name  //this.contractNameLookupTable[address]
+    return contractDataLookup[networkName][address.toLowerCase()].name  //this.contractNameLookupTable[address]
  
 
   }
@@ -56,9 +56,9 @@ export default class BuyTheFloorHelper {
       networkName = 'goerli'
     }
 
-    console.log('get decimals', contractDataLookup[networkName] , address.toLowercase())
+    console.log('get decimals', contractDataLookup[networkName] , address)
 
-    return contractDataLookup[networkName][address.toLowercase()].decimals  //this.contractNameLookupTable[address]
+    return contractDataLookup[networkName][address.toLowerCase()].decimals  //this.contractNameLookupTable[address]
  
 
   }
