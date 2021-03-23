@@ -54,14 +54,11 @@
 
          
 
-        <div class="text-lg text-black p-8">
-         Lists of Recent Bids 
-        </div>
-
+        
 
        <div>
             <TabsBar
-                v-bind:tabArray="['Bids' ]"
+                v-bind:tabArray="[{id:'Bids',label:'Recent Bids'},{id:'Sales',label:'Recent Sales'} ]"
                 v-bind:onTabSelect="onTabSelect" 
             />
           </div>
@@ -96,6 +93,18 @@
                />
 
           </div>
+
+           <div v-if="selectedTab=='sales'" class="mb-4 ">
+
+
+              <GenericTable
+                v-bind:labelsArray="['nftType','currencyType','bidAmount','expires']"
+                v-bind:rowsArray="bidRowsArray"
+                v-bind:clickedRowCallback="clickedBidRowCallback"
+               />
+
+           </div> 
+
 
 
         </div>
@@ -176,9 +185,7 @@ export default {
 
       this.web3Plug.reconnectWeb()
 
-      //this.populateContractAddressLookupTable()
-
-       
+         
       this.buyTheFloorHelper = new BuyTheFloorHelper(this.web3Plug)
 
  
@@ -202,7 +209,7 @@ export default {
           onTabSelect(tabname){
             console.log(tabname)
 
-
+              this.selectedTab = tabname.toLowerCase()
 
 
           },
