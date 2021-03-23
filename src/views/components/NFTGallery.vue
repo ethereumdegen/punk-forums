@@ -84,7 +84,18 @@ export default {
           this.ownedTokenIdsArray = nftDataArray
         }
 
+          if(this.nftType.toLowerCase() == 'wrappedpunks'){ 
+          let nftDataArray = await TheGraphHelper.findWrappedPunksOwnedBy( activeAddress )
+       
+          this.ownedTokenIdsArray = nftDataArray
+        }
 
+
+         if(this.nftType.toLowerCase() == 'hashmasks'){ 
+          let nftDataArray = await TheGraphHelper.findHashmasksOwnedBy( activeAddress )
+       
+          this.ownedTokenIdsArray = nftDataArray
+        }
 
 
 

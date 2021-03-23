@@ -100,43 +100,72 @@ export default class TheGraphHelper {
     {
    
    
-          let graphURL = "https://api.thegraph.com/subgraphs/name/tibike6/mooncatrescue"
+          let graphURL = "https://api.thegraph.com/subgraphs/name/itsjerryokolo/cryptopunks"
   
           let queryString = `
                               {
                               owners(where:{id:"`+publicAddress+`"}) {
                                   id
-                                  cats {
+                                  allpunksOwned {
                                   id
                                   }
                               
                               }
                               }  
                               `
+
+
+          let result = await TheGraphHelper.resolveGraphQuery(graphURL , queryString  )
   
-              return new Promise(   (resolve, reject) => {
-  
-                 axios.post(graphURL,{query: queryString})
-                 .then((res) => {
-                    
-                      console.log(res.data)
-                      let results = res.data
-                      let owner = results.data.owners[0]
-                      if(!owner)return 
-  
-                
-                       resolve(owner.cats)
-  
-                  }) .catch((error) => {
-                      console.error(error)
-                      reject(error)
-                  })
-  
-              }); 
-         
+          console.log('graph', result)
+          let tokens =  result.data.owners[0].allpunksOwned
+    
+          return tokens.map(x => ({tokenId: x.id, needsWrap: true}))
    
   
       }
+
+
+
+      static async findHashmasksOwnedBy(publicAddress)
+      {
+           publicAddress = publicAddress.toLowerCase()
+     
+            let graphURL = "https://api.thegraph.com/subgraphs/name/tibike6/hashmasks"
+    
+            let queryString = `
+                        {
+                          account(id: "`+publicAddress+`") {
+                            id
+                            hashmasks {
+                              id
+                              name
+                            }
+                          }
+                        }
+                        `        
+                               
+    
+                            
+          let result = await TheGraphHelper.resolveGraphQuery(graphURL , queryString  )
+    
+          console.log('graph', result)
+          let tokens =  result.data.account.hashmasks
+    
+          return tokens.map(x => ({tokenId: x.id, needsWrap: false, specialName: x.name}))
+     
+    
+        }
+    
+
+        
+
+
+     
+      
+
+
+
 
 
   /*
