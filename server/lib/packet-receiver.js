@@ -126,9 +126,15 @@ export default class PacketReceiver  {
                     
                     if(packetIsValid){
                       var result = await PacketHelper.storeNewBidPacket(packet,  mongoInterface);
-      
-                      socket.emit('submittedBidPacket',  {success:true, saved:result });
+                      
+                      if(result.success){
+                        socket.emit('submittedBidPacket',  result );
         
+                      }else{
+                        socket.emit('submittedBidPacket',  {success:false, error: 'received duplicate packet' });
+        
+                      }
+                      
                     }else{
                       socket.emit('submittedBidPacket',  {success:false, error: 'invalid packet signature' });
         

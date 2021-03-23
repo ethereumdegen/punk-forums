@@ -22,8 +22,15 @@ export default class PacketHelper  {
         packetData.lastRefreshed = 0
         packetData.suspended = false
 
+        let existingPacket = await mongoInterface.findOne('bidpackets', {'signature.signature': packetData.signature.signature })
+        
+        if(existingPacket){
+            console.log('received duplicate packet')
+            return {success:false, error:'duplicate packet'}
+        }
+
         await mongoInterface.insertOne('bidpackets',packetData)
-        return packetData
+        return  {success:true, saved: packetData} 
     }
 
 
