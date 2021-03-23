@@ -1,13 +1,6 @@
 # BUY THE FLOOR 
  
-
-
-Dev and building requires node 10 (fix later) 
-
-Server requires node 14 
-
-
-try to do ping/pong w apexrelay server. 
+Web frontend for Demand Based NFT Exchange
  
 
 
@@ -17,6 +10,9 @@ IMPROVE LATER:
 
 ### TODO
  
+-run server with pm2 
+-server needs to validate packets and throw them away if bad (if wrong networkID for server config, if bad hash, etc)  Then we can accept packets from an API 
+
 
 2.5)   Limit users to only having 10 bids,  min amt for bid 
 
@@ -32,9 +28,7 @@ IMPROVE LATER:
  -API 
  
  - develop a subgraph to do data collection and show sales on front page 
- 
-
-- FIX memory leak in the server 
+  
 
 
 ### Development commands
