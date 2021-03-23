@@ -13,13 +13,16 @@
       "minBidAmount": 0.02
     },
     "0x20eb324ab10fb83ebe90a3f5d863068faba10124": { "address": "0x20eb324ab10fb83ebe90a3f5d863068faba10124" },
-    "0xc2c747e0f7004f9e8817db2ca4997657a7746928": { "name": "hashmasks", "address": "0xc2c747e0f7004f9e8817db2ca4997657a7746928" },
+    "0xc2c747e0f7004f9e8817db2ca4997657a7746928": { "name": "Hashmasks", "address": "0xc2c747e0f7004f9e8817db2ca4997657a7746928" },
     "0x6c10511ddea5f3ed38a0163224198e37b81525bc": { "name": "0xBitcoinMemes", "address": "0x6c10511ddea5f3ed38a0163224198e37b81525bc" },
     "0x7c40c393dc0f283f318791d746d894ddd3693572": { "name": "WrappedMoonCats", "address": "0x7c40c393dc0f283f318791d746d894ddd3693572" },
     "0xb7f7f6c52f2e2fdb1963eab30438024864c313f6": { "name": "WrappedPunks", "address": "0xb7f7f6c52f2e2fdb1963eab30438024864c313f6" },
+    "0xd4e4078ca3495de5b1d4db434bebc5a986197782": { "name": "Autoglyphs", "address": "0xd4e4078ca3495de5b1d4db434bebc5a986197782" },
     "0x9126b817ccca682beaa9f4eae734948ee1166af1": { "name": "BGanPunksV1", "address": "0x9126b817ccca682beaa9f4eae734948ee1166af1" },
     "0x31385d3520bced94f77aae104b406994d8f2168c": { "name": "BGanPunksV2", "address": "0x31385d3520bced94f77aae104b406994d8f2168c" },
-    "0x79986af15539de2db9a5086382daeda917a9cf0c": { "name": "Cryptovoxels", "address": "0x79986af15539de2db9a5086382daeda917a9cf0c" }
+    "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d": { "name": "DecentralandParcels", "address": "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d" },
+    "0x3a0c25422d086950880a976557d53d924935d878": { "name": "EthMenAvatars", "address": "0x3a0c25422d086950880a976557d53d924935d878" },
+    "0x79986af15539de2db9a5086382daeda917a9cf0c": { "name": "CryptovoxelsParcels", "address": "0x79986af15539de2db9a5086382daeda917a9cf0c" }
   },
   "goerli": {
     "0xab89a7742cb10e7bce98540fd05c7d731839cf9f": {

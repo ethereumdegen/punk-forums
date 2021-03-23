@@ -16,7 +16,7 @@
   
 
    <div class="section  bg-white border-b-2 border-black">
-     <div class="autospacing w-container">
+     <div class="autospacing w-container p-2">
         
        <div class="w-row text-xs">
           <div class="text-lg font-bold"> Bid Information </div>

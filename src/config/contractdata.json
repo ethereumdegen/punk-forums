@@ -7,18 +7,26 @@
      
       "buythefloor":{"address":"0x20eb324ab10fb83ebe90a3f5d863068faba10124"},
 
-      "hashmasks":{"name":"hashmasks","address":"0xc2c747e0f7004f9e8817db2ca4997657a7746928"},
+      "hashmasks":{"name":"Hashmasks","address":"0xc2c747e0f7004f9e8817db2ca4997657a7746928"},
  
       "0xbitcoinmemes":{"name":"0xBitcoinMemes","address":"0x6c10511ddea5f3ed38a0163224198e37b81525bc"},
 
       "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 
       
       "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xb7f7f6c52f2e2fdb1963eab30438024864c313f6"} , 
-    
+      "autoglyphs":{"name":"Autoglyphs","address": "0xd4e4078ca3495de5b1d4db434bebc5a986197782"},
+
       "bganpunksv1":{"name":"BGanPunksV1","address":"0x9126b817ccca682beaa9f4eae734948ee1166af1"} , 
       "bganpunksv2":{"name":"BGanPunksV2","address":"0x31385d3520bced94f77aae104b406994d8f2168c"} , 
  
-      "cryptovoxels":{"name":"Cryptovoxels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
+      "decentralandparcels":{"name":"DecentralandParcels","address":"0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"} , 
+
+      "ethmenavatars":{"name":"EthMenAvatars","address":"0x3a0c25422d086950880a976557d53d924935d878"} , 
+
+      "cryptovoxelsparcels":{"name":"CryptovoxelsParcels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
+   
+   
+   
     }
 
 
