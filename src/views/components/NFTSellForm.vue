@@ -288,7 +288,7 @@ export default {
                                                            {
                                                            
                                                             currencyTokenName: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
-                                                            currencyTokenAmountFormatted: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId).toFixed(4),
+                                                            currencyTokenAmountFormatted: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
                                                             expires: pkt.expires,
                                                             signature: pkt.signature.signature,
 

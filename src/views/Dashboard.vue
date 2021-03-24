@@ -173,7 +173,7 @@ export default {
                                                            {
                                                             nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,chainId),
                                                             currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress,chainId),
-                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId).toFixed(4),
+                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId) ,
                                                             expires: pkt.expires,
                                                             signature: pkt.signature.signature
                                                           } 

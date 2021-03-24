@@ -263,7 +263,7 @@ export default {
                                                            {
                                                             nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
                                                             currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
-                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId).toFixed(4),
+                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
                                                             expires: pkt.expires,
                                                             signature: pkt.signature.signature
                                                           } 
@@ -287,7 +287,7 @@ export default {
                                                              blockNumber: sale.blockNumber ,
                                                             nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress, chainId),
                                                             currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress, chainId),
-                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(sale.currencyTokenAmount,sale.currencyTokenAddress, chainId).toFixed(4),
+                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(sale.currencyTokenAmount,sale.currencyTokenAddress, chainId),
                                                             
                                                             txHash: sale.id
                                                           } 

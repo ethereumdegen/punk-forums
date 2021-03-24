@@ -76,8 +76,8 @@ export default class BuyTheFloorHelper {
     let decimals = this.getDecimalsFromContractAddress(tokenAddress, netId)
 
     if(decimals){
-      return parseFloat(BuyTheFloorHelper.rawAmountToFormatted(tokenAmount,decimals))
-
+      let amt =  parseFloat(BuyTheFloorHelper.rawAmountToFormatted(tokenAmount,decimals))
+      return amt.toFixed(4)
     }
 
     return '?'
