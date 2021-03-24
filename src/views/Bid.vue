@@ -32,7 +32,7 @@
            <div class="my-8">
 
         <div @click="cancelBid()" v-if="userIsOwnerOfBid()" class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Cancel bid </div>
-           <a href='/sell' class="mx-2 select-none bg-teal-300 p-2 no-underline inline-block rounded border-black border-2 cursor-pointer text-black text-md"> Fulfill this bid </a>
+           <a v-bind:href='"/sell/".concat(bidPacketData.nftContractName)' class="mx-2 select-none bg-teal-300 p-2 no-underline inline-block rounded border-black border-2 cursor-pointer text-black text-md"> Fulfill this bid </a>
          
         </div>
 

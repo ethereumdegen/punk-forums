@@ -13,7 +13,7 @@
 
       "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 
       
-      "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xb7f7f6c52f2e2fdb1963eab30438024864c313f6"} , 
+      "wrappedcryptopunks":{"name":"WrappedCryptopunks","address":"0xb7f7f6c52f2e2fdb1963eab30438024864c313f6"} , 
       "autoglyphs":{"name":"Autoglyphs","address": "0xd4e4078ca3495de5b1d4db434bebc5a986197782"},
 
       "bganpunksv1":{"name":"BGanPunksV1","address":"0x9126b817ccca682beaa9f4eae734948ee1166af1"} , 
@@ -46,7 +46,7 @@
       "artsale":{"name":"ArtSale","address":"0x39ec448b891c476e166b3c3242a90830db556661"},
 
        
-      "wrappedcryptopunks":{"name":"WrappedPunks","address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"},
+      "wrappedcryptopunks":{"name":"WrappedCryptoPunks","address":"0xcb6687a21c61469ba6673ec3bdd98e9693bda76e"},
 
       "wrappedmooncats":{"name":"WrappedMoonCats","address":"0x7c40c393dc0f283f318791d746d894ddd3693572"} , 
 

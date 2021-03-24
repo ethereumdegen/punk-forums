@@ -1,5 +1,5 @@
 <template>
-  <div class=" cursor-pointer select-none inline-block m-4 relative" @mouseover="overlayShown=true" @mouseleave="overlayShown=false" @click="onClicked()">
+  <a v-bind:href="getLinkUrl()" class=" cursor-pointer select-none inline-block m-4 relative" @mouseover="overlayShown=true" @mouseleave="overlayShown=false"   >
 
     <img v-bind:src="imageURL" width="128" height="128" />
 
@@ -8,7 +8,7 @@
       <div class="absolute w-full text-center p-2" style="top:40%;">  {{type.label}} </div>
     </div>
       
-  </div>
+  </a>
 </template>
 
 
@@ -17,7 +17,7 @@
 
 export default {
   name: 'ArtTypeTile',
-  props: ['imageURL', 'onClickCallback','type'],
+  props: ['imageURL',  'type'],
   data() {
     return {
       overlayShown: false
@@ -27,8 +27,11 @@ export default {
 
   },
   methods: {
-      onClicked(){
-        this.onClickCallback(this.type.name)
+      
+      getLinkUrl(){
+
+        return '/sell/'.concat(this.type.name.toLowerCase())
+
       }
   }
 }

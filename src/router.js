@@ -7,6 +7,7 @@ import NewBid from './views/NewBid.vue'
 import Sell from './views/Sell.vue'
 import nftToken from './views/nftToken.vue'
 import Bid from './views/Bid.vue'
+import StartSelling from './views/StartSelling.vue'
 
 import Dashboard from './views/Dashboard.vue'
 
@@ -39,10 +40,17 @@ export default new Router({
     },
 
     {
-      path: '/sell',
+      path: '/startselling',
+      name: 'startselling',
+      component: StartSelling
+    },
+
+    {
+      path: '/sell/:nft_type',
       name: 'sell',
       component: Sell
     },
+
     {
       path: '/dashboard',
       name: 'dashboard',

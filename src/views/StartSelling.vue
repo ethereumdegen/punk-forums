@@ -21,8 +21,7 @@
        <div class="w-column">
 
 
-         <a href="/startselling"  class="p-2 no-underline rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </a>
-
+         
 
           <div class="text-lg font-bold"> Sell an NFT </div>
           
@@ -34,37 +33,22 @@
 
             <div v-if="!selectedNFTContractAddress">
 
-                Something went wrong..
-
-            </div>
+              <div class="text-xs  "> Select a type </div>
 
 
-          <div v-if="selectedNFTContractAddress">
+               <ArtTypeTile v-for="type of nftTypes"
+                v-bind:type="type"
+                v-bind:imageURL="type.imgurl" 
+              
 
+              />
 
-
-
-
-            <div class="flex flex-row">
-            
-             
-                <div class="text-md  "> Selected Type: {{selectedNFTType}} </div>
-            </div>
-
-                 
-               
-
-               <NFTSellForm
-                v-bind:nftContractAddress="selectedNFTContractAddress"
-                  v-bind:web3Plug="web3Plug"
-                  v-bind:connectedToWeb3="connectedToWeb3"
-
-                />
-
-             
-
+ 
 
           </div>
+
+
+         
 
 
 
@@ -100,16 +84,16 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 
 import ArtTypeTile from './components/ArtTypeTile.vue'
-import NFTSellForm from './components/NFTSellForm.vue'
+ 
 
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
 import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 
 export default {
-  name: 'Home',
+  name: 'StartSelling',
   props: [],
-  components: {Navbar, Footer,NotConnectedToWeb3, ArtTypeTile, NFTSellForm},
+  components: {Navbar, Footer,NotConnectedToWeb3, ArtTypeTile },
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -120,12 +104,6 @@ export default {
     }
   },
   async created  () {
-
-
-
-    
-
-
    
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
         console.log('stateChanged',connectionState);
@@ -135,17 +113,7 @@ export default {
          
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
         this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(this.web3Plug.getActiveNetId()).nftTypes
-
-
-        let chainId = this.activeNetworkId
-        if(!chainId) chainId = 1
-        let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
-
-        this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
-        this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
-
-
-
+    
 
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -165,34 +133,10 @@ export default {
     }
 
     this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes
-    let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
-
-      this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
-      this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
-
-
+    
   }, 
   methods: {
-        onTileClicked(name){
-          console.log('ontileclicked',name )
-
-           let chainId = this.web3Plug.getActiveNetId()
-            if(!chainId){
-              chainId = 1
-            }
-
-          let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
-
-
-          this.selectedNFTType = name 
-          this.selectedNFTContractAddress = contractData[name].address
          
-        },
-        resetNFTType(){
-
-          this.selectedNFTType = null 
-          this.selectedNFTContractAddress = null
-        }
   }
 }
 </script>
