@@ -16,6 +16,8 @@ import BidPacketUtils from '../../src/js/bidpacket-utils.js'
 
 import FileHelper from './file-helper.js'
 
+const GLOBAL_RATE_SCALE = 60
+
 const BTFContractABI = FileHelper.readJSONFile('./src/contracts/BuyTheFloorABI.json')
 const ERC20ContractABI = FileHelper.readJSONFile('./src/contracts/ERC20ABI.json')
 
@@ -55,7 +57,7 @@ export default class PacketCustodian  {
 
         let allActivePackets =   await this.mongoInterface.findAll('bidpackets', {status:'active'})
 
-        let RefreshWaitTime = (1 + allActivePackets.length)*1000;  
+        let RefreshWaitTime = (1 + allActivePackets.length)*1000*GLOBAL_RATE_SCALE;  
 
         console.log('RefreshWaitTime - bidpackets',RefreshWaitTime)
 
@@ -82,7 +84,7 @@ export default class PacketCustodian  {
 
         let allActiveBidders =   await this.mongoInterface.findAll('monitored_accounts', {lastRequested: {$gt:timeNow-ONE_DAY }    })
 
-        let RefreshWaitTime = (1 + allActiveBidders.length)*1000;  
+        let RefreshWaitTime = (1 + allActiveBidders.length)*1000*GLOBAL_RATE_SCALE;  
 
         console.log('RefreshWaitTime - bidders',RefreshWaitTime)
 
