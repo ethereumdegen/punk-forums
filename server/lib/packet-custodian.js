@@ -39,7 +39,7 @@ export default class PacketCustodian  {
         setInterval(this.updatePackets.bind(this),1000)
         setInterval(this.updateBidders.bind(this),1000)
 
-        setInterval(this.updateNetData.bind(this),9000)
+        setInterval(this.updateNetData.bind(this),60*1000)
     }
 
     async updateNetData( ){
