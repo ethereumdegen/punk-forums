@@ -35,3 +35,9 @@ npm run dev
 npm run build
 npm run server
 ```
+
+
+## using pm2
+
+ pm2 start pm2.config.json --env production 
+pm2 monit 
