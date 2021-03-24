@@ -60,9 +60,11 @@ export default class BuyTheFloorHelper {
     }
 
     console.log('get decimals', contractDataLookup[networkName] , address)
-
-    return contractDataLookup[networkName][address.toLowerCase()].decimals  //this.contractNameLookupTable[address]
+    if(contractDataLookup[networkName][address.toLowerCase()]){
+      return contractDataLookup[networkName][address.toLowerCase()].decimals  //this.contractNameLookupTable[address]
  
+    }
+      return null 
 
   }
 
@@ -73,8 +75,12 @@ export default class BuyTheFloorHelper {
         
     let decimals = this.getDecimalsFromContractAddress(tokenAddress, netId)
 
-    return parseFloat(BuyTheFloorHelper.rawAmountToFormatted(tokenAmount,decimals))
+    if(decimals){
+      return parseFloat(BuyTheFloorHelper.rawAmountToFormatted(tokenAmount,decimals))
 
+    }
+
+    return '?'
 
   }
 
