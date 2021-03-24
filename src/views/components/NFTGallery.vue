@@ -69,7 +69,7 @@ export default {
 
           //activeAddress = '0x7132C9f36abE62EAb74CdfDd08C154c9AE45691B'
 
-        if(this.nftType.toLowerCase() == 'cryptovoxels'){
+        if(this.nftType.toLowerCase() == 'cryptovoxelsparcels'){
           let nftDataArray = await TheGraphHelper.findCryptovoxelsOwnedBy( activeAddress )
        
           this.ownedTokenIdsArray = nftDataArray
@@ -82,7 +82,7 @@ export default {
           this.ownedTokenIdsArray = nftDataArray
         }
 
-          if(this.nftType.toLowerCase() == 'wrappedpunks'){ 
+          if(this.nftType.toLowerCase() == 'wrappedcryptopunks'){ 
           let nftDataArray = await TheGraphHelper.findWrappedPunksOwnedBy( activeAddress )
        
           this.ownedTokenIdsArray = nftDataArray

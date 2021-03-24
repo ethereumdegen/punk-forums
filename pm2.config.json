@@ -7,6 +7,9 @@
           "env": { 
               "NODE_ENV": "development"
           },
+          "env_development": { 
+            "NODE_ENV": "development"
+        },
           "env_staging": {  
             "NODE_ENV": "staging" 
         },
