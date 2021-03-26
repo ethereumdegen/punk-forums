@@ -34,7 +34,7 @@ let dataghostConfig = dataghostConfigFile[envmode]
             // contractType: 'ERC20',
             // contractAddress: '0xab89a7742cb10e7bce98540fd05c7d731839cf9f' ,
           //   startBlock: 1316824,
-              indexRate: 40 * 1000,
+              indexRate: 80 * 1000,
 
              contractType: 'ERC20', 
              courseBlockGap: 500,
