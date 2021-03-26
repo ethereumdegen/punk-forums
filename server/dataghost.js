@@ -34,7 +34,7 @@ let dataghostConfig = dataghostConfigFile[envmode]
             // contractType: 'ERC20',
             // contractAddress: '0xab89a7742cb10e7bce98540fd05c7d731839cf9f' ,
           //   startBlock: 1316824,
-              indexRate: 40 * 1000,
+              indexRate: 10 * 1000,
 
              contractType: 'ERC20', 
              courseBlockGap: 500,
@@ -44,7 +44,8 @@ let dataghostConfig = dataghostConfigFile[envmode]
              
              
              contractAddress: tfc.contractAddress,
-             startBlock: tfc.startBlock
+             startBlock: tfc.startBlock,
+             eventNames: tfc.eventNames
              
          } 
 
@@ -64,7 +65,7 @@ async function initTinyFox(web3, tinyfoxConfig){
         await tinyFox.init({suffix: tinyfoxConfig.suffix})
 
   
-        // await tinyFox.dropDatabase()
+         // await tinyFox.dropDatabase()
 
         tinyFox.startIndexing( web3, tinyfoxConfig )  
          

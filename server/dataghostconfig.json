@@ -3,11 +3,13 @@
         "tinyfoxconfigs":[{
             "contractAddress":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f",
             "startBlock":1316824,
-            "suffix":"0xBTC"
+            "suffix":"0xBTC",
+            "eventNames":["Transfer","Approval"]
         },{
             "contractAddress":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524",
             "startBlock":4465740,
-            "suffix":"wEth"
+            "suffix":"wEth",
+            "eventNames":["Transfer","Approval"]
         }],
         "chainId":5
     },
@@ -15,11 +17,13 @@
         "tinyfoxconfigs":[{
             "contractAddress":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f",
             "startBlock":1316824,
-            "suffix":"0xBTC"
+            "suffix":"0xBTC",
+            "eventNames":["Transfer","Approval"]
         },{
             "contractAddress":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524",
             "startBlock":4465740,
-            "suffix":"wEth"
+            "suffix":"wEth",
+            "eventNames":["Transfer","Approval"]
         }],
         "chainId":5
     },
@@ -27,11 +31,13 @@
         "tinyfoxconfigs":[{
             "contractAddress":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31",
             "startBlock": 5039000 ,
-            "suffix":"0xBTC"
+            "suffix":"0xBTC",
+            "eventNames":["Transfer","Approval"]
         },{
             "contractAddress":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
             "startBlock": 4719568,
-            "suffix":"wEth"
+            "suffix":"wEth",
+            "eventNames":["Transfer","Approval"]
         }],
         "chainId":1
     }
