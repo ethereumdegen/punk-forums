@@ -28,7 +28,10 @@ let dataghostConfig = dataghostConfigFile[envmode]
  
     console.log('web3 ready with provider ',serverConfig.web3provider )
 
-    for(let tfc of dataghostConfig.tinyfoxconfigs){
+    for(let index in dataghostConfig.tinyfoxconfigs){
+        let tfc = dataghostConfig.tinyfoxconfigs[index]
+
+        let delay = index * 40 * 1000;
 
         let tinyfoxConfig = {
             // contractType: 'ERC20',
@@ -49,8 +52,8 @@ let dataghostConfig = dataghostConfigFile[envmode]
              
          } 
 
-
-        initTinyFox(web3, tinyfoxConfig)
+        setTimeout(function(){ initTinyFox(web3, tinyfoxConfig) } , delay)
+        
     }
     
 
