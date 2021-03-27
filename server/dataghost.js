@@ -44,7 +44,7 @@ let dataghostConfig = dataghostConfigFile[envmode]
               indexRate: 50 * 1000,
 
              contractType: 'ERC20', 
-             courseBlockGap: 500,
+             courseBlockGap: 10000,
              logging:true,
              
              suffix: tfc.suffix,
