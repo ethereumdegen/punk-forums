@@ -25,7 +25,7 @@
       
       "punkbodies":{"name":"PunkBodies","address":"0x837779ed98209c38b9bf77804a4f0105b9eb2e02"},
       "ethercards":{"name":"Ethercards","address":"0x97ca7fe0b0288f5eb85f386fed876618fb9b8ab8"},
-
+      "eulerbeats":{"name":"Eulerbeats","address":"0x8754f54074400ce745a7ceddc928fb1b7e985ed6"},
 
       "cryptovoxelsparcels":{"name":"CryptovoxelsParcels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
    
