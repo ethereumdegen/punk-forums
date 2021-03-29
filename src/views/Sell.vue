@@ -34,7 +34,7 @@
 
             <div v-if="!selectedNFTContractAddress">
 
-                Something went wrong..
+                Something went wrong..  
 
             </div>
 
@@ -142,8 +142,10 @@ export default {
         let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
 
         this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
-        this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
-
+        if(contractData[this.selectedNFTType]){
+            this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address 
+        }
+       
 
 
 
@@ -168,8 +170,11 @@ export default {
     let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
 
       this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
-      this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
+      if(contractData[this.selectedNFTType]){
+        this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
 
+      }
+      
 
   }, 
   async mounted(){
