@@ -51,8 +51,7 @@ let dataghostConfig = dataghostConfigFile[envmode]
              
              
              contractAddress: tfc.contractAddress,
-             startBlock: tfc.startBlock,
-             eventNames: tfc.eventNames
+             startBlock: tfc.startBlock 
              
          } 
 

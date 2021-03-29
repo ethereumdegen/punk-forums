@@ -3,13 +3,11 @@
         "tinyfoxconfigs":[{
             "contractAddress":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f",
             "startBlock":1316824,
-            "suffix":"0xBTC",
-            "eventNames":["Transfer","Approval"]
+            "suffix":"0xBTC" 
         },{
             "contractAddress":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524",
             "startBlock":4465740,
-            "suffix":"wEth",
-            "eventNames":["Transfer","Approval"]
+            "suffix":"wEth" 
         }],
         "chainId":5
     },
