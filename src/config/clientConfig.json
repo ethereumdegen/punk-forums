@@ -15,7 +15,9 @@
             {"name":"0xbitcoinmemes","label":"0xBitcoin Memes","imgurl":"/images/0xbitcoinmemes.gif"},
             {"name":"bganpunksv1","label":"BGanPunksV1","imgurl":"/images/bganpunksV1.gif"},
             {"name":"bganpunksv2","label":"BGanPunksV2","imgurl":"/images/bganpunksV2.gif"},
-            {"name":"hashmasks","label":"Hashmasks","imgurl":"/images/hashmasks.jpg"}
+            {"name":"hashmasks","label":"Hashmasks","imgurl":"/images/hashmasks.jpg"},
+            {"name":"punkbodies","label":"Punkbodies","imgurl":"/images/punkbodies.jpg"},
+            {"name":"ethercards","label":"Ethercards","imgurl":"/images/ethercards.jpg"}
         
            
         

@@ -22,6 +22,10 @@
       "decentralandparcels":{"name":"DecentralandParcels","address":"0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d"} , 
 
       "ethmenavatars":{"name":"EthMenAvatars","address":"0x3a0c25422d086950880a976557d53d924935d878"} , 
+      
+      "punkbodies":{"name":"PunkBodies","address":"0x837779ed98209c38b9bf77804a4f0105b9eb2e02"},
+      "ethercards":{"name":"Ethercards","address":"0x97ca7fe0b0288f5eb85f386fed876618fb9b8ab8"},
+
 
       "cryptovoxelsparcels":{"name":"CryptovoxelsParcels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
    
