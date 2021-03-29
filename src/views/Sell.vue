@@ -156,7 +156,7 @@ export default {
       }.bind(this));
 
 
-    await this.web3Plug.reconnectWeb()
+    //await this.web3Plug.reconnectWeb()
 
 
     let chainId = this.web3Plug.getActiveNetId()
@@ -172,6 +172,13 @@ export default {
 
 
   }, 
+  async mounted(){
+     await this.web3Plug.reconnectWeb()
+
+  },
+  beforeDestroy(){
+    this.web3Plug.clearEventEmitter()
+  },
   methods: {
         onTileClicked(name){
           console.log('ontileclicked',name )

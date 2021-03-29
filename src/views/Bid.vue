@@ -103,7 +103,7 @@ export default {
     }
   },
   created: function () {
-    this.web3Plug.reconnectWeb()
+    
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
         console.log('stateChanged',connectionState);
          
@@ -120,8 +120,13 @@ export default {
         
       }.bind(this));
    
+      this.web3Plug.reconnectWeb()
+
       this.fetchPacketData(this.$route.params.signature)
   }, 
+   beforeDestroy(){
+    this.web3Plug.clearEventEmitter()
+  },
   methods: {
      async fetchPacketData(signature){
        console.log('fetch',signature)

@@ -163,6 +163,10 @@ export default class Web3Plug {
     return web3PlugEmitter
   }
 
+  clearEventEmitter(){
+    this.getPlugEventEmitter().removeAllListeners();
+  }
+
   getConnectionState(){
     return {
       activeAccountAddress: window.ethereum.selectedAddress,

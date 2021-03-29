@@ -135,6 +135,9 @@ export default {
     this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes
     
   }, 
+   beforeDestroy(){
+    this.web3Plug.clearEventEmitter()
+  },
   methods: {
          
   }
