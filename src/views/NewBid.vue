@@ -70,7 +70,7 @@
                     <input type="number" v-on:blur="restrictBidAmount()"  v-model="formInputs.tokenBidAmountFormatted"  class="text-gray-900 border-2 border-black font-bold px-4 text-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full py-4 pl-7 pr-12   border-gray-300 rounded-md" placeholder="0.00">
                 </div>
 
-                  <div class="w-1/2 px-4" @click="approveCurrencyToken" v-if=" !selectedCurrencyIsApproved() || formInputs.tokenBidAmountFormatted == 0">
+                  <div class="w-1/2 px-4" @click="approveCurrencyToken" v-if=" approveButtonVisible()">
                      <div class="select-none bg-teal-300 p-2 inline-block rounded border-black border-2 cursor-pointer"> Approve </div>
                 </div>
               </div>
@@ -335,6 +335,11 @@ export default {
            selectedCurrencyIsApproved() {
  
             return (this.tokensApproved[this.formInputs.tokenContractAddress] >= parseInt(this.getTokenBidAmountRaw()))
+          },
+
+          approveButtonVisible() {
+ 
+            return (this.tokensApproved[this.formInputs.tokenContractAddress] == 0)
           },
 
          async signForBid(){
