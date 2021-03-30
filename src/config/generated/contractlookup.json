@@ -68,7 +68,7 @@
         "minBidAmount": 0.02
       }
     },
-    "0x2b7a08d31d5fe3247a83d7076ee048e2294272fb": { "0": { "address": "0x2b7a08d31d5fe3247a83d7076ee048e2294272fb" } },
+    "0x1fd534630e4e720c1a71c596aeb896faaa979f19": { "0": { "address": "0x1fd534630e4e720c1a71c596aeb896faaa979f19" } },
     "0x7cea7e61f8be415bee361799f19644b9889713cd": {
       "0": {
         "name": "TestSquiggles",
@@ -88,6 +88,8 @@
     "0x7c40c393dc0f283f318791d746d894ddd3693572": {
       "0": { "name": "WrappedMoonCats", "address": "0x7c40c393dc0f283f318791d746d894ddd3693572" }
     },
-    "0xe51750e911724772a597f47e002de891bfc9adf9": { "0": { "name": "Cryptovoxels", "address": "0xe51750e911724772a597f47e002de891bfc9adf9" } }
+    "0xe51750e911724772a597f47e002de891bfc9adf9": {
+      "0": { "name": "CryptovoxelsParcels", "address": "0xe51750e911724772a597f47e002de891bfc9adf9" }
+    }
   }
 }
