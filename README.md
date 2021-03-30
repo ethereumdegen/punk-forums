@@ -10,7 +10,11 @@ IMPROVE LATER:
 
 ### TODO
  
- -Need to fix up ContractLookup so it works with Projectid !!  [arrays]
+ -FOR VERSION 2
+ Need to deploy the version 2 contract on mainnet 
+ need to setup alchemy 
+ need to sync data from alchemy 
+ 
 
 
 -run server with pm2 
