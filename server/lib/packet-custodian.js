@@ -122,7 +122,7 @@ export default class PacketCustodian  {
         // ------ Check the hash for burned ----
         let BTFContractAddress = contractData['buythefloor'].address;
 
-        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.expires   )
+        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.requiredProjectId,  packet.expires   )
         let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
         
         //console.log('packetHash', packetHash)

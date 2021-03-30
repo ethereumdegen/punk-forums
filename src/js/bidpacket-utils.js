@@ -19,6 +19,7 @@ var sampleBidPacket = {
     nftContractAddress: "0x0000000000000000000000000000000000000000",
     currencyTokenAddress: "0x357FfaDBdBEe756aA686Ef6843DA359E2a85229c",
     currencyTokenAmount:1000,  
+    requiredProjectId:0,  
     expires:0,
     signature: 0x0
 }
@@ -75,6 +76,8 @@ export default class BidPacketUtils {
 
 
      static recoverBidPacketSigner(  typedData, signature){
+
+      console.log('signature',signature)
 
        var sigHash = BidPacketUtils.getBidTypedDataHash( typedData, typedData.types);
        var msgBuf = ethUtil.toBuffer(signature)

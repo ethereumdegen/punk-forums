@@ -10,8 +10,11 @@ IMPROVE LATER:
 
 ### TODO
  
+ -Need to fix up ContractLookup so it works with Projectid !!  [arrays]
+
+
 -run server with pm2 
--server needs to validate packets and throw them away if bad (if wrong networkID for server config, if bad hash, etc)  Then we can accept packets from an API 
+ 
 
  
 

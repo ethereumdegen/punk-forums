@@ -103,6 +103,8 @@
 
             <div> nftAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.nftContractAddress)"> {{formInputs.nftContractAddress}} </a> </div>
 
+            <div> projectId: {{ this.formInputs.requiredProjectId }} </div>
+
             <div> CurrencyAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.tokenContractAddress)"> {{formInputs.tokenContractAddress}} </a> </div>
 
             <div> bidAmountRaw: {{getTokenBidAmountRaw()}}</div>
@@ -349,6 +351,8 @@ export default {
            let contractData = this.web3Plug.getContractDataForActiveNetwork() 
  
            let btfContractAddress = contractData['buythefloor'].address
+
+           let expiresAtBlock = this.getExpiresAtBlock()
               
 
            let args = [
@@ -357,7 +361,7 @@ export default {
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
               this.formInputs.requiredProjectId, 
-              this.getExpiresAtBlock()
+              expiresAtBlock
              // this.formInputs.expiresAtBlock
            ]
 
@@ -370,12 +374,20 @@ export default {
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
               this.formInputs.requiredProjectId,
-               this.getExpiresAtBlock(), 
+              expiresAtBlock,
               signature
                 )
-
+ 
               packetData.exchangeContractAddress = btfContractAddress
 
+             /* let typedData = BidPacketUtils.getBidTypedDataFromParams(this.web3Plug.getActiveNetId(),btfContractAddress,  ...args  )
+              let recoveredSigner = BidPacketUtils.recoverBidPacketSigner( typedData ,signature.signature)
+                console.log('recoveredSigner', recoveredSigner)
+
+                if( recoveredSigner !=  this.web3Plug.getActiveAccountAddress()  ){
+                    console.log('incorrect signer recovered')
+                  return 
+                }*/
 
               
                 var hostname = window.location.hostname; 
@@ -403,7 +415,7 @@ export default {
 
           
           this.formInputs.nftContractAddress = nftContract.address
-          this.formInputs.requiredProjectId = parseInt(tokenContract.requiredProjectId)  
+          this.formInputs.requiredProjectId = parseInt(nftContract.projectId)  
 
           if(isNaN(this.formInputs.requiredProjectId)){
             this.formInputs.requiredProjectId = 0;

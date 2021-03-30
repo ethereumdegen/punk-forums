@@ -48,6 +48,8 @@ export default class PacketHelper  {
         let BTFContractAddress = contractData['buythefloor'].address;
 
         let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.requiredProjectId,  packet.expires   )
+    
+        console.log('typedData', typedData)
         let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
         
 
