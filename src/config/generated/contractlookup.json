@@ -22,6 +22,9 @@
     "0x31385d3520bced94f77aae104b406994d8f2168c": { "name": "BGanPunksV2", "address": "0x31385d3520bced94f77aae104b406994d8f2168c" },
     "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d": { "name": "DecentralandParcels", "address": "0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d" },
     "0x3a0c25422d086950880a976557d53d924935d878": { "name": "EthMenAvatars", "address": "0x3a0c25422d086950880a976557d53d924935d878" },
+    "0x837779ed98209c38b9bf77804a4f0105b9eb2e02": { "name": "PunkBodies", "address": "0x837779ed98209c38b9bf77804a4f0105b9eb2e02" },
+    "0x97ca7fe0b0288f5eb85f386fed876618fb9b8ab8": { "name": "Ethercards", "address": "0x97ca7fe0b0288f5eb85f386fed876618fb9b8ab8" },
+    "0x8754f54074400ce745a7ceddc928fb1b7e985ed6": { "name": "Eulerbeats", "address": "0x8754f54074400ce745a7ceddc928fb1b7e985ed6" },
     "0x79986af15539de2db9a5086382daeda917a9cf0c": { "name": "CryptovoxelsParcels", "address": "0x79986af15539de2db9a5086382daeda917a9cf0c" }
   },
   "goerli": {
