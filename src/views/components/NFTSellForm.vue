@@ -68,7 +68,14 @@
                  
                  <label  v-if="!isTheOwnerOfSelectedToken()" class="block text-md font-medium font-bold text-white bg-red-500 inline p-1">You are not the owner</label>
                  
+                  
+              </div>
 
+              <div v-cloak v-if="selectedBidPacket && selectedBidPacket.requireProjectId">
+                 
+                  <div class="inline mr-4">Token Project ID : {{projectIdOfSelectedToken}}</div>
+                 <label  v-if="selectedBidPacket&& selectedBidPacket.projectId != projectIdOfSelectedToken" class="block text-md font-medium font-bold text-white bg-red-500 inline p-1">Token ProjectId Mismatch</label>
+                 
               </div>
  
                 
@@ -169,6 +176,7 @@ import NFTHelper from '../../js/nft-helper.js'
 
 
 var BTFContractABI = require('../../contracts/BuyTheFloorABI_2.json')
+
  
 
 var updateApprovalsInterval;
@@ -317,6 +325,11 @@ export default {
 
          this.ownerOfSelectedToken = await NFTHelper.getOwnerOfNFT( this.nftContractAddress  ,this.nftTokenIdToSell, this.web3Plug)
        
+         this.projectIdOfSelectedToken = await NFTHelper.getProjectIdOfNFT( this.nftContractAddress  ,this.nftTokenIdToSell, this.web3Plug)
+
+          this.projectIdOfSelectedToken = parseInt(this.projectIdOfSelectedToken)
+          if(isNaN(this.projectIdOfSelectedToken))this.projectIdOfSelectedToken=0;
+
          this.hasApprovedSelectedTokenForBTF = await NFTHelper.hasGivenApprovalofNFTForBTF( this.nftContractAddress ,  this.web3Plug)
        },
 

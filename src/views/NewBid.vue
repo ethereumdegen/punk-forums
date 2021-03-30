@@ -103,7 +103,7 @@
 
             <div> nftAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.nftContractAddress)"> {{formInputs.nftContractAddress}} </a> </div>
 
-            <div  > projectId: {{ this.formInputs.projectId }} </div>
+            <div v-if="this.formInputs.requireProjectId" > projectId: {{ this.formInputs.projectId }} </div>
 
             <div> CurrencyAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.tokenContractAddress)"> {{formInputs.tokenContractAddress}} </a> </div>
 
