@@ -298,6 +298,7 @@ export default {
 
                                                             nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.projectId, chainId),
                                                             nftContractAddress: pkt.nftContractAddress,
+                                                            requireProjectId: pkt.requireProjectId,
                                                             projectId: pkt.projectId,
                                                             currencyTokenAddress: pkt.currencyTokenAddress,
                                                             currencyTokenAmount: pkt.currencyTokenAmount,
