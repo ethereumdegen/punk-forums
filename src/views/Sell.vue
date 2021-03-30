@@ -20,9 +20,9 @@
         
        <div class="w-column">
 
-
-         <a href="/startselling"  class="p-2 no-underline rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </a>
-
+         <div class="mb-4">
+         <a href="/startselling"  class="px-2 no-underline rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </a>
+          </div>
 
           <div class="text-lg font-bold"> Sell an NFT </div>
           

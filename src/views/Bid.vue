@@ -41,7 +41,7 @@
           <div class="text-lg font-bold"> Bid Information </div>
           <div>  bidder: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.bidderAddress)">  {{bidPacketData.bidderAddress}} </a> </div>
           <div> network: {{ bidPacketData.bidNetworkName }} </div>
-          <div> nftType: <a  target="_blank" v-bind:href="'/type/'.concat(bidPacketData.nftContractName)">  {{bidPacketData.nftContractName}}  </a></div>
+          <div> nftType: <a   v-bind:href="'/type/'.concat(bidPacketData.nftContractName)">  {{bidPacketData.nftContractName}}  </a></div>
           <div> bid payment: {{bidPacketData.currencyTokenAmountFormatted}} <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.currencyTokenAddress)"> {{bidPacketData.currencyTokenName}} </a> </div>
           
           <div v-if="bidPacketData.expirationFormatted != null"> expiration:  ~{{bidPacketData.expirationFormatted}} days </div>

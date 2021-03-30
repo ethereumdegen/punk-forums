@@ -56,11 +56,17 @@
 
            
 
-          <div  class=" "   >
+          <div  class=" " v-if="this.filterByNFTContractAddress"  >
              
-             <div class="mb-4 text-xl">
+             <div class="mt-24 mb-4  ">
 
-               
+                <div class="text-xl mb-4"> Active Bids for {{typeData.label}} </div>
+
+              <GenericTable
+                v-bind:labelsArray="['nftType','currencyType','bidAmount','expires']"
+                v-bind:rowsArray="bidRowsArray"
+                v-bind:clickedRowCallback="clickedBidRowCallback"
+               />
 
 
             </div>
@@ -104,7 +110,7 @@ import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
 
-import GenericDropdown from './components/GenericDropdown.vue'
+import GenericTable from './components/GenericTable.vue'
 
 import BidPacketUtils from '../js/bidpacket-utils.js'
 
@@ -119,13 +125,14 @@ var updateTimer;
 export default {
   name: 'Search',
   props: [ ],
-  components: {Navbar, Footer, GenericDropdown },
+  components: {Navbar, Footer, GenericTable },
   data() {
     return {
       web3Plug: new Web3Plug() ,
       nftTypeName: null,
       contractData:null,
-      typeData: null
+      typeData: null,
+      bidRowsArray:[]
       
  
     }
@@ -193,10 +200,69 @@ this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState)
             this.nftTypeName = this.$route.params.nft_type.toLowerCase()
             this.contractData = contractData[this.nftTypeName]
             this.typeData = nftTypes[this.nftTypeName]
-             
+
+            this.filterByNFTContractAddress = this.contractData.address
+
+             this.fetchBidsData()
           }
 
-    }  
+    },
+
+     async fetchBidsData(){
+
+             
+             
+             let chainId = this.web3Plug.getActiveNetId()
+
+             if(chainId==null){
+               chainId = 1 
+               console.log('no web3 connection')
+             }
+
+              let contractData = this.web3Plug.getContractDataForNetworkID(chainId) 
+             let btfContractAddress = contractData['buythefloor'].address
+
+
+             
+            let serverURL = BuyTheFloorHelper.getSocketURL(chainId)
+            console.log('serverURL',serverURL)
+
+            let query = {exchangeContractAddress: btfContractAddress, status:'active', suspended:false  }
+
+             if(this.filterByNFTContractAddress){
+              query.nftContractAddress = this.filterByNFTContractAddress
+            }
+
+
+            let bidPackets = await BidPacketHelper.getBidPackets(serverURL, query)
+            console.log('bidPackets',bidPackets)
+
+        
+            
+            this.bidRowsArray = bidPackets.map(pkt => (
+                                                           {
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.projectId, chainId),
+                                                            
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, 0, chainId),
+                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
+                                                            expires: pkt.expires,
+
+                                                            requireProjectId: pkt.requireProjectId,
+                                                            projectId: pkt.projectId,
+                                                            signature: pkt.signature.signature
+                                                          } 
+                                                        ))
+
+             this.bidRowsArray.sort(function(a, b) {
+              return b.currencyTokenAmount - a.currencyTokenAmount;
+            })
+          },
+
+             clickedBidRowCallback(row){
+            console.log('clicked bid row',row )
+
+            this.$router.push({ path: `/bid/${row.signature}` })
+          },
     
         
           
