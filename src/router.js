@@ -28,6 +28,12 @@ export default new Router({
     },
 
     {
+      path: '/newbid/:nft_type',
+      name: 'newbid',
+      component: NewBid
+    },
+
+    {
       path: '/newbid',
       name: 'newbid',
       component: NewBid

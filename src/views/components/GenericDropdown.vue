@@ -145,8 +145,10 @@ export default {
     selectOptionByName(optionName){
       console.log('sel 1', optionName)
        for(let optionData of this.optionList){
-        if(optionData.name == (optionName)){
-          
+        if(optionData.name.toLowerCase() == (optionName.toLowerCase())){
+
+             console.log('sel 2', optionData)
+
           this.handleSelectedOptionChanged(optionData)
           return
         }

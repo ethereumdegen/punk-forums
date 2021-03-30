@@ -32,6 +32,7 @@
                 <label   class="block text-md font-medium font-bold text-gray-800  ">NFT Type To Buy The Floor</label>
                 
                 <GenericDropdown
+                  ref="nftOptionList"
                   v-bind:optionList="nftOptionsList" 
                   v-bind:onSelectCallback="onNFTSelectCallback"
                 />
@@ -188,7 +189,7 @@
 
 <script>
 
-
+import Vue from 'vue'
 
 import Web3Plug from '../js/web3-plug.js' 
 
@@ -270,6 +271,10 @@ export default {
        
         console.log(' this.currencyTokensOptionsList',  this.currencyTokensOptionsList)
 
+         Vue.nextTick(() => {
+        this.autoFillNFTType()
+         })
+
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
         console.error('error',errormessage);
@@ -278,7 +283,7 @@ export default {
         
       }.bind(this));
 
-
+     
       
     
 
@@ -289,7 +294,8 @@ export default {
       this.web3Plug.reconnectWeb()
 
       updateTimer = setInterval(this.updateBalances.bind(this), 5000);
-   
+
+      
     
   }, 
 
@@ -297,6 +303,18 @@ export default {
       clearInterval(updateTimer) 
   },
   methods: {
+
+    async autoFillNFTType(){
+
+        if(this.$route.params.nft_type){
+            this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
+            console.log('this.selectedNFTType',this.selectedNFTType)
+
+            console.log('this.$refs',this.$refs, this.$refs.nftOptionList)
+            this.$refs.nftOptionList.selectOptionByName( this.selectedNFTType )
+          }
+
+    },
          
          async updateBalances(){
           
