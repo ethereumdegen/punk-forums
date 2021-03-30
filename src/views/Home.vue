@@ -261,10 +261,13 @@ export default {
             
             this.bidRowsArray = bidPackets.map(pkt => (
                                                            {
-                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
-                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.requiredProjectId, chainId),
+                                                            
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, 0, chainId),
                                                             currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
                                                             expires: pkt.expires,
+                                                            
+                                                            requiredProjectId: pkt.requiredProjectId,
                                                             signature: pkt.signature.signature
                                                           } 
                                                         ))
@@ -285,10 +288,12 @@ export default {
                this.salesRowsArray = recentSales.map(sale => (
                                                            {
                                                              blockNumber: sale.blockNumber ,
-                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress, chainId),
-                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress, chainId),
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress,sale.requiredProjectId, chainId),
+                                                            
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress,0, chainId),
                                                             currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(sale.currencyTokenAmount,sale.currencyTokenAddress, chainId),
                                                             
+                                                            requiredProjectId: sale.requiredProjectId,
                                                             txHash: sale.id
                                                           } 
                                                         ))

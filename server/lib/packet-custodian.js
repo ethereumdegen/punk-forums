@@ -53,15 +53,19 @@ export default class PacketCustodian  {
 
         let timeNow = Date.now()
 
+
+        let contractData = Web3Helper.getContractDataForNetwork(this.chainId)
+        let BTFContractAddress = contractData['buythefloor'].address;
+
         
 
-        let allActivePackets =   await this.mongoInterface.findAll('bidpackets', {status:'active'})
+        let allActivePackets =   await this.mongoInterface.findAll('bidpackets', {status:'active', exchangeContractAddress:BTFContractAddress})
 
         let RefreshWaitTime = (1 + allActivePackets.length)*1000*GLOBAL_RATE_SCALE;  
 
         console.log('RefreshWaitTime - bidpackets',RefreshWaitTime)
 
-        let activePackets = await this.mongoInterface.findAll('bidpackets', {status:'active', lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   } )
+        let activePackets = await this.mongoInterface.findAll('bidpackets', {status:'active', exchangeContractAddress:BTFContractAddress, lastRefreshed: { $lt: (timeNow - RefreshWaitTime  ) }   } )
 
       
         if(activePackets && activePackets.length > 0){
@@ -118,9 +122,17 @@ export default class PacketCustodian  {
         
 
         let contractData = Web3Helper.getContractDataForNetwork(chainId)
+        let BTFContractAddress = contractData['buythefloor'].address;
+         /*var contractVersionNumber = 2
+
+        if(  BTFContractAddress.toLowerCase() == '0xaaa5ddbfd169f8f70c35a8638fe514e3a816f78a'
+        ||BTFContractAddress.toLowerCase() == '0x20eb324ab10fb83ebe90a3f5d863068faba10124'  ){
+            contractVersionNumber = 1
+        }*/
+
 
         // ------ Check the hash for burned ----
-        let BTFContractAddress = contractData['buythefloor'].address;
+         
 
         let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.requiredProjectId,  packet.expires   )
         let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
@@ -145,18 +157,7 @@ export default class PacketCustodian  {
 
         await PacketCustodian.requestMonitorBidderBalance( packet.bidderAddress, packet.currencyTokenAddress  , this.mongoInterface)
 
-        /*let currencyTokenContract = Web3Helper.getCustomContract( ERC20ContractABI, packet.currencyTokenAddress  , web3 )
-
-        let bidderBalance = await currencyTokenContract.methods.balanceOf(buyerAddress)
-        let bidderApproval = await currencyTokenContract.methods.allowance(buyerAddress,BTFContractAddress)
-
-        if(bidderBalance < bidCurrencyAmountRaw){
-            newStatus = 'suspended'
-        }
-
-        if(bidderApproval < bidCurrencyAmountRaw){
-            newStatus = 'suspended'
-        } */
+      
 
         // ------
 

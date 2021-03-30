@@ -45,6 +45,7 @@
               <NFTGallery 
               v-bind:web3Plug="web3Plug"
               v-bind:nftContractAddress="nftContractAddress"
+              v-bind:requiredProjectId="requiredProjectId"
               />
 
 
@@ -289,12 +290,13 @@ export default {
             this.formattedBidsArray = bidPackets.map(pkt => (
                                                            {
                                                            
-                                                            currencyTokenName: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
+                                                            currencyTokenName: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress,0, chainId),
                                                             currencyTokenAmountFormatted: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
                                                             expires: pkt.expires,
+                                                            requiredProjectId: pkt.requiredProjectId,
                                                             signature: pkt.signature.signature,
 
-                                                            nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
+                                                            nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.requiredProjectId, chainId),
                                                             nftContractAddress: pkt.nftContractAddress,
                                                             requiredProjectId: pkt.requiredProjectId,
                                                             currencyTokenAddress: pkt.currencyTokenAddress,
