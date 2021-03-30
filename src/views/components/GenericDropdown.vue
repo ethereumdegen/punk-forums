@@ -48,7 +48,7 @@
             </button>
           </div>
 
-          <div slot-scope="{ hide, blurHandler }" ref="optionSelect" class="border-2 border-white"> 
+          <div slot-scope="{ hide, blurHandler }" ref="optionSelect" class="border-2 border-white overflow-y-auto" style="max-height:360px;"> 
             <button 
                
                v-for="option in optionList"

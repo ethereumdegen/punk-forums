@@ -21,9 +21,15 @@
 
        </div>
        <div class="w-row">
+
+         
+
+
          <div class="column w-col w-col-6 mt-8 py-8">
 
-
+            <div>
+               <SearchBar  v-bind:onSubmitCallback="onSearchCallback"  /> 
+            </div>
 
               <router-link to="/newbid" class='text-gray-800 text-xl block'>-> Place a Bid for an NFT</router-link>
 
@@ -130,6 +136,7 @@
 import Web3Plug from '../js/web3-plug.js' 
 
 
+import SearchBar from './components/SearchBar.vue';
 import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
@@ -147,7 +154,7 @@ import TheGraphHelper from '../js/the-graph-helper.js';
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable, GenericDropdown,FrontPageMedia},
+  components: {Navbar, Footer, TabsBar, GenericTable, GenericDropdown,FrontPageMedia,SearchBar},
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -336,7 +343,11 @@ export default {
 
             this.fetchBidsData()
              
+          },
+          onSearchCallback(query){
+              this.$router.push({ path: '/search/'.concat( query)  } )
           }
+
   }
 }
 </script>

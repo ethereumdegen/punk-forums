@@ -5,6 +5,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import NewBid from './views/NewBid.vue'
 import Sell from './views/Sell.vue'
+import Search from './views/Search.vue'
 import nftToken from './views/nftToken.vue'
 import Bid from './views/Bid.vue'
 import StartSelling from './views/StartSelling.vue'
@@ -56,6 +57,13 @@ export default new Router({
       name: 'sell',
       component: Sell
     },
+
+    {
+      path: '/search/:query',
+      name: 'search',
+      component: Search
+    },
+
 
     {
       path: '/dashboard',
