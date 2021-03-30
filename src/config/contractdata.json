@@ -7,10 +7,7 @@
      
       "buythefloor":{"address":""},
 
-      "chromiesquiggles":{"name":"ChromieSquiggles","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 0},
-      "ignition":{"name":"Ignition","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 9},
-
-
+     
       "hashmasks":{"name":"Hashmasks","address":"0xc2c747e0f7004f9e8817db2ca4997657a7746928"},
  
       "0xbitcoinmemes":{"name":"0xBitcoinMemes","address":"0x6c10511ddea5f3ed38a0163224198e37b81525bc"},
@@ -31,7 +28,16 @@
       "ethercards":{"name":"Ethercards","address":"0x97ca7fe0b0288f5eb85f386fed876618fb9b8ab8"},
       "eulerbeats":{"name":"Eulerbeats","address":"0x8754f54074400ce745a7ceddc928fb1b7e985ed6"},
 
-      "cryptovoxelsparcels":{"name":"CryptovoxelsParcels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"}
+      "cryptovoxelsparcels":{"name":"CryptovoxelsParcels","address":"0x79986af15539de2db9a5086382daeda917a9cf0c"},
+
+      "chromiesquiggles":{"name":"ChromieSquiggles","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 0},
+      "ignition":{"name":"Ignition","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 9},
+
+      "ringers":{"name":"Ringers","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 13},
+      "nimbuds":{"name":"Nimbuds","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 10},
+      "archetype":{"name":"Archetype","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 23}
+
+
    
    
    

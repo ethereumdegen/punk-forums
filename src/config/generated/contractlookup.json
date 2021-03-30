@@ -17,18 +17,6 @@
       }
     },
     "": { "0": { "address": "" } },
-    "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a": {
-      "0": {
-        "name": "ChromieSquiggles",
-        "address": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
-        "projectId": 0
-      },
-      "9": {
-        "name": "Ignition",
-        "address": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
-        "projectId": 9
-      }
-    },
     "0xc2c747e0f7004f9e8817db2ca4997657a7746928": { "0": { "name": "Hashmasks", "address": "0xc2c747e0f7004f9e8817db2ca4997657a7746928" } },
     "0x6c10511ddea5f3ed38a0163224198e37b81525bc": { "0": { "name": "0xBitcoinMemes", "address": "0x6c10511ddea5f3ed38a0163224198e37b81525bc" } },
     "0x7c40c393dc0f283f318791d746d894ddd3693572": {
@@ -49,6 +37,33 @@
     "0x8754f54074400ce745a7ceddc928fb1b7e985ed6": { "0": { "name": "Eulerbeats", "address": "0x8754f54074400ce745a7ceddc928fb1b7e985ed6" } },
     "0x79986af15539de2db9a5086382daeda917a9cf0c": {
       "0": { "name": "CryptovoxelsParcels", "address": "0x79986af15539de2db9a5086382daeda917a9cf0c" }
+    },
+    "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a": {
+      "0": {
+        "name": "ChromieSquiggles",
+        "address": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
+        "projectId": 0
+      },
+      "9": {
+        "name": "Ignition",
+        "address": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
+        "projectId": 9
+      },
+      "10": {
+        "name": "Nimbuds",
+        "address": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
+        "projectId": 10
+      },
+      "13": {
+        "name": "Ringers",
+        "address": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
+        "projectId": 13
+      },
+      "23": {
+        "name": "Archetype",
+        "address": "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a",
+        "projectId": 23
+      }
     }
   },
   "goerli": {

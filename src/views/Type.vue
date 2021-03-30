@@ -32,6 +32,8 @@
               <div>
               
                   <div> Contract Address: <a v-bind:href="web3Plug.getExplorerLinkForAddress(contractData.address)" target="_blank">  {{  contractData.address }} </a>  </div> 
+                <div v-if="contractData.projectId"> Project Id:   {{  contractData.projectId }}  </div> 
+
 
                   <div class="  mt-12  ">
                          <a v-bind:href="'/newbid/'.concat(typeData.name)" class="select-none bg-teal-300 no-underline p-2   text-black rounded border-black border-2 cursor-pointer"> Place a bid for any {{typeData.label}} </a>
