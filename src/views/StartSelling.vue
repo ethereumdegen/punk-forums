@@ -31,7 +31,7 @@
 
              
 
-            <div v-if="!selectedNFTContractAddress">
+            <div  >
 
               <div class="text-xs  "> Select a type </div>
 
@@ -98,9 +98,7 @@ export default {
     return {
       web3Plug: new Web3Plug() ,
       nftTypes:  [],
-      connectedToWeb3: false,
-      selectedNFTType: null,
-      selectedNFTContractAddress:null 
+      connectedToWeb3: false 
     }
   },
   async created  () {

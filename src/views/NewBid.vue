@@ -356,6 +356,7 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
+              this.formInputs.requiredProjectId, 
               this.getExpiresAtBlock()
              // this.formInputs.expiresAtBlock
            ]
@@ -368,6 +369,7 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
+              this.formInputs.requiredProjectId,
                this.getExpiresAtBlock(), 
               signature
                 )
@@ -399,9 +401,13 @@ export default {
           let contractData = this.web3Plug.getContractDataForActiveNetwork()
           let nftContract = contractData[optionData.name]
 
- 
+          
           this.formInputs.nftContractAddress = nftContract.address
+          this.formInputs.requiredProjectId = parseInt(tokenContract.requiredProjectId)  
 
+          if(isNaN(this.formInputs.requiredProjectId)){
+            this.formInputs.requiredProjectId = 0;
+          }
           //this.updateBalances();
         },
         onCurrencySelectCallback(optionData){
@@ -412,6 +418,7 @@ export default {
 
           let tokenContract = contractData[optionData.name]
           
+         
           this.formInputs.tokenDecimals = tokenContract.decimals
           this.formInputs.tokenContractAddress = tokenContract.address
           

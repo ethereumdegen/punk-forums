@@ -56,6 +56,7 @@
 
                <NFTSellForm
                 v-bind:nftContractAddress="selectedNFTContractAddress"
+                v-bind:requiredProjectId="selectedNFTProjectId"
                   v-bind:web3Plug="web3Plug"
                   v-bind:connectedToWeb3="connectedToWeb3"
 
@@ -116,7 +117,8 @@ export default {
       nftTypes:  [],
       connectedToWeb3: false,
       selectedNFTType: null,
-      selectedNFTContractAddress:null 
+      selectedNFTContractAddress:null ,
+      selectedNFTProjectId:null 
     }
   },
   async created  () {
@@ -144,6 +146,7 @@ export default {
         this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
         if(contractData[this.selectedNFTType]){
             this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address 
+            this.selectedNFTProjectId =  contractData[this.selectedNFTType].projectId 
         }
        
 
@@ -172,7 +175,7 @@ export default {
       this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
       if(contractData[this.selectedNFTType]){
         this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
-
+        this.selectedNFTProjectId =  contractData[this.selectedNFTType].projectId 
       }
       
 
@@ -185,7 +188,7 @@ export default {
     this.web3Plug.clearEventEmitter()
   },
   methods: {
-        onTileClicked(name){
+        /*onTileClicked(name){
           console.log('ontileclicked',name )
 
            let chainId = this.web3Plug.getActiveNetId()
@@ -198,13 +201,14 @@ export default {
 
           this.selectedNFTType = name 
           this.selectedNFTContractAddress = contractData[name].address
-         
+          this.selectedNFTProjectId = contractData[name].projectId
         },
         resetNFTType(){
 
           this.selectedNFTType = null 
           this.selectedNFTContractAddress = null
-        }
+          this.selectedNFTProjectId = null
+        }*/
   }
 }
 </script>

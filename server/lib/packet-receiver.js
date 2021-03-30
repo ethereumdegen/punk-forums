@@ -116,6 +116,7 @@ export default class PacketReceiver  {
                         nftContractAddress: packet.nftContractAddress,
                         currencyTokenAddress: packet.currencyTokenAddress,
                         currencyTokenAmount: packet.currencyTokenAmount,
+                        requiredProjectId: packet.requiredProjectId,
                         expires:packet.expires,
                         signature:packet.signature,
 

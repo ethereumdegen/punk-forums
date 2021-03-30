@@ -109,6 +109,7 @@
                   <div> bidder: {{selectedBidPacket.bidderAddress}}</div>
                   <div> nftContractName: {{selectedBidPacket.nftContractName}}</div>
                   <div> nftContractAddress: {{selectedBidPacket.nftContractAddress}}</div>
+                  <div> projectId: {{selectedBidPacket.requiredProjectId}}</div>
                   <div> currencyTokenName: {{selectedBidPacket.currencyTokenName}}</div>
                   <div> currencyTokenAddress: {{selectedBidPacket.currencyTokenAddress}}</div>
  
@@ -173,7 +174,7 @@ var updateApprovalsInterval;
  
 export default {
   name: 'NFTSellForm',
-  props: ['nftContractAddress', 'web3Plug', 'connectedToWeb3'],
+  props: ['nftContractAddress', 'requiredProjectId', 'web3Plug', 'connectedToWeb3'],
   components:{GenericTable,GenericDropdown,NFTGallery,NotConnectedToWeb3},
   data() {
     return {
@@ -238,6 +239,7 @@ export default {
 
             let queryParams = {nftContractAddress: this.nftContractAddress, 
                         exchangeContractAddress: btfContractAddress ,
+                        requiredProjectId: this.requiredProjectId,
                         status:'active',
                         suspended:false 
                         }
@@ -294,6 +296,7 @@ export default {
 
                                                             nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
                                                             nftContractAddress: pkt.nftContractAddress,
+                                                            requiredProjectId: pkt.requiredProjectId,
                                                             currencyTokenAddress: pkt.currencyTokenAddress,
                                                             currencyTokenAmount: pkt.currencyTokenAmount,
                                                             bidderAddress: pkt.bidderAddress
@@ -355,6 +358,7 @@ export default {
           to:  this.selectedBidPacket.bidderAddress,
           currencyToken: this.selectedBidPacket.currencyTokenAddress,
           currencyAmount: this.selectedBidPacket.currencyTokenAmount,
+          requiredProjectId: this.selectedBidPacket.requiredProjectId,
           expires: this.selectedBidPacket.expires,
           buyerSignature: this.selectedBidPacket.signature
 

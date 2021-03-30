@@ -5,7 +5,11 @@
  
       "weth":{"name":"wEth","address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", "decimals":18, "minBidAmount":0.02},
      
-      "buythefloor":{"address":"0x20eb324ab10fb83ebe90a3f5d863068faba10124"},
+      "buythefloor":{"address":""},
+
+      "chromiesquiggles":{"name":"ChromieSquiggles","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 0},
+      "ignition":{"name":"Ignition","address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a", "projectId": 9},
+
 
       "hashmasks":{"name":"Hashmasks","address":"0xc2c747e0f7004f9e8817db2ca4997657a7746928"},
  
@@ -43,9 +47,11 @@
 
 
 
-      "buythefloor":{"address":"0xaaa5ddbfd169f8f70c35a8638fe514e3a816f78a"},
+      "buythefloor":{"address":"0x2b7a08d31d5fe3247a83d7076ee048e2294272fb"},
 
-
+      "testsquiggles":{"name":"TestSquiggles","address":"0x7cea7e61f8be415bee361799f19644b9889713cd", "projectId": 0},
+      "testignition":{"name":"TestIgnition","address":"0x7cea7e61f8be415bee361799f19644b9889713cd", "projectId": 1},
+      
 
       "artsale":{"name":"ArtSale","address":"0x39ec448b891c476e166b3c3242a90830db556661"},
 

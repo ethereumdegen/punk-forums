@@ -47,7 +47,7 @@ export default class PacketHelper  {
         let contractData = Web3Helper.getContractDataForNetwork(chainId)
         let BTFContractAddress = contractData['buythefloor'].address;
 
-        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.expires   )
+        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.requiredProjectId,  packet.expires   )
         let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
         
 

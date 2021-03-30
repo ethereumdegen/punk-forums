@@ -40,7 +40,12 @@
             {"name":"artsale","label":"Artsale","imgurl":"/images/artblocks.jpg"},
             {"name":"cryptovoxels","label":"Cryptovoxels","imgurl":"/images/cryptovoxels.jpg"},
             {"name":"wrappedmooncats","label":"Mooncats","imgurl":"/images/mooncats.jpg"},
-            {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.gif"} ]
+            {"name":"wrappedcryptopunks","label":"Cryptopunks","imgurl":"/images/cryptopunks.gif"},
+            {"name":"testsquiggles","label":"TestSquiggles","imgurl":"/images/chromiesquiggles.jpg"},
+            {"name":"testignition","label":"TestIgnition","imgurl":"/images/ignition.jpg"}
+          
+          
+          ]
         
         
     }
