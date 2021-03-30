@@ -32,7 +32,7 @@ import BuyTheFloorHelper from '../../js/buythefloor-helper.js'
 
 export default {
   name: 'NFTGallery',
-  props: ['nftContractAddress', 'requiredProjectId', 'web3Plug'],
+  props: ['nftContractAddress', 'projectId', 'web3Plug'],
   data() {
     return {
       nftType: null,
@@ -41,19 +41,19 @@ export default {
   },
   /* watch: {
     nftContractAddress: function (contractAddress) {
-       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.requiredProjectId, this.web3Plug.getActiveNetId())
+       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.projectId, this.web3Plug.getActiveNetId())
         
          this.fetchOwnedTokenIds()
     } ,
-    requiredProjectId: function (projectId) {
-       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.requiredProjectId, this.web3Plug.getActiveNetId())
+    projectId: function (projectId) {
+       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.projectId, this.web3Plug.getActiveNetId())
         
          this.fetchOwnedTokenIds()
     } 
   },*/
   mounted(){
       
-      this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.requiredProjectId, this.web3Plug.getActiveNetId())
+      this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.projectId, this.web3Plug.getActiveNetId())
        
 
       this.fetchOwnedTokenIds()

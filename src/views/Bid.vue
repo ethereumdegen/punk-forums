@@ -62,7 +62,7 @@
 
           <div>  bidder: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.bidderAddress)">  {{bidPacketData.bidderAddress}} </a> </div>
           <div>  nftContractAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.nftContractAddress)"> {{bidPacketData.nftContractAddress}} </a>  ( {{bidPacketData.nftContractName}} ) </div>
-          <div>  projectId:    {{bidPacketData.requiredProjectId}}   </div>
+          <div v-if="bidPacketData.requireProjectId">  projectId:    {{bidPacketData.projectId}}   </div>
           <div> currencyTokenAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(bidPacketData.currencyTokenAddress)"> {{bidPacketData.currencyTokenAddress}} </a>  ( {{bidPacketData.currencyTokenName}} ) </div>
             <div> currencyTokenAmount: {{bidPacketData.currencyTokenAmount}}   ( {{bidPacketData.currencyTokenAmountFormatted}} ) </div>
             <div> expires:  {{bidPacketData.expires}} <span v-if="bidPacketData.expirationFormatted != null">( ~{{bidPacketData.expirationFormatted}} days )</span> </div>
@@ -111,7 +111,7 @@ import BidPacketUtils from '../js/bidpacket-utils.js'
 
 import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 
-var BTFContractABI = require('../contracts/BuyTheFloorABI.json')
+var BTFContractABI = require('../contracts/BuyTheFloorABI_2.json')
 
 
 export default {
@@ -181,7 +181,7 @@ export default {
         let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
         let bidTheFloorAddress = contractData['buythefloor'].address
 
-        let typedData =  BidPacketUtils.getBidTypedDataFromParams( chainId , bidTheFloorAddress, this.bidPacketData.bidderAddress, this.bidPacketData.nftContractAddress, this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount,  this.bidPacketData.requiredProjectId  ,this.bidPacketData.expires   )
+        let typedData =  BidPacketUtils.getBidTypedDataFromParams( chainId , bidTheFloorAddress, this.bidPacketData.bidderAddress, this.bidPacketData.nftContractAddress, this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount,  this.bidPacketData.requireProjectId  ,this.bidPacketData.projectId, this.bidPacketData.expires   )
         
         if(chainId == parseInt(bidChainId)){
          this.bidPacketData.hash = BidPacketUtils.getBidTypedDataHash(typedData)
@@ -189,7 +189,7 @@ export default {
        
 
         
-        this.bidPacketData.nftContractName = BuyTheFloorHelper.getNameFromContractAddress(this.bidPacketData.nftContractAddress, this.bidPacketData.requiredProjectId, chainId)
+        this.bidPacketData.nftContractName = BuyTheFloorHelper.getNameFromContractAddress(this.bidPacketData.nftContractAddress, this.bidPacketData.projectId, chainId)
         this.bidPacketData.currencyTokenName = BuyTheFloorHelper.getNameFromContractAddress(this.bidPacketData.currencyTokenAddress, 0, chainId)
          
  
@@ -218,7 +218,7 @@ export default {
         let bidTheFloorAddress = contractData['buythefloor'].address
 
         let btfContract = this.web3Plug.getCustomContract(BTFContractABI,bidTheFloorAddress )
-         await btfContract.methods.cancelBid(this.bidPacketData.nftContractAddress, this.bidPacketData.bidderAddress,  this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount, this.bidPacketData.requiredProjectId,this.bidPacketData.expires,this.bidPacketData.signature.signature ).send({from: this.web3Plug.getActiveAccountAddress()})
+         await btfContract.methods.cancelBid(this.bidPacketData.nftContractAddress, this.bidPacketData.bidderAddress,  this.bidPacketData.currencyTokenAddress, this.bidPacketData.currencyTokenAmount, this.bidPacketData.requireProjectId, this.bidPacketData.projectId,this.bidPacketData.expires,this.bidPacketData.signature.signature ).send({from: this.web3Plug.getActiveAccountAddress()})
      } ,
 
      userIsOwnerOfBid(){

@@ -45,7 +45,7 @@
               <NFTGallery 
               v-bind:web3Plug="web3Plug"
               v-bind:nftContractAddress="nftContractAddress"
-              v-bind:requiredProjectId="requiredProjectId"
+              v-bind:projectId="projectId"
               />
 
 
@@ -60,7 +60,7 @@
 
 
            <div class="mb-4 " v-if="ownedTokenIdToSell">
-             <div>
+             <div v-cloak>
                 <div class="inline mr-4">Token ID To Sell: {{ownedTokenIdToSell}}</div>
 
 
@@ -110,7 +110,7 @@
                   <div> bidder: {{selectedBidPacket.bidderAddress}}</div>
                   <div> nftContractName: {{selectedBidPacket.nftContractName}}</div>
                   <div> nftContractAddress: {{selectedBidPacket.nftContractAddress}}</div>
-                  <div> projectId: {{selectedBidPacket.requiredProjectId}}</div>
+                  <div v-if="selectedBidPacket.requireProjectId"> projectId: {{selectedBidPacket.projectId}}</div>
                   <div> currencyTokenName: {{selectedBidPacket.currencyTokenName}}</div>
                   <div> currencyTokenAddress: {{selectedBidPacket.currencyTokenAddress}}</div>
  
@@ -121,7 +121,7 @@
                   <div> expires:  {{selectedBidPacket.expires}}</div> 
                   <div> signature:  {{selectedBidPacket.signature}}</div> 
 
-                  <div v-if="this.selectedBidBurnStatus > 0" class="bg-red-200 p-1"> WARN: This bid signature has been burned. </div>
+                  <div v-if="this.selectedBidBurnStatus && this.selectedBidBurnStatus > 0" class="bg-red-200 p-1"> WARN: This bid signature has been burned. </div>
 
 
                   <div class="  p-4" v-if="!hasGivenApprovalForSelectedToken()">
@@ -168,14 +168,14 @@ import NFTHelper from '../../js/nft-helper.js'
 
 
 
-var BTFContractABI = require('../../contracts/BuyTheFloorABI.json')
+var BTFContractABI = require('../../contracts/BuyTheFloorABI_2.json')
  
 
 var updateApprovalsInterval;
  
 export default {
   name: 'NFTSellForm',
-  props: ['nftContractAddress', 'requiredProjectId', 'web3Plug', 'connectedToWeb3'],
+  props: ['nftContractAddress', 'projectId', 'web3Plug', 'connectedToWeb3'],
   components:{GenericTable,GenericDropdown,NFTGallery,NotConnectedToWeb3},
   data() {
     return {
@@ -240,7 +240,7 @@ export default {
 
             let queryParams = {nftContractAddress: this.nftContractAddress, 
                         exchangeContractAddress: btfContractAddress ,
-                        requiredProjectId: this.requiredProjectId,
+                        projectId: this.projectId,
                         status:'active',
                         suspended:false 
                         }
@@ -293,12 +293,12 @@ export default {
                                                             currencyTokenName: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress,0, chainId),
                                                             currencyTokenAmountFormatted: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
                                                             expires: pkt.expires,
-                                                            requiredProjectId: pkt.requiredProjectId,
+                                                           
                                                             signature: pkt.signature.signature,
 
-                                                            nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.requiredProjectId, chainId),
+                                                            nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.projectId, chainId),
                                                             nftContractAddress: pkt.nftContractAddress,
-                                                            requiredProjectId: pkt.requiredProjectId,
+                                                            projectId: pkt.projectId,
                                                             currencyTokenAddress: pkt.currencyTokenAddress,
                                                             currencyTokenAmount: pkt.currencyTokenAmount,
                                                             bidderAddress: pkt.bidderAddress
@@ -360,12 +360,16 @@ export default {
           to:  this.selectedBidPacket.bidderAddress,
           currencyToken: this.selectedBidPacket.currencyTokenAddress,
           currencyAmount: this.selectedBidPacket.currencyTokenAmount,
-          requiredProjectId: this.selectedBidPacket.requiredProjectId,
+          requireProjectId: this.selectedBidPacket.requireProjectId,
+          projectId: this.selectedBidPacket.projectId,
           expires: this.selectedBidPacket.expires,
           buyerSignature: this.selectedBidPacket.signature
 
 
          }
+
+          console.log('sellParams ', sellParams)
+
 
          let response = await BidPacketUtils.sellNFTToBid( sellParams, BTFContractABI , this.web3Plug)
 

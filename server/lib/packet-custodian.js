@@ -18,7 +18,7 @@ import FileHelper from './file-helper.js'
 
 const GLOBAL_RATE_SCALE = 60
 
-const BTFContractABI = FileHelper.readJSONFile('./src/contracts/BuyTheFloorABI.json')
+const BTFContractABI = FileHelper.readJSONFile('./src/contracts/BuyTheFloorABI_2.json')
 const ERC20ContractABI = FileHelper.readJSONFile('./src/contracts/ERC20ABI.json')
 
 export default class PacketCustodian  {
@@ -134,7 +134,7 @@ export default class PacketCustodian  {
         // ------ Check the hash for burned ----
          
 
-        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.requiredProjectId,  packet.expires   )
+        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.requireProjectId,packet.projectId,  packet.expires   )
         let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
         
         //console.log('packetHash', packetHash)

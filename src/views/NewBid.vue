@@ -103,7 +103,7 @@
 
             <div> nftAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.nftContractAddress)"> {{formInputs.nftContractAddress}} </a> </div>
 
-            <div> projectId: {{ this.formInputs.requiredProjectId }} </div>
+            <div  > projectId: {{ this.formInputs.projectId }} </div>
 
             <div> CurrencyAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.tokenContractAddress)"> {{formInputs.tokenContractAddress}} </a> </div>
 
@@ -360,7 +360,8 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
-              this.formInputs.requiredProjectId, 
+              this.formInputs.requireProjectId, 
+              this.formInputs.projectId, 
               expiresAtBlock
              // this.formInputs.expiresAtBlock
            ]
@@ -373,7 +374,8 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
-              this.formInputs.requiredProjectId,
+              this.formInputs.requireProjectId, 
+              this.formInputs.projectId, 
               expiresAtBlock,
               signature
                 )
@@ -415,10 +417,13 @@ export default {
 
           
           this.formInputs.nftContractAddress = nftContract.address
-          this.formInputs.requiredProjectId = parseInt(nftContract.projectId)  
+          this.formInputs.projectId = parseInt(nftContract.projectId)  
 
-          if(isNaN(this.formInputs.requiredProjectId)){
-            this.formInputs.requiredProjectId = 0;
+          if(isNaN(this.formInputs.projectId)){
+            this.formInputs.requireProjectId = false;
+            this.formInputs.projectId=0;
+          }else{
+            this.formInputs.requireProjectId = true;
           }
           //this.updateBalances();
         },

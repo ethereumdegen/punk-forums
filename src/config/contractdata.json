@@ -47,7 +47,7 @@
 
 
 
-      "buythefloor":{"address":"0x2b7a08d31d5fe3247a83d7076ee048e2294272fb"},
+      "buythefloor":{"address":"0x1fd534630e4e720c1a71c596aeb896faaa979f19"},
 
       "testsquiggles":{"name":"TestSquiggles","address":"0x7cea7e61f8be415bee361799f19644b9889713cd", "projectId": 0},
       "testignition":{"name":"TestIgnition","address":"0x7cea7e61f8be415bee361799f19644b9889713cd", "projectId": 1},

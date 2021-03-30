@@ -56,7 +56,7 @@
 
                <NFTSellForm
                 v-bind:nftContractAddress="selectedNFTContractAddress"
-                v-bind:requiredProjectId="selectedNFTProjectId"
+                v-bind:projectId="selectedNFTProjectId"
                   v-bind:web3Plug="web3Plug"
                   v-bind:connectedToWeb3="connectedToWeb3"
 
