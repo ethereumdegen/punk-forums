@@ -214,7 +214,7 @@ import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 var updateTimer;
 
 export default {
-  name: 'Home',
+  name: 'NewBid',
   props: [ ],
   components: {Navbar, Footer, GenericDropdown,NotConnectedToWeb3},
   data() {
@@ -272,7 +272,7 @@ export default {
         console.log(' this.currencyTokensOptionsList',  this.currencyTokensOptionsList)
 
          Vue.nextTick(() => {
-        this.autoFillNFTType()
+              this.autoFillNFTType()
          })
 
       }.bind(this));

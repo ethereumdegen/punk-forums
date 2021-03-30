@@ -32,12 +32,11 @@
 
           <div  class=" "  v-if="searchResults.length > 0" >
              
-             <div class="mb-4">
+             <div class="mb-4 text-xl">
 
                <div v-for="result of searchResults"> 
-
-
-                 {{result}}
+ 
+                 <a v-bind:href="'/type/'.concat(result.name)" > {{result.name}} </a> 
                </div>
                 
 
