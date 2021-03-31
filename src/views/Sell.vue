@@ -20,12 +20,26 @@
         
        <div class="w-column">
 
-         <div class="mb-4">
-         <a href="/startselling"  class="px-2 no-underline rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </a>
-          </div>
 
-          <div class="text-lg font-bold"> Sell an NFT </div>
-          
+            <div class="w-row">
+               
+                   <div class="mb-4">
+                          <a href="/startselling"  class="px-2 no-underline rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </a>
+                    </div>
+               
+
+
+
+              
+            </div>
+
+
+
+
+              <div class="text-lg font-bold"> Sell an NFT </div>
+               
+
+
          
           <div  class=" "  >
 
@@ -47,11 +61,22 @@
 
             <div class="flex flex-row">
             
-             
-                <div class="text-md  "> Selected Type: {{selectedNFTType}} </div>
+
+                  
+
+                  <div class="text-md  "> Selected Type: <a v-bind:href="'/type/'.concat(typeData.name)" > {{selectedNFTType}} </a> </div>
+                  
+
+
+                
+
+
             </div>
 
-                 
+                  <div class="  mt-4  " v-if="typeData">
+
+                    <img v-bind:src="typeData.imgurl" width="128" height="128" />
+                  </div>
                
 
                <NFTSellForm
@@ -118,7 +143,8 @@ export default {
       connectedToWeb3: false,
       selectedNFTType: null,
       selectedNFTContractAddress:null ,
-      selectedNFTProjectId:null 
+      selectedNFTProjectId:null ,
+      typeData: null
     }
   },
   async created  () {
@@ -176,6 +202,9 @@ export default {
       if(contractData[this.selectedNFTType]){
         this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
         this.selectedNFTProjectId =  contractData[this.selectedNFTType].projectId 
+
+        this.typeData = BuyTheFloorHelper.getNFTTypeDataFromName( this.selectedNFTType , chainId ) 
+
       }
       
 

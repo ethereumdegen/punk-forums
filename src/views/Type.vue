@@ -24,6 +24,14 @@
         
           <div class="text-xl font-bold mb-8 capitalize"> {{typeData.label}} </div>
 
+           <div class="  block md:hidden ">
+
+                  <img v-bind:src="typeData.imgurl" width="128" height="128" />
+
+              </div>
+
+
+
 
           <div class="flex flex-row">
 
@@ -47,7 +55,7 @@
               </div>
            </div>
 
-             <div class=" ">
+             <div class="  hidden md:block ">
 
                   <img v-bind:src="typeData.imgurl" width="128" height="128" />
 
@@ -189,19 +197,15 @@ this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState)
           console.log('no web3 connection')
         } 
  
-        let nftTypesArray = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes
+       
         let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
 
-        let nftTypes = {}
-
-        for(let type of nftTypesArray){
-          nftTypes[type.name] = type
-        }
+       
 
         if(this.$route.params.nft_type){
             this.nftTypeName = this.$route.params.nft_type.toLowerCase()
             this.contractData = contractData[this.nftTypeName]
-            this.typeData = nftTypes[this.nftTypeName]
+            this.typeData = BuyTheFloorHelper.getNFTTypeDataFromName( this.nftTypeName , chainId ) // nftTypes[this.nftTypeName]
 
             this.filterByNFTContractAddress = this.contractData.address
 

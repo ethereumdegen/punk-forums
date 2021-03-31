@@ -90,6 +90,18 @@ export default class BuyTheFloorHelper {
 
   }
 
+  static getNFTTypeDataFromName(name, chainId){
+    let nftTypesArray = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes
+
+    let nftTypes = {}
+
+    for(let type of nftTypesArray){
+      nftTypes[type.name] = type
+    }
+
+    return nftTypes[name]
+  }
+
 
   static rawAmountToFormatted(amount,decimals)
   {
