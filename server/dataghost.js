@@ -4,7 +4,7 @@ import PacketReceiver from './lib/packet-receiver.js'
 
 import FileHelper from './lib/file-helper.js'
 
-import TinyFox from 'tinyfox'
+import WolfPack from 'wolfpack'
  
 
 import Web3 from 'web3'
@@ -28,55 +28,20 @@ let dataghostConfig = dataghostConfigFile[envmode]
  
     console.log('web3 ready with provider ',serverConfig.web3provider )
 
+  
+    let wolfPackConfig = dataghostConfig.wolfPackConfig
 
-    //need to grab deposit and mint events 
+
+    let wolfPack = new WolfPack()
+    await wolfPack.init( {suffix: wolfPackConfig.suffix} )
+    wolfPack.startIndexing( web3, wolfPackConfig )  
 
 
-    for(let index in dataghostConfig.tinyfoxconfigs){
-        let tfc = dataghostConfig.tinyfoxconfigs[index]
-
-        let delay = index * 25 * 1000;
-
-        let tinyfoxConfig = {
-            // contractType: 'ERC20',
-            // contractAddress: '0xab89a7742cb10e7bce98540fd05c7d731839cf9f' ,
-          //   startBlock: 1316824,
-              indexRate: 50 * 1000,
-
-             contractType: 'ERC20', 
-             courseBlockGap: 10000,
-             logging:true,
-             
-             suffix: tfc.suffix,
-             
-             
-             contractAddress: tfc.contractAddress,
-             startBlock: tfc.startBlock 
-             
-         } 
-
-        setTimeout(function(){ initTinyFox(web3, tinyfoxConfig) } , delay)
-        
-    }
-    
-
+  
      
 
 } 
-
-
-async function initTinyFox(web3, tinyfoxConfig){
-
-        let tinyFox = new TinyFox()
-        await tinyFox.init({suffix: tinyfoxConfig.suffix})
-
-  
-          //await tinyFox.dropDatabase()
-
-        tinyFox.startIndexing( web3, tinyfoxConfig )  
-         
- }
-  
+ 
 
 
 
