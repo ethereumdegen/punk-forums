@@ -64,13 +64,22 @@ export default class PacketReceiver  {
 
     async startWebServer(app, apiPort){
 
-      app.get('/api/v1/:apikey/:query', async (req, res) => {
+      app.get('/api/v1/:query', async (req, res) => {
          
           
         let response = await APIHelper.handleApiRequest( req , this.mongoInterface )
 
         res.send(response)
       })
+
+      /*
+      app.get('/api/v1/:apikey/:query', async (req, res) => {
+         
+          
+        let response = await APIHelper.handleApiRequest( req , this.mongoInterface )
+
+        res.send(response)
+      })*/
 
 
       app.listen(apiPort, () => {

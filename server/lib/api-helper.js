@@ -12,7 +12,7 @@
            
         }
 
-        //http://localhost:3000/api/v1/apikey/somestuff
+        //http://localhost:3000/api/v1/somestuff
         static async handleApiRequest(request, mongoInterface){
             console.log('got api request', request.params )
 
