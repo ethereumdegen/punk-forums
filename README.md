@@ -10,8 +10,15 @@ IMPROVE LATER:
 
 ### TODO
  
+ -FOR VERSION 2
+ Need to deploy the version 2 contract on mainnet 
+ need to setup alchemy 
+ need to sync data from alchemy 
+ 
+
+
 -run server with pm2 
--server needs to validate packets and throw them away if bad (if wrong networkID for server config, if bad hash, etc)  Then we can accept packets from an API 
+ 
 
  
 

@@ -32,6 +32,7 @@
                 <label   class="block text-md font-medium font-bold text-gray-800  ">NFT Type To Buy The Floor</label>
                 
                 <GenericDropdown
+                  ref="nftOptionList"
                   v-bind:optionList="nftOptionsList" 
                   v-bind:onSelectCallback="onNFTSelectCallback"
                 />
@@ -102,6 +103,8 @@
  
 
             <div> nftAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.nftContractAddress)"> {{formInputs.nftContractAddress}} </a> </div>
+
+            <div v-if="this.formInputs.requireProjectId" > projectId: {{ this.formInputs.projectId }} </div>
 
             <div> CurrencyAddress: <a  target="_blank" v-bind:href="web3Plug.getExplorerLinkForAddress(formInputs.tokenContractAddress)"> {{formInputs.tokenContractAddress}} </a> </div>
 
@@ -186,7 +189,7 @@
 
 <script>
 
-
+import Vue from 'vue'
 
 import Web3Plug from '../js/web3-plug.js' 
 
@@ -211,7 +214,7 @@ import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 var updateTimer;
 
 export default {
-  name: 'Home',
+  name: 'NewBid',
   props: [ ],
   components: {Navbar, Footer, GenericDropdown,NotConnectedToWeb3},
   data() {
@@ -268,6 +271,10 @@ export default {
        
         console.log(' this.currencyTokensOptionsList',  this.currencyTokensOptionsList)
 
+         Vue.nextTick(() => {
+              this.autoFillNFTType()
+         })
+
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
         console.error('error',errormessage);
@@ -276,7 +283,7 @@ export default {
         
       }.bind(this));
 
-
+     
       
     
 
@@ -287,7 +294,8 @@ export default {
       this.web3Plug.reconnectWeb()
 
       updateTimer = setInterval(this.updateBalances.bind(this), 5000);
-   
+
+      
     
   }, 
 
@@ -295,6 +303,18 @@ export default {
       clearInterval(updateTimer) 
   },
   methods: {
+
+    async autoFillNFTType(){
+
+        if(this.$route.params.nft_type){
+            this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
+            console.log('this.selectedNFTType',this.selectedNFTType)
+
+            console.log('this.$refs',this.$refs, this.$refs.nftOptionList)
+            this.$refs.nftOptionList.selectOptionByName( this.selectedNFTType )
+          }
+
+    },
          
          async updateBalances(){
           
@@ -349,6 +369,8 @@ export default {
            let contractData = this.web3Plug.getContractDataForActiveNetwork() 
  
            let btfContractAddress = contractData['buythefloor'].address
+
+           let expiresAtBlock = this.getExpiresAtBlock()
               
 
            let args = [
@@ -356,7 +378,9 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
-              this.getExpiresAtBlock()
+              this.formInputs.requireProjectId, 
+              this.formInputs.projectId, 
+              expiresAtBlock
              // this.formInputs.expiresAtBlock
            ]
 
@@ -368,12 +392,22 @@ export default {
               this.formInputs.nftContractAddress,
               this.formInputs.tokenContractAddress,              
               this.getTokenBidAmountRaw(),
-               this.getExpiresAtBlock(), 
+              this.formInputs.requireProjectId, 
+              this.formInputs.projectId, 
+              expiresAtBlock,
               signature
                 )
-
+ 
               packetData.exchangeContractAddress = btfContractAddress
 
+             /* let typedData = BidPacketUtils.getBidTypedDataFromParams(this.web3Plug.getActiveNetId(),btfContractAddress,  ...args  )
+              let recoveredSigner = BidPacketUtils.recoverBidPacketSigner( typedData ,signature.signature)
+                console.log('recoveredSigner', recoveredSigner)
+
+                if( recoveredSigner !=  this.web3Plug.getActiveAccountAddress()  ){
+                    console.log('incorrect signer recovered')
+                  return 
+                }*/
 
               
                 var hostname = window.location.hostname; 
@@ -399,9 +433,16 @@ export default {
           let contractData = this.web3Plug.getContractDataForActiveNetwork()
           let nftContract = contractData[optionData.name]
 
- 
+          
           this.formInputs.nftContractAddress = nftContract.address
+          this.formInputs.projectId = parseInt(nftContract.projectId)  
 
+          if(isNaN(this.formInputs.projectId)){
+            this.formInputs.requireProjectId = false;
+            this.formInputs.projectId=0;
+          }else{
+            this.formInputs.requireProjectId = true;
+          }
           //this.updateBalances();
         },
         onCurrencySelectCallback(optionData){
@@ -412,6 +453,7 @@ export default {
 
           let tokenContract = contractData[optionData.name]
           
+         
           this.formInputs.tokenDecimals = tokenContract.decimals
           this.formInputs.tokenContractAddress = tokenContract.address
           

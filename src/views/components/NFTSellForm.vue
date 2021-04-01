@@ -45,6 +45,7 @@
               <NFTGallery 
               v-bind:web3Plug="web3Plug"
               v-bind:nftContractAddress="nftContractAddress"
+              v-bind:projectId="projectId"
               />
 
 
@@ -59,7 +60,7 @@
 
 
            <div class="mb-4 " v-if="ownedTokenIdToSell">
-             <div>
+             <div v-cloak>
                 <div class="inline mr-4">Token ID To Sell: {{ownedTokenIdToSell}}</div>
 
 
@@ -67,7 +68,14 @@
                  
                  <label  v-if="!isTheOwnerOfSelectedToken()" class="block text-md font-medium font-bold text-white bg-red-500 inline p-1">You are not the owner</label>
                  
+                  
+              </div>
 
+              <div v-cloak v-if="selectedBidPacket && selectedBidPacket.requireProjectId">
+                 
+                  <div class="inline mr-4">Token Project ID : {{projectIdOfSelectedToken}}</div>
+                 <label  v-if="selectedBidPacket&& selectedBidPacket.projectId != projectIdOfSelectedToken" class="block text-md font-medium font-bold text-white bg-red-500 inline p-1">Token ProjectId Mismatch</label>
+                 
               </div>
  
                 
@@ -109,6 +117,7 @@
                   <div> bidder: {{selectedBidPacket.bidderAddress}}</div>
                   <div> nftContractName: {{selectedBidPacket.nftContractName}}</div>
                   <div> nftContractAddress: {{selectedBidPacket.nftContractAddress}}</div>
+                  <div v-if="selectedBidPacket.requireProjectId"> projectId: {{selectedBidPacket.projectId}}</div>
                   <div> currencyTokenName: {{selectedBidPacket.currencyTokenName}}</div>
                   <div> currencyTokenAddress: {{selectedBidPacket.currencyTokenAddress}}</div>
  
@@ -119,7 +128,7 @@
                   <div> expires:  {{selectedBidPacket.expires}}</div> 
                   <div> signature:  {{selectedBidPacket.signature}}</div> 
 
-                  <div v-if="this.selectedBidBurnStatus > 0" class="bg-red-200 p-1"> WARN: This bid signature has been burned. </div>
+                  <div v-if="this.selectedBidBurnStatus && this.selectedBidBurnStatus > 0" class="bg-red-200 p-1"> WARN: This bid signature has been burned. </div>
 
 
                   <div class="  p-4" v-if="!hasGivenApprovalForSelectedToken()">
@@ -166,14 +175,15 @@ import NFTHelper from '../../js/nft-helper.js'
 
 
 
-var BTFContractABI = require('../../contracts/BuyTheFloorABI.json')
+var BTFContractABI = require('../../contracts/BuyTheFloorABI_2.json')
+
  
 
 var updateApprovalsInterval;
  
 export default {
   name: 'NFTSellForm',
-  props: ['nftContractAddress', 'web3Plug', 'connectedToWeb3'],
+  props: ['nftContractAddress', 'projectId', 'web3Plug', 'connectedToWeb3'],
   components:{GenericTable,GenericDropdown,NFTGallery,NotConnectedToWeb3},
   data() {
     return {
@@ -238,6 +248,7 @@ export default {
 
             let queryParams = {nftContractAddress: this.nftContractAddress, 
                         exchangeContractAddress: btfContractAddress ,
+                        projectId: this.projectId,
                         status:'active',
                         suspended:false 
                         }
@@ -287,13 +298,16 @@ export default {
             this.formattedBidsArray = bidPackets.map(pkt => (
                                                            {
                                                            
-                                                            currencyTokenName: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
+                                                            currencyTokenName: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress,0, chainId),
                                                             currencyTokenAmountFormatted: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
                                                             expires: pkt.expires,
+                                                           
                                                             signature: pkt.signature.signature,
 
-                                                            nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
+                                                            nftContractName: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.projectId, chainId),
                                                             nftContractAddress: pkt.nftContractAddress,
+                                                            requireProjectId: pkt.requireProjectId,
+                                                            projectId: pkt.projectId,
                                                             currencyTokenAddress: pkt.currencyTokenAddress,
                                                             currencyTokenAmount: pkt.currencyTokenAmount,
                                                             bidderAddress: pkt.bidderAddress
@@ -311,6 +325,11 @@ export default {
 
          this.ownerOfSelectedToken = await NFTHelper.getOwnerOfNFT( this.nftContractAddress  ,this.nftTokenIdToSell, this.web3Plug)
        
+         this.projectIdOfSelectedToken = await NFTHelper.getProjectIdOfNFT( this.nftContractAddress  ,this.nftTokenIdToSell, this.web3Plug)
+
+          this.projectIdOfSelectedToken = parseInt(this.projectIdOfSelectedToken)
+          if(isNaN(this.projectIdOfSelectedToken))this.projectIdOfSelectedToken=0;
+
          this.hasApprovedSelectedTokenForBTF = await NFTHelper.hasGivenApprovalofNFTForBTF( this.nftContractAddress ,  this.web3Plug)
        },
 
@@ -355,11 +374,16 @@ export default {
           to:  this.selectedBidPacket.bidderAddress,
           currencyToken: this.selectedBidPacket.currencyTokenAddress,
           currencyAmount: this.selectedBidPacket.currencyTokenAmount,
+          requireProjectId: this.selectedBidPacket.requireProjectId,
+          projectId: this.selectedBidPacket.projectId,
           expires: this.selectedBidPacket.expires,
           buyerSignature: this.selectedBidPacket.signature
 
 
          }
+
+          console.log('sellParams ', sellParams)
+
 
          let response = await BidPacketUtils.sellNFTToBid( sellParams, BTFContractABI , this.web3Plug)
 

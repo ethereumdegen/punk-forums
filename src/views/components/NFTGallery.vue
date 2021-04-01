@@ -32,23 +32,28 @@ import BuyTheFloorHelper from '../../js/buythefloor-helper.js'
 
 export default {
   name: 'NFTGallery',
-  props: ['nftContractAddress', 'web3Plug'],
+  props: ['nftContractAddress', 'projectId', 'web3Plug'],
   data() {
     return {
       nftType: null,
       ownedTokenIdsArray: [] 
     }
   },
-   watch: {
+  /* watch: {
     nftContractAddress: function (contractAddress) {
-       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(contractAddress, this.web3Plug.getActiveNetId())
+       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.projectId, this.web3Plug.getActiveNetId())
+        
+         this.fetchOwnedTokenIds()
+    } ,
+    projectId: function (projectId) {
+       this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.projectId, this.web3Plug.getActiveNetId())
         
          this.fetchOwnedTokenIds()
     } 
-  },
-  created(){
+  },*/
+  mounted(){
       
-      this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.web3Plug.getActiveNetId())
+      this.nftType = BuyTheFloorHelper.getNameFromContractAddress(this.nftContractAddress, this.projectId, this.web3Plug.getActiveNetId())
        
 
       this.fetchOwnedTokenIds()
@@ -66,8 +71,7 @@ export default {
           }
 
           let activeAddress = this.web3Plug.getActiveAccountAddress()
-
-          //activeAddress = '0x7132C9f36abE62EAb74CdfDd08C154c9AE45691B'
+ 
 
         if(this.nftType.toLowerCase() == 'cryptovoxelsparcels'){
           let nftDataArray = await TheGraphHelper.findCryptovoxelsOwnedBy( activeAddress )

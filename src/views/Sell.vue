@@ -21,11 +21,25 @@
        <div class="w-column">
 
 
-         <a href="/startselling"  class="p-2 no-underline rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </a>
+            <div class="w-row">
+               
+                   <div class="mb-4">
+                          <a href="/startselling"  class="px-2 no-underline rounded text-xs select-none inline-block cursor-pointer bg-purple-500 text-white"> < Go Back </a>
+                    </div>
+               
 
 
-          <div class="text-lg font-bold"> Sell an NFT </div>
-          
+
+              
+            </div>
+
+
+
+
+              <div class="text-lg font-bold"> Sell an NFT </div>
+               
+
+
          
           <div  class=" "  >
 
@@ -47,15 +61,27 @@
 
             <div class="flex flex-row">
             
-             
-                <div class="text-md  "> Selected Type: {{selectedNFTType}} </div>
+
+                  
+
+                  <div class="text-md  "> Selected Type: <a v-bind:href="'/type/'.concat(typeData.name)" > {{selectedNFTType}} </a> </div>
+                  
+
+
+                
+
+
             </div>
 
-                 
+                  <div class="  mt-4  " v-if="typeData">
+
+                    <img v-bind:src="typeData.imgurl" width="128" height="128" />
+                  </div>
                
 
                <NFTSellForm
                 v-bind:nftContractAddress="selectedNFTContractAddress"
+                v-bind:projectId="selectedNFTProjectId"
                   v-bind:web3Plug="web3Plug"
                   v-bind:connectedToWeb3="connectedToWeb3"
 
@@ -116,7 +142,9 @@ export default {
       nftTypes:  [],
       connectedToWeb3: false,
       selectedNFTType: null,
-      selectedNFTContractAddress:null 
+      selectedNFTContractAddress:null ,
+      selectedNFTProjectId:null ,
+      typeData: null
     }
   },
   async created  () {
@@ -144,6 +172,7 @@ export default {
         this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
         if(contractData[this.selectedNFTType]){
             this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address 
+            this.selectedNFTProjectId =  contractData[this.selectedNFTType].projectId 
         }
        
 
@@ -172,6 +201,9 @@ export default {
       this.selectedNFTType = this.$route.params.nft_type.toLowerCase()
       if(contractData[this.selectedNFTType]){
         this.selectedNFTContractAddress =  contractData[this.selectedNFTType].address
+        this.selectedNFTProjectId =  contractData[this.selectedNFTType].projectId 
+
+        this.typeData = BuyTheFloorHelper.getNFTTypeDataFromName( this.selectedNFTType , chainId ) 
 
       }
       
@@ -185,7 +217,7 @@ export default {
     this.web3Plug.clearEventEmitter()
   },
   methods: {
-        onTileClicked(name){
+        /*onTileClicked(name){
           console.log('ontileclicked',name )
 
            let chainId = this.web3Plug.getActiveNetId()
@@ -198,13 +230,14 @@ export default {
 
           this.selectedNFTType = name 
           this.selectedNFTContractAddress = contractData[name].address
-         
+          this.selectedNFTProjectId = contractData[name].projectId
         },
         resetNFTType(){
 
           this.selectedNFTType = null 
           this.selectedNFTContractAddress = null
-        }
+          this.selectedNFTProjectId = null
+        }*/
   }
 }
 </script>

@@ -21,9 +21,15 @@
 
        </div>
        <div class="w-row">
+
+         
+
+
          <div class="column w-col w-col-6 mt-8 py-8">
 
-
+            <div>
+               <SearchBar  v-bind:onSubmitCallback="onSearchCallback"  /> 
+            </div>
 
               <router-link to="/newbid" class='text-gray-800 text-xl block'>-> Place a Bid for an NFT</router-link>
 
@@ -130,6 +136,7 @@
 import Web3Plug from '../js/web3-plug.js' 
 
 
+import SearchBar from './components/SearchBar.vue';
 import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
@@ -147,7 +154,7 @@ import TheGraphHelper from '../js/the-graph-helper.js';
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable, GenericDropdown,FrontPageMedia},
+  components: {Navbar, Footer, TabsBar, GenericTable, GenericDropdown,FrontPageMedia,SearchBar},
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -261,10 +268,14 @@ export default {
             
             this.bidRowsArray = bidPackets.map(pkt => (
                                                            {
-                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress, chainId),
-                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, chainId),
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.projectId, chainId),
+                                                            
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress, 0, chainId),
                                                             currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId),
                                                             expires: pkt.expires,
+
+                                                            requireProjectId: pkt.requireProjectId,
+                                                            projectId: pkt.projectId,
                                                             signature: pkt.signature.signature
                                                           } 
                                                         ))
@@ -284,11 +295,14 @@ export default {
 
                this.salesRowsArray = recentSales.map(sale => (
                                                            {
-                                                             blockNumber: sale.blockNumber ,
-                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress, chainId),
-                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress, chainId),
+                                                            blockNumber: sale.blockNumber ,
+                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.nftContractAddress,sale.projectId, chainId),
+                                                            
+                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(sale.currencyTokenAddress,0, chainId),
                                                             currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(sale.currencyTokenAmount,sale.currencyTokenAddress, chainId),
                                                             
+                                                            //requireProjectId: sale.requireProjectId,
+                                                            projectId: sale.projectId,
                                                             txHash: sale.id
                                                           } 
                                                         ))
@@ -329,7 +343,11 @@ export default {
 
             this.fetchBidsData()
              
+          },
+          onSearchCallback(query){
+              this.$router.push({ path: '/search/'.concat( query)  } )
           }
+
   }
 }
 </script>

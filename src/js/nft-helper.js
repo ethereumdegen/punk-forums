@@ -1,8 +1,6 @@
 
+  
  
-import axios from "axios";
-
-
 export default class NFTHelper {
 
 
@@ -43,6 +41,23 @@ export default class NFTHelper {
 
         return tokenOwner
     }
+
+    static async getProjectIdOfNFT( nftContractAddress, tokenId, web3Plug ){
+
+        let tokenOwner = null
+
+       let nftTokenContract = web3Plug.getNFTContract(nftContractAddress)  
+
+       console.log('get project id, ', nftContractAddress, tokenId)
+
+       try{
+         tokenOwner = await nftTokenContract.methods.tokenIdToProjectId( tokenId  ).call();
+       }catch(e){
+           console.error(e)
+       }
+
+       return tokenOwner
+   }
 
 
 

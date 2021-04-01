@@ -6,7 +6,7 @@ import BidPacketUtils from '../../src/js/bidpacket-utils.js'
 
 import FileHelper from './file-helper.js'
 
-const BTFContractABI = FileHelper.readJSONFile('./src/contracts/BuyTheFloorABI.json')
+const BTFContractABI = FileHelper.readJSONFile('./src/contracts/BuyTheFloorABI_2.json')
 const ERC20ContractABI = FileHelper.readJSONFile('./src/contracts/ERC20ABI.json')
 
 
@@ -47,7 +47,9 @@ export default class PacketHelper  {
         let contractData = Web3Helper.getContractDataForNetwork(chainId)
         let BTFContractAddress = contractData['buythefloor'].address;
 
-        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.expires   )
+        let typedData = BidPacketUtils.getBidTypedDataFromParams(chainId, BTFContractAddress,packet.bidderAddress, packet.nftContractAddress, packet.currencyTokenAddress, packet.currencyTokenAmount, packet.requireProjectId,packet.projectId,  packet.expires   )
+    
+        console.log('typedData', typedData)
         let packetHash = BidPacketUtils.getBidTypedDataHash( typedData   )
         
 

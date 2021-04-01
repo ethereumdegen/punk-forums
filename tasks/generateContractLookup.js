@@ -19,7 +19,15 @@ function start(){
 
         for(let [key,value] of Object.entries(contractData[network].contracts)){
             let address = value.address.toLowerCase()
-            outputContractsData[network][address] = value
+            let projectId = parseInt(value.projectId)
+
+            if(isNaN(projectId))projectId=0;
+
+            if(!outputContractsData[network][address]){
+                outputContractsData[network][address] = {}
+            }
+
+            outputContractsData[network][address][projectId] = value
         }
     }
     

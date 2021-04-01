@@ -21,18 +21,20 @@ let serverConfig = serverConfigFile[envmode]
     console.log('server config: ',serverConfig)
 
 
-    let mongoInterface = new MongoInterface( 'bidthefloor_'.concat(envmode) ) 
+    let mongoInterface = new MongoInterface( 'starflask_api_'.concat(envmode) ) 
 
 
     let web3 = new Web3( serverConfig.web3provider  )
 
-    let packetReceiver = new PacketReceiver(web3, mongoInterface,serverConfig)
+    console.log('web3 ready with provider ',serverConfig.web3provider )
+
+    
+    //let packetReceiver = new PacketReceiver(web3, mongoInterface,serverConfig)
  
       
     
-    console.log('web3 ready with provider ',serverConfig.web3provider )
 
-    let packetCustodian = new PacketCustodian(web3,mongoInterface, serverConfig)
+    //let packetCustodian = new PacketCustodian(web3,mongoInterface, serverConfig)
 
 
 

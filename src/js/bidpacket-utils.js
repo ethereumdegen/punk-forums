@@ -19,6 +19,8 @@ var sampleBidPacket = {
     nftContractAddress: "0x0000000000000000000000000000000000000000",
     currencyTokenAddress: "0x357FfaDBdBEe756aA686Ef6843DA359E2a85229c",
     currencyTokenAmount:1000,  
+    requireProjectId: false,
+    projectId:0,  
     expires:0,
     signature: 0x0
 }
@@ -32,7 +34,7 @@ export default class BidPacketUtils {
 
 
     static getBidPacket(
-        bidderAddress,nftContractAddress,currencyTokenAddress,currencyTokenAmount,expires,signature)
+        bidderAddress,nftContractAddress,currencyTokenAddress,currencyTokenAmount,requireProjectId,projectId,expires,signature)
     {
 
       return {
@@ -41,6 +43,8 @@ export default class BidPacketUtils {
         currencyTokenAddress: currencyTokenAddress,
         currencyTokenAmount: currencyTokenAmount,
         expires:expires,
+        requireProjectId: requireProjectId,
+        projectId: projectId,
         signature:signature
       }
 
@@ -74,6 +78,8 @@ export default class BidPacketUtils {
 
 
      static recoverBidPacketSigner(  typedData, signature){
+
+      console.log('signature',signature)
 
        var sigHash = BidPacketUtils.getBidTypedDataHash( typedData, typedData.types);
        var msgBuf = ethUtil.toBuffer(signature)
@@ -112,7 +118,7 @@ export default class BidPacketUtils {
 
 //"BidPacket(address bidderAddress,address nftContractAddress,address currencyTokenAddress,uint256 currencyTokenAmount,uint256 expires)"
  
-    static getBidTypedDataFromParams( _chainId,_contractAddress,  bidderAddress, nftContractAddress, currencyTokenAddress, currencyTokenAmount, expires)
+    static getBidTypedDataFromParams( _chainId,_contractAddress,  bidderAddress, nftContractAddress, currencyTokenAddress, currencyTokenAmount, requireProjectId, projectId, expires)
     {
       const typedData = {
               types: {
@@ -127,13 +133,15 @@ export default class BidPacketUtils {
                       { name: 'nftContractAddress', type: 'address' },
                       { name: 'currencyTokenAddress', type: 'address' },
                       { name: 'currencyTokenAmount', type: 'uint256' },    
+                      { name: 'requireProjectId', type: 'bool' },  
+                      { name: 'projectId', type: 'uint256' },      
                       { name: 'expires', type: 'uint256' }
                   ],
               },
               primaryType: 'BidPacket',
               domain: {
                   contractName: "BuyTheFloor",
-                  version: "1",
+                  version: "2",
                   chainId: _chainId,  
                   verifyingContract: web3utils.toChecksumAddress(_contractAddress)
               },
@@ -142,6 +150,8 @@ export default class BidPacketUtils {
                 nftContractAddress: web3utils.toChecksumAddress(nftContractAddress),
                 currencyTokenAddress: web3utils.toChecksumAddress(currencyTokenAddress),
                 currencyTokenAmount: currencyTokenAmount,
+                requireProjectId: requireProjectId,
+                projectId: projectId,
                 expires:expires,
               }
           };
@@ -281,6 +291,8 @@ export default class BidPacketUtils {
       packet.nftContractAddress, 
       packet.currencyTokenAddress, 
       packet.currencyTokenAmount, 
+      packet.requireProjectId, 
+      packet.projectId,
       packet.expires
        )
 

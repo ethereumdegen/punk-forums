@@ -34,16 +34,19 @@ export default class BuyTheFloorHelper {
     }
      
 
-    static getNameFromContractAddress( address, netId )
+    static getNameFromContractAddress( address,projectId, netId )
   {
     let networkName = 'mainnet'
     if(netId == 5){
       networkName = 'goerli'
     }
 
-    console.log('get name', contractDataLookup[networkName] , address)
+    projectId = parseInt(projectId)
+    if(isNaN(projectId))projectId=0;
 
-    let contractData = contractDataLookup[networkName][address.toLowerCase()]
+    console.log('get name', contractDataLookup[networkName] , address, projectId)
+
+    let contractData = contractDataLookup[networkName][address.toLowerCase()][projectId]
     if(contractData){
       return contractData.name 
     }
@@ -52,16 +55,19 @@ export default class BuyTheFloorHelper {
     return '?'
   }
 
-  static getDecimalsFromContractAddress( address, netId )
+  static getDecimalsFromContractAddress( address, projectId, netId )
   {
     let networkName = 'mainnet'
     if(netId == 5){
       networkName = 'goerli'
     }
 
+    projectId = parseInt(projectId)
+    if(isNaN(projectId))projectId=0;
+
     console.log('get decimals', contractDataLookup[networkName] , address)
-    if(contractDataLookup[networkName][address.toLowerCase()]){
-      return contractDataLookup[networkName][address.toLowerCase()].decimals  //this.contractNameLookupTable[address]
+    if(contractDataLookup[networkName][address.toLowerCase()][projectId]){
+      return contractDataLookup[networkName][address.toLowerCase()][projectId].decimals  //this.contractNameLookupTable[address]
  
     }
       return null 
@@ -73,7 +79,7 @@ export default class BuyTheFloorHelper {
   {
     
         
-    let decimals = this.getDecimalsFromContractAddress(tokenAddress, netId)
+    let decimals = this.getDecimalsFromContractAddress(tokenAddress, 0, netId)
 
     if(decimals){
       let amt =  parseFloat(BuyTheFloorHelper.rawAmountToFormatted(tokenAmount,decimals))
@@ -82,6 +88,18 @@ export default class BuyTheFloorHelper {
 
     return '?'
 
+  }
+
+  static getNFTTypeDataFromName(name, chainId){
+    let nftTypesArray = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes
+
+    let nftTypes = {}
+
+    for(let type of nftTypesArray){
+      nftTypes[type.name] = type
+    }
+
+    return nftTypes[name]
   }
 
 
