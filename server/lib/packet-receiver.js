@@ -11,6 +11,8 @@ import { Server } from "socket.io";
 import http from 'http'
 import https from 'https'
 
+import APIHelper from './api-helper.js'
+
 export default class PacketReceiver  {
 
     constructor(web3, mongoInterface,serverConfig){
@@ -18,12 +20,16 @@ export default class PacketReceiver  {
         this.web3 = web3;
         this.serverConfig=serverConfig;
 
+
+        
+
         const app = express()
 
         //var server = http.createServer(app);
 
         let envmode = process.env.NODE_ENV
 
+        var apiPort = 3000
 
         if(serverConfig.useHTTPS == true ){
           var server = https.createServer({
@@ -31,7 +37,9 @@ export default class PacketReceiver  {
             key: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.key')
           });
           console.log('--using https--')
+         
         }else{
+          
           var server = http.createServer(app);
         }
        
@@ -40,10 +48,38 @@ export default class PacketReceiver  {
  
          app.use(cors());
 
+
+          
+
+        
+
       
 
 
         this.startSocketServer(server)
+
+        this.startWebServer(app, apiPort)
+    }
+
+
+    async startWebServer(app, apiPort){
+
+      app.get('/api/v1/:apikey/:query', async (req, res) => {
+         
+          
+        let response = await APIHelper.handleApiRequest( req , this.mongoInterface )
+
+        res.send(response)
+      })
+
+
+      app.listen(apiPort, () => {
+        console.log(`Example app listening at http://localhost:${apiPort}`)
+      })
+
+
+ 
+
     }
 
 
