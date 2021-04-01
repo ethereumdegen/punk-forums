@@ -11,7 +11,7 @@
     },
     "staging":{
         "wolfPackConfig":{
-            "contracts":[{ ],
+            "contracts":[],
       
             "suffix":"staging" ,
             "logging":true
