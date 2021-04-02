@@ -31,7 +31,8 @@
                 {"address":"0x495f947276749ce646f68ac8c248420045cb7b5e","startBlock":11374506,"type":"ERC721"},
 
                 {"address":"0x392d7bda765d8bbe626abeb2127e6d6395eff44c", "startBlock":12158466 , "type":"BuyTheFloor"},
-                {"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31", "startBlock":5039000 , "type":"BuyTheFloor"}
+                
+                {"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31", "startBlock":5039000 , "type":"ERC20"}
 
 
                 
