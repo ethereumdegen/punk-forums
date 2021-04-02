@@ -26,7 +26,14 @@
                 {"address":"0xb7f7f6c52f2e2fdb1963eab30438024864c313f6","startBlock":10821737, "type":"ERC721"},
                 {"address":"0x7c40c393dc0f283f318791d746d894ddd3693572","startBlock":12025810, "type":"ERC721"},
                 {"address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a","startBlock":11338811, "type":"ERC721"},
-                {"address":"0x6c10511ddea5f3ed38a0163224198e37b81525bc","startBlock":9426427, "type":"ERC721"} 
+                {"address":"0x6c10511ddea5f3ed38a0163224198e37b81525bc","startBlock":9426427, "type":"ERC721"}, 
+                {"address":"0xd07dc4262BCDbf85190C01c996b4C06a461d2430","startBlock":10147631, "type":"ERC721"},
+                {"address":"0x495f947276749ce646f68ac8c248420045cb7b5e","startBlock":11374506,"type":"ERC721"},
+
+                {"address":"0x392d7bda765d8bbe626abeb2127e6d6395eff44c", "startBlock":12158466 , "type":"BuyTheFloor"},
+                {"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31", "startBlock":5039000 , "type":"BuyTheFloor"}
+
+
                 
             ],
       
