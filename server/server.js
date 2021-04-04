@@ -3,11 +3,10 @@
 
 import MongoInterface from './lib/mongo-interface.js'
 
-import PacketReceiver from './lib/packet-receiver.js'
+import APIInterface from './lib/api-interface.js'
 
 import FileHelper from './lib/file-helper.js'
-
-import PacketCustodian from './lib/packet-custodian.js'
+ 
 
 import Web3 from 'web3'
 
@@ -29,7 +28,7 @@ let serverConfig = serverConfigFile[envmode]
     console.log('web3 ready with provider ',serverConfig.web3provider )
 
     
-    //let packetReceiver = new PacketReceiver(web3, mongoInterface,serverConfig)
+    let apiInterface = new APIInterface(web3, mongoInterface, serverConfig)
  
       
     

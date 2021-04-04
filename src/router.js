@@ -27,62 +27,13 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
-    },
-
-    {
-      path: '/newbid/:nft_type',
-      name: 'newbid',
-      component: NewBid
-    },
-
-    {
-      path: '/newbid',
-      name: 'newbid',
-      component: NewBid
-    },
-
-    {
-      path: '/bid/:signature',
-      name: 'bid',
-      component: Bid
-    },
-
-    {
-      path: '/startselling',
-      name: 'startselling',
-      component: StartSelling
-    },
-
-    {
-      path: '/sell/:nft_type',
-      name: 'sell',
-      component: Sell
-    },
-
-    {
-      path: '/search/:query',
-      name: 'search',
-      component: Search
-    },
-
-    {
-      path: '/type/:nft_type',
-      name: 'type',
-      component: Type
-    },
-
+    } ,
 
     {
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard
-    },
-
-    {
-      path: '/nft/:contractaddress/:tokenid',
-      name: 'nft',
-      component: nftToken
-    },
+    } 
 
     
 
