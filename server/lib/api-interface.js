@@ -4,6 +4,10 @@
  
  import cors from 'cors'
 import fs from 'fs'
+import path from 'path'
+
+import  history from 'connect-history-api-fallback'
+import  bodyParser from 'body-parser' 
 
 import PacketHelper from './packet-helper.js'
 import { Server } from "socket.io";
@@ -64,13 +68,29 @@ export default class APIInterface  {
 
     async startWebServer(app, apiPort){
 
-      app.get('/api/v1/:query', async (req, res) => {
+     /* app.get('/api/v1/:query', async (req, res) => {
          
           
         let response = await APIHelper.handleApiRequest( req , this.mongoInterface )
 
         res.send(response)
-      })
+      })*/
+
+       app.use(express.json());
+
+
+      app.post('/api/v1/:apikey', async (req, res) => {
+         
+        let apikey = req.params['apikey']
+        //check API key 
+
+         
+          
+        let response = await APIHelper.handleApiRequest( req , this.mongoInterface )
+
+        res.send(response)
+      }) 
+
 
       /*
       app.get('/api/v1/:apikey/:query', async (req, res) => {
@@ -82,8 +102,20 @@ export default class APIInterface  {
       })*/
 
 
+
+      const staticFileMiddleware = express.static('dist');
+      app.use(staticFileMiddleware);
+      app.use(history({
+        disableDotRule: true,
+        verbose: true
+      }));
+      app.use(staticFileMiddleware);
+
+
+
+
       app.listen(apiPort, () => {
-        console.log(`Example app listening at http://localhost:${apiPort}`)
+        console.log(`API Server listening at http://localhost:${apiPort}`)
       })
 
 

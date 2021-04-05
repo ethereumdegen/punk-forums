@@ -10,25 +10,8 @@ IMPROVE LATER:
 
 ### TODO
  
- -FOR VERSION 2
- Need to deploy the version 2 contract on mainnet 
- need to setup alchemy 
- need to sync data from alchemy 
- 
-
-
--run server with pm2 
- 
-
- 
-
-3) build subgraphs to be able to show users items on website 
-
-4) make it easier to wrap things - wrapping on the site 
- 
-
- -API 
-  
+-Build frontend for this API server 
+-Need BUYTHEFLOOR to be able to query me stuff somehow - easy if the server is querying 
 
 
 ### Development commands

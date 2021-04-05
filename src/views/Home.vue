@@ -83,11 +83,13 @@ import BidPacketHelper from '../js/bidpacket-helper.js'
 
 import BuyTheFloorHelper from '../js/buythefloor-helper.js'
 import TheGraphHelper from '../js/the-graph-helper.js';
+import StarflaskAPIHelper from '../js/starflask-api-helper.js';
+
 
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable, GenericDropdown,FrontPageMedia,SearchBar},
+  components: {Navbar, Footer, TabsBar,  },
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -112,10 +114,7 @@ export default {
         this.activeNetworkId = connectionState.activeNetworkId
 
         
-         
-         
-        this.fetchBidsData()
-        this.fetchSalesData()
+          
 
          
       }.bind(this));
@@ -129,10 +128,7 @@ export default {
       this.web3Plug.reconnectWeb()
 
          
-       
-        
-      this.fetchBidsData()
-      this.fetchSalesData()
+      this.fetchOwnedAssets(  )
 
   },
   mounted: function () {
@@ -153,6 +149,15 @@ export default {
 
               this.selectedTab = tabname.toLowerCase()
 
+
+          },
+
+          async fetchOwnedAssets(){
+
+            let apiURI = 'http://localhost:3000/api/v1/testapikey'
+            let inputData = {requestType: 'all_ERC721', publicAddress:'0x99a848F6d8bb6D6Cd1A524B3C99a97e41e1E4b5A'} 
+            let results = await StarflaskAPIHelper.resolveStarflaskQuery(apiURI ,  inputData   )
+            console.log(results)
 
           },
 
