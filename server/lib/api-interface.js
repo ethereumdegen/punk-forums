@@ -19,8 +19,9 @@ import APIHelper from './api-helper.js'
 
 export default class APIInterface  {
 
-    constructor(web3, mongoInterface,serverConfig){
+    constructor(web3, mongoInterface,wolfpackInterface,serverConfig){
         this.mongoInterface = mongoInterface;
+        this.wolfpackInterface=wolfpackInterface;
         this.web3 = web3;
         this.serverConfig=serverConfig;
 
@@ -86,7 +87,7 @@ export default class APIInterface  {
 
          
           
-        let response = await APIHelper.handleApiRequest( req , this.mongoInterface )
+        let response = await APIHelper.handleApiRequest( req , this.wolfpackInterface )
 
         res.send(response)
       }) 
@@ -148,6 +149,7 @@ export default class APIInterface  {
       var port = process.env.PORT || 8443;  //8443
       
       var mongoInterface = this.mongoInterface
+      var wolfpackInterface = this.wolfpackInterface
       var serverConfig = this.serverConfig 
     
       ///  https://socket.io/docs/rooms-and-namespaces/#

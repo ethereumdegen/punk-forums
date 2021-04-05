@@ -22,13 +22,15 @@ let serverConfig = serverConfigFile[envmode]
 
     let mongoInterface = new MongoInterface( 'starflask_api_'.concat(envmode) ) 
 
+    let wolfpackInterface = new MongoInterface( 'wolfpack_'.concat(envmode) ) 
+
 
     let web3 = new Web3( serverConfig.web3provider  )
 
     console.log('web3 ready with provider ',serverConfig.web3provider )
 
     
-    let apiInterface = new APIInterface(web3, mongoInterface, serverConfig)
+    let apiInterface = new APIInterface(web3, mongoInterface, wolfpackInterface, serverConfig)
  
       
     

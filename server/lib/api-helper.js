@@ -3,6 +3,8 @@
     import BidPacketUtils from '../../src/js/bidpacket-utils.js'
     
     import FileHelper from './file-helper.js'
+
+    import web3utils from 'web3-utils'
     
  
     export default class APIHelper  {
@@ -23,10 +25,18 @@
                 let publicAddress = inputData.publicAddress 
 
 
-                return {publicAddress: publicAddress, result: []  }
+                let results = await APIHelper.findAllERC721ByOwner(publicAddress, mongoInterface)
+
+
+                return {publicAddress: publicAddress, results: results  }
             }
 
             return 'This is the API'
+        }
+
+        static async findAllERC721ByOwner(publicAddress,mongoInterface){
+            publicAddress = web3utils.toChecksumAddress(publicAddress)
+            return await mongoInterface.findAll('erc721_balances',{accountAddress: publicAddress })
         }
     
          
