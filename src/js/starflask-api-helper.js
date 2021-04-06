@@ -29,7 +29,7 @@ export default class StarflaskAPIHelper {
   }
 
 
-    
+    /*
 
       static async findHashmasksOwnedBy(publicAddress)
       {
@@ -59,7 +59,7 @@ export default class StarflaskAPIHelper {
           return tokens.map(x => ({tokenId: x.id, needsWrap: false, specialName: x.name}))
      
     
-        }
+        }*/
      
 
 

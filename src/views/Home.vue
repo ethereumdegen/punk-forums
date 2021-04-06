@@ -77,12 +77,7 @@ import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
- 
-import BidPacketHelper from '../js/bidpacket-helper.js'
-
-
-import BuyTheFloorHelper from '../js/buythefloor-helper.js'
-import TheGraphHelper from '../js/the-graph-helper.js';
+  
 import StarflaskAPIHelper from '../js/starflask-api-helper.js';
 
 
