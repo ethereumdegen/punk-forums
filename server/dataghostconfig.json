@@ -31,7 +31,10 @@
                 {"address":"0x495f947276749ce646f68ac8c248420045cb7b5e","startBlock":11374506, "type":"ERC721"},
                 {"address":"0x79986af15539de2db9a5086382daeda917a9cf0c","startBlock":5735964, "type":"ERC721" },
 
+                
+
                 {"address":"0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270","startBlock":11437151, "type":"ERC721" },
+                    {"address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a","startBlock":11338811, "type":"ERC721" },
 
 
                 
