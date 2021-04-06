@@ -21,17 +21,18 @@
             let inputData = request.body 
 
             if(inputData.requestType == 'all_ERC721'){
+ 
+                let inputParameters = inputData.input
 
-                let publicAddress = inputData.publicAddress 
-
+                let publicAddress = inputParameters.publicAddress 
 
                 let results = await APIHelper.findAllERC721ByOwner(publicAddress, mongoInterface)
 
 
-                return {publicAddress: publicAddress, results: results  }
+                return {success:true, input: inputParameters, output: results  }
             }
 
-            return 'This is the API'
+            return {success:false}
         }
 
         static async findAllERC721ByOwner(publicAddress,mongoInterface){

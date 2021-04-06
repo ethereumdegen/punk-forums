@@ -150,7 +150,7 @@ export default {
           async fetchOwnedAssets(){
 
             let apiURI = 'http://localhost:3000/api/v1/testapikey'
-            let inputData = {requestType: 'all_ERC721', publicAddress:'0x810E096DDa9ae3Ae2b55a9c45068F9FE8eeea6db'} 
+            let inputData = {requestType: 'all_ERC721', input: { publicAddress:'0x810E096DDa9ae3Ae2b55a9c45068F9FE8eeea6db' } } 
             let results = await StarflaskAPIHelper.resolveStarflaskQuery(apiURI ,  inputData   )
             console.log(results)
 

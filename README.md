@@ -1,17 +1,17 @@
-# BUY THE FLOOR 
+# Starflask API Web
  
-Web frontend for Demand Based NFT Exchange
+Web frontend for API Service
  
 
-
-IMPROVE LATER: 
-- build subgraphs for wrapped mooncats and wrapped punks that give orig ids and wrap ids  !!! Per owner .
+ 
 
 
 ### TODO
- 
--Build frontend for this API server 
--Need BUYTHEFLOOR to be able to query me stuff somehow - easy if the server is querying 
+-add a token-based login (like ESW) 
+-allow logged-in users to generate API key 
+-when a new request comes in, increment use counter on API key - limit max 
+
+-Require 
 
 
 ### Development commands
