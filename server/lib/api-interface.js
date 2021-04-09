@@ -86,8 +86,11 @@ export default class APIInterface  {
         //check API key 
 
          
-          
+        console.log('got api request', req.params , req.body    )
+
         let response = await APIHelper.handleApiRequest( req , this.wolfpackInterface )
+
+        console.log('sending reply:', response   )
 
         res.send(response)
       }) 
