@@ -43,6 +43,7 @@
 
 
                 {"address":"0x392d7bda765d8bbe626abeb2127e6d6395eff44c", "startBlock":12158466 , "type":"BuyTheFloor"},
+                {"address":"0x5a0361e743b1d172dc09456388aa3d4acd14adf3", "startBlock":12202860 , "type":"BurnBook"},
 
                 {"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31", "startBlock":5039000 , "type":"ERC20"}
 
