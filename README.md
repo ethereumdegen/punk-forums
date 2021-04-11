@@ -14,6 +14,9 @@ Web frontend for API Service
 -Require 
 
 
+-Certain api keys will have allowlists - can only come from certain domain 
+
+
 ### Development commands
 ```
 npm install
