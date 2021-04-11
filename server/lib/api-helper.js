@@ -47,9 +47,9 @@
  
                 let inputParameters = inputData.input
 
-                let publicAddress = inputParameters.publicAddress 
+                let token = inputParameters.token 
 
-                let results = await APIHelper.findAllERC721ByToken(publicAddress, mongoInterface)
+                let results = await APIHelper.findAllERC721ByToken(token, mongoInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             }
