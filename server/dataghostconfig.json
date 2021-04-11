@@ -38,6 +38,7 @@
                 {"address":"0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270","startBlock":11437151, "type":"ERC721" },
                     {"address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a","startBlock":11338811, "type":"ERC721" },
 
+                    {"address":"0xb56b78fa93b439953973be5cbeb40d2dc15cea8d","name":"digitaltoast","startBlock":12203006, "type":"ERC721" },
 
                 
 
