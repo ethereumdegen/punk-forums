@@ -38,6 +38,26 @@
                 return await mongoInterface.findAll('api_application', {publicAddress: publicAddress } )
  
             }
+
+            static async findApplicationById(appId, mongoInterface){
+                return await mongoInterface.findAll('api_application', {publicAddress: publicAddress } )
+ 
+            }
+
+
+            static async validateAppId(appId, mongoInterface){
+                let matchingApp = await ApplicationManager.findApplicationById(appId,mongoInterface)
+
+                if(!matchingApp){
+                    return {success:false, message:'Invalid app id'}
+                }
+
+                //do rate limit checking here ! 
+
+
+
+                return {success:true}
+            }
             
          
     }

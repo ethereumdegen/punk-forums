@@ -15,7 +15,7 @@
         }
 
         //http://localhost:3000/api/v1/somestuff
-        static async handleApiRequest(request, mongoInterface){
+        static async handleApiRequest(request, wolfpackInterface, mongoInterface){
            
             let inputData = request.body 
 
@@ -25,7 +25,7 @@
 
                 let publicAddress = inputParameters.publicAddress 
 
-                let results = await APIHelper.findAllERC721ByOwner(publicAddress, mongoInterface)
+                let results = await APIHelper.findAllERC721ByOwner(publicAddress, wolfpackInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             } 
@@ -36,7 +36,7 @@
 
                 let publicAddress = inputParameters.publicAddress 
 
-                let results = await APIHelper.findAllERC721ByOwner(publicAddress, mongoInterface)
+                let results = await APIHelper.findAllERC721ByOwner(publicAddress, wolfpackInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             } 
@@ -49,7 +49,7 @@
 
                 let token = inputParameters.token 
 
-                let results = await APIHelper.findAllERC721ByToken(token, mongoInterface)
+                let results = await APIHelper.findAllERC721ByToken(token, wolfpackInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             }
@@ -61,7 +61,7 @@
 
                 let from = inputParameters.from 
 
-                let results = await APIHelper.findBurnedERC20ByFrom(from, mongoInterface)
+                let results = await APIHelper.findBurnedERC20ByFrom(from, wolfpackInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             }
@@ -72,7 +72,7 @@
 
                 let token = inputParameters.token 
 
-                let results = await APIHelper.findBurnedERC20ByToken(token, mongoInterface)
+                let results = await APIHelper.findBurnedERC20ByToken(token, wolfpackInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             }

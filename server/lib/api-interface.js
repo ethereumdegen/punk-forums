@@ -20,6 +20,7 @@ import https from 'https'
 import APIHelper from './api-helper.js'
 
 import AccessHelper from './access-helper.js'
+import ApplicationManager from './application-manager.js'
 
 export default class APIInterface  {
 
@@ -84,15 +85,24 @@ export default class APIInterface  {
        app.use(express.json());
 
 
-      app.post('/api/v1/:apikey', async (req, res) => {
+      app.post('/api/v1/:app_id', async (req, res) => {
          
-        let apikey = req.params['apikey']
+        let appId = req.params['app_id']
         //check API key 
+
+
+        let appIdResults = await ApplicationManager.validateAppId( appId, this.mongoInterface )
+
+        if( !appIdResults.success ){
+          res.send(appIdResults)
+          return 
+        }
 
          
         console.log('got api request', req.params , req.body    )
 
-        let response = await APIHelper.handleApiRequest( req , this.wolfpackInterface )
+        //this needs to log activity so limits can be checked by validateAppId
+        let response = await APIHelper.handleApiRequest( req , this.wolfpackInterface , this.mongoInterface )
 
         console.log('sending reply:', response   )
 
