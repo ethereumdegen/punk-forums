@@ -5,6 +5,7 @@
     import FileHelper from './file-helper.js'
 
     import web3utils from 'web3-utils'
+    import ApplicationManager from './application-manager.js'
     
  
     export default class APIHelper  {
@@ -15,7 +16,7 @@
         }
 
         //http://localhost:3000/api/v1/somestuff
-        static async handleApiRequest(request, wolfpackInterface, mongoInterface){
+        static async handleApiRequest(request, appId, wolfpackInterface, mongoInterface){
            
             let inputData = request.body 
 
@@ -25,7 +26,11 @@
 
                 let publicAddress = inputParameters.publicAddress 
 
+                
+
                 let results = await APIHelper.findAllERC721ByOwner(publicAddress, wolfpackInterface)
+
+                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             } 
@@ -37,6 +42,8 @@
                 let publicAddress = inputParameters.publicAddress 
 
                 let results = await APIHelper.findAllERC721ByOwner(publicAddress, wolfpackInterface)
+
+                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             } 
@@ -51,6 +58,8 @@
 
                 let results = await APIHelper.findAllERC721ByToken(token, wolfpackInterface)
 
+                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
+
                 return {success:true, input: inputParameters, output: results  }
             }
 
@@ -63,6 +72,8 @@
 
                 let results = await APIHelper.findBurnedERC20ByFrom(from, wolfpackInterface)
 
+                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
+
                 return {success:true, input: inputParameters, output: results  }
             }
 
@@ -73,6 +84,8 @@
                 let token = inputParameters.token 
 
                 let results = await APIHelper.findBurnedERC20ByToken(token, wolfpackInterface)
+
+                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             }
@@ -104,6 +117,8 @@
             tokenAddress = web3utils.toChecksumAddress(tokenAddress)
             return await mongoInterface.findAll('erc20_burned',{token: tokenAddress })
         }
-    
+
+
+       
          
     }

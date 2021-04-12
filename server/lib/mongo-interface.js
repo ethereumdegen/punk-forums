@@ -54,12 +54,15 @@ export default class MongoInterface  {
         if(config && config.apiMode == true) return //do not make indexes if api mode
 
         //set up database constraints to prevent data corruption
-        //await this.createCollectionUniqueIndexes()
+         await this.createCollectionUniqueIndexes()
     }
 
 
    async createCollectionUniqueIndexes()
     {
+       
+      await this.createUniqueDualIndexOnCollection('app_epoch_counter', 'applicationId', 'epochHour')
+      await this.createUniqueDualIndexOnCollection('api_application', 'publicAddress', 'applicationId')
 
        /* await this.createUniqueIndexOnCollection('items', 'spawnLockId')
         await this.createUniqueIndexOnCollection('celestialgrid', 'uuid')
