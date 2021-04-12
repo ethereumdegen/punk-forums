@@ -107,6 +107,24 @@ export default class Web3Plug {
     
   }
 
+  //sign(keccak256("\x19Ethereum Signed Message:\n" + dataToSign.length + dataToSign)))
+
+  async requestPersonalSignature( message ){
+
+    let dataToSign = message 
+
+    console.log('dataToSign', dataToSign)
+
+    let address = this.getActiveAccountAddress()
+
+
+
+    return await web3Instance.eth.personal.sign(dataToSign, address )
+
+
+  }
+
+
 
   connectedToWeb3(){
 

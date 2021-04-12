@@ -101,15 +101,38 @@ export default class APIInterface  {
 
 
 
-      app.post('/generate_access_challenge/:publicaddress', async (req, res) => {
+      app.post('/generate_access_challenge', async (req, res) => {
 
-        let publicAddress = web3utils.toChecksumAddress( req.params['publicaddress'] ) 
+        let inputData = req.body 
+
+        let publicAddress = web3utils.toChecksumAddress( inputData.publicAddress  ) 
 
         let accessChallenge = await AccessHelper.generateAccessChallenge( publicAddress ,this.mongoInterface )
 
-        let response = {accessChallenge: accessChallenge}
+        let response = {success:true , accessChallenge: accessChallenge}
 
         res.send(response)
+      })
+
+      app.post('/generate_access_token', async (req, res) => {
+
+        let inputData = req.body 
+
+        let publicAddress = web3utils.toChecksumAddress( inputData.publicAddress  ) 
+        let signature =  inputData.signature  
+
+        let accessToken = await AccessHelper.generateAccessToken( publicAddress , signature,  this.mongoInterface )
+
+        if(accessToken){
+          let response = {success:true , accessToken: accessToken}
+
+          res.send(response)
+        }else{
+          let response = {success: false}
+
+          res.send(response)
+        }
+     
       })
 
 
