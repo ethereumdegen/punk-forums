@@ -57,6 +57,8 @@
             if(publicAddress.toLowerCase() == recoveredAddress.toLowerCase()){
                 let accessToken = web3utils.randomHex(32 )
                 //save it to mongo 
+
+                await mongoInterface.upsertOne('access_token',{publicAddress:publicAddress}, {accessToken: accessToken, publicAddress:publicAddress, createdAt: Date.now() } )
     
                 return accessToken
             }else{
@@ -66,6 +68,20 @@
 
            
 
+        }
+
+        static async findAccessToken(accessToken){
+            let accessTokenData = await mongoInterface.findOne('access_token',{accessToken:accessToken})
+
+            if(!accessTokenData){
+                return null 
+            }
+
+            const ONE_DAY = 1000*60*60*24
+
+            accessTokenData.isValid = ( accessTokenData.createdAt > Date.now() - ONE_DAY    ) 
+
+            return accessTokenData
         }
 
             

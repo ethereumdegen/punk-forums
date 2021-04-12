@@ -135,6 +135,26 @@ export default class APIInterface  {
      
       })
 
+      app.post('/generate_new_application', async (req, res) => {
+
+        let inputData = req.body   
+        let accessToken =  inputData.accessToken   
+
+        let accessTokenData = AccessHelper.findAccessToken( accessToken )
+
+        if(accessTokenData &&  accessTokenData.isValid){
+
+          let userPublicAddress = accessTokenData.publicAddress
+
+          let newApplicationResult = ApplicationManager.generateNewApplicationForUser( userPublicAddress, this.mongoInterface )
+
+          return newApplicationResult
+        }
+
+        return {success: false}
+
+      })
+
 
 
 
