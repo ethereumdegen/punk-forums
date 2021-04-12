@@ -24,7 +24,9 @@ export default class AccessPlug {
                 this.accessToken = existingAccessTokenData.token 
                 console.log('found existing token', this.accessToken ) 
                 
-                this.isConnected = true 
+                this.isConnected = true   
+                 
+                accessPlugEmitter.emit('stateChanged', this.getConnectionState() )
      
                 return true 
             }  
@@ -66,7 +68,7 @@ export default class AccessPlug {
             localStorage.setItem('accessToken', JSON.stringify(newTokenData ) );
         }
 
-       
+        await this.reconnect()
 
         console.log( 'response', response )
     }
@@ -76,6 +78,20 @@ export default class AccessPlug {
         return this.isConnected 
     }
 
+    signOut(){
+        this.accessToken = null  
+        this.isConnected = false   
+                 
+        accessPlugEmitter.emit('stateChanged', this.getConnectionState() )
+    }
+
+
+    getConnectionState(){
+        return {isConnected: this.isConnected, accessToken: this.accessToken}
+    }
+
+
+ 
 
     getPlugEventEmitter(){
         return accessPlugEmitter

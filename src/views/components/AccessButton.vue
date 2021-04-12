@@ -1,31 +1,44 @@
 <template>
-  <div  @click="buttonClicked" class="inline-block button text-gray-200  bg-gray-900 hover:bg-gray-700   font-bold py-2 px-2 rounded cursor-pointer">
+<div class="inline-block">
+  <div v-if="signedIn==false" @click="signIn" class="  button text-gray-200  bg-gray-900 hover:bg-gray-700   font-bold py-2 px-2 rounded cursor-pointer">
      Sign In 
   </div>
+
+  <div v-if="signedIn==true"  @click="signOut" class=" button text-gray-200  bg-gray-900 hover:bg-gray-700 text-sm   py-2 px-2 rounded cursor-pointer">
+     Sign Out
+  </div>
+</div>
 </template>
 
 
 <script>
 export default {
   name: 'AccessButton',
-  props: ['accessPlug','web3Plug','providerNetworkID','onClickedCallback'],
+  props: ['accessPlug','web3Plug','providerNetworkID' ],
   components: {},
   data() {
     return {
-      showResponsiveMenu: false
+      showResponsiveMenu: false,
+      signedIn: false
     }
   },
    mounted: async function()
   { 
       //this is required because vue cant detect changes otherwise 
-     this.accessPlug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
-        this.$forceUpdate();
-      }.bind(this));
+      this.accessPlug.getPlugEventEmitter().on('stateChanged', function(accessState) {
+          console.log('accessState',accessState);
+          this.signedIn = accessState.isConnected 
+          this.$forceUpdate();
+        }.bind(this));
   },
   
   methods: {
-    buttonClicked(){
+    signIn(){
       this.accessPlug.connect(this.web3Plug)
+    },
+
+    signOut(){
+      this.accessPlug.signOut(this.web3Plug)
     }
    
   }

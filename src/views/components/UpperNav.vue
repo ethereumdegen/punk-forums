@@ -59,7 +59,7 @@
         <AccessButton
            v-bind:providerNetworkID="activeNetworkId"
            v-bind:web3Plug='web3Plug'
-           v-bind:accessPlug='accessPlug'
+           v-bind:accessPlug='accessPlug' 
          />
 
           <span class="  " style="max-width:120px">
@@ -83,7 +83,7 @@ export default {
     return {
       activeAccountAddress:null,
       activeNetworkId: null,
-      navConfig: null
+      navConfig: null 
     }
   },
   created(){
@@ -94,6 +94,8 @@ export default {
           this.activeNetworkId = connectionState.activeNetworkId
            this.$forceUpdate();
         }.bind(this));
+
+   
   },
   methods: {
         
