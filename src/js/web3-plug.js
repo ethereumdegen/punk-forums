@@ -2,48 +2,7 @@
 
 /*
 
-  WEB3PLUG.js  --  By InfernalToast
-  A mini connector in order to abstract the metamask/web3 API into a custom event emitter that is simpler and more predictable
-
-
-
- >>> HOW TO USE
-
-  let web3Plug = new Web3Plug()
-
-  this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
-        console.log('stateChanged',connectionState);
-
-        // CUSTOM CODE HERE
-        this.activeAccountAddress = connectionState.activeAccountAddress
-        this.activeNetworkId = connectionState.activeNetworkId
-        // END CUSTOM CODE
-
-      }.bind(this));
-
-   this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
-        console.error('error',errormessage);
-
-        //CUSTOM CODE HERE
-        this.web3error = errormessage
-        // END CUSTOM CODE
-      }.bind(this));
-
-
-  this.web3Plug.connectWeb3( )
-
-
-  let networkName = this.web3Plug.getWeb3NetworkName(this.activeNetworkId)
-
-  let contractData = this.web3Plug.getContractDataForNetworkID(this.activeNetworkId)
-
-  let myTokenContract = this.web3Plug.getTokenContract(window.web3, contractData['weth'].address)
-
-  myTokenContract.methods.transferFrom( {...} ).send( {from: ....} )
-        .on('receipt', function(){
-            ...
-        });
-
+   
 
 
 */

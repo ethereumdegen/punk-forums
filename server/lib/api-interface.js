@@ -12,10 +12,14 @@ import  bodyParser from 'body-parser'
 import PacketHelper from './packet-helper.js'
 import { Server } from "socket.io";
 
+import web3utils from 'web3-utils'
+
 import http from 'http'
 import https from 'https'
 
 import APIHelper from './api-helper.js'
+
+import AccessHelper from './access-helper.js'
 
 export default class APIInterface  {
 
@@ -94,6 +98,22 @@ export default class APIInterface  {
 
         res.send(response)
       }) 
+
+
+
+      app.post('/generate_access_challenge/:publicaddress', async (req, res) => {
+
+        let publicAddress = web3utils.toChecksumAddress( req.params['publicaddress'] ) 
+
+        let accessChallenge = await AccessHelper.generateAccessChallenge( publicAddress ,this.mongoInterface )
+
+        let response = {accessChallenge: accessChallenge}
+
+        res.send(response)
+      })
+
+
+
 
 
       /*

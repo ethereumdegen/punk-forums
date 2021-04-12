@@ -7,6 +7,7 @@
      <div class=" ">
         <Navbar 
         v-bind:web3Plug="web3Plug"
+        v-bind:accessPlug="accessPlug"
        />
      </div>
 
@@ -71,7 +72,9 @@
 
 
 import Web3Plug from '../js/web3-plug.js' 
+import AccessPlug from '../js/access-plug.js' 
 
+ 
  
 import Navbar from './components/Navbar.vue';
  
@@ -88,12 +91,9 @@ export default {
   data() {
     return {
       web3Plug: new Web3Plug() ,
+      accessPlug: new AccessPlug() ,
       activePanelId: null,
-      selectedTab:"bids",
-      bidRowsArray:[],
-      salesRowsArray: [], 
-      nftContractOptionsList: [] ,
-      filterByNFTContractAddress: null,
+       
 
       
     }
@@ -122,8 +122,7 @@ export default {
 
       this.web3Plug.reconnectWeb()
 
-         
-      this.fetchOwnedAssets(  )
+       
 
   },
   mounted: function () {
@@ -147,27 +146,8 @@ export default {
 
           },
 
-          async fetchOwnedAssets(){
-
-            let apiURI = 'http://localhost:3000/api/v1/testapikey'
-            let inputData = {requestType: 'all_ERC721', input: { publicAddress:'0x810E096DDa9ae3Ae2b55a9c45068F9FE8eeea6db' } } 
-            let results = await StarflaskAPIHelper.resolveStarflaskQuery(apiURI ,  inputData   )
-            console.log(results)
-
-          },
-
-          clickedBidRowCallback(row){
-            console.log('clicked bid row',row )
-
-            this.$router.push({ path: `/bid/${row.signature}` })
-          },
-
-          clickedSalesRowCallback(row){
-            console.log('clicked sales row',row )
-
-
-            window.open(this.web3Plug.getExplorerLinkForTxHash(row.txHash, 1  ));
-          } 
+       
+ 
 
   }
 }

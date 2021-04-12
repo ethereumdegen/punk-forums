@@ -78,7 +78,7 @@ import GenericTable from './components/GenericTable.vue';
 import BidPacketHelper from '../js/bidpacket-helper.js'
 
 
-import BuyTheFloorHelper from '../js/buythefloor-helper.js'
+import FrontendHelper from '../js/frontend-helper.js'
 
 export default {
   name: 'Dashboard',
