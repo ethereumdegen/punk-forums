@@ -27,7 +27,14 @@
 
             <div class="text-white text-xl">  Ethereum API Made Simple.  </div> 
 
-            <div class="m-4 p-4 border-2 border-white   " style="max-width:200px; min-height:200px; margin:24px auto;"> </div>
+            <div class="m-4 p-4 border-2 border-white   " style="max-width:200px; min-height:200px; margin:24px auto;"> 
+
+              <AnimatedTextArea
+                v-bind:inputText="frontpageSampleCode"
+              
+               />
+
+            </div>
 
             <a :href="getRouteTo('docs')" class="text-white text-lg"> Read the docs  </a> 
 
@@ -77,6 +84,7 @@ import AccessPlug from '../js/access-plug.js'
 
  
 import FrontPageMedia from './components/FrontPageMedia.vue';
+import AnimatedTextArea from './components/AnimatedTextArea.vue';
  
 import Navbar from './components/Navbar.vue';
  
@@ -90,12 +98,17 @@ import FrontendHelper from '../js/frontend-helper.js';
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar, FrontPageMedia },
+  components: {Navbar, Footer, TabsBar, FrontPageMedia, AnimatedTextArea },
   data() {
     return {
       web3Plug: new Web3Plug() ,
       accessPlug: new AccessPlug() ,
       activePanelId: null,
+      frontpageSampleCode: `This is some code {}
+      This is some code {}
+      This is some code {}
+      
+      `
        
 
       
