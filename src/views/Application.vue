@@ -7,6 +7,7 @@
      <div class=" ">
         <Navbar 
         v-bind:web3Plug="web3Plug"
+        v-bind:accessPlug="accessPlug"
        />
      </div>
 
@@ -19,38 +20,22 @@
      <div class="autospacing w-container">
         
        <div class="w-column">
-
-
-         
-
-          <div class="text-lg font-bold"> Sell an NFT </div>
+          <div class="text-lg font-bold"> Your Bids  </div>
           
-         
-          <div  class=" "  >
-
-
-             
-
-            <div  >
-
-              <div class="text-xs  "> Select a type </div>
-
-
-               <ArtTypeTile v-for="type of nftTypes"
-                v-bind:type="type"
-                v-bind:imageURL="type.imgurl" 
-              
-
-              />
-
- 
-
+          <div  class=" " v-if="!connectedToWeb3">
+              <NotConnectedToWeb3 />
           </div>
 
+          <div  class=" " v-if=" connectedToWeb3">
 
-         
+             
+            
 
+            <div v-if="selectedTab=='bids'" class="mb-4 ">
 
+           
+
+           </div>
 
 
           </div>
@@ -76,68 +61,73 @@
 
 
 
-import Web3Plug from '../js/web3-plug.js' 
+import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
+import Web3Plug from '../js/web3-plug.js' 
+import AccessPlug from '../js/access-plug.js' 
+
+ 
 
 import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
-
-import ArtTypeTile from './components/ArtTypeTile.vue'
+import TabsBar from './components/TabsBar.vue';
+import GenericTable from './components/GenericTable.vue';
  
 
-import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
-
-import BuyTheFloorHelper from '../js/buythefloor-helper.js'
+import FrontendHelper from '../js/frontend-helper.js'
 
 export default {
-  name: 'StartSelling',
+  name: 'Application',
   props: [],
-  components: {Navbar, Footer,NotConnectedToWeb3, ArtTypeTile },
+  components: {Navbar, Footer, TabsBar, GenericTable, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() ,
-      nftTypes:  [],
-      connectedToWeb3: false 
+      accessPlug: new AccessPlug() ,
+      activePanelId: null,
+      selectedTab:"bids",
+      bidRowsArray:[],
+
+       
+      connectedToWeb3: false,
+      currentBlockNumber: 0
     }
   },
-  async created  () {
-   
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+
+  created(){
+
+ 
+    this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
         console.log('stateChanged',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
-         
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-        this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(this.web3Plug.getActiveNetId()).nftTypes
-    
+        this.currentBlockNumber = await this.web3Plug.getBlockNumber()
 
+         
+         
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
         console.error('error',errormessage);
          
         this.web3error = errormessage
-        
+       
       }.bind(this));
 
-
-    await this.web3Plug.reconnectWeb()
-
-
-    let chainId = this.web3Plug.getActiveNetId()
-    if(!chainId){
-      chainId = 1
-    }
-
-    this.nftTypes = BuyTheFloorHelper.getClientConfigForNetworkId(chainId).nftTypes
+      this.web3Plug.reconnectWeb()
     
-  }, 
-   beforeDestroy(){
-    this.web3Plug.clearEventEmitter()
+ 
+
   },
+  mounted: function () {
+    
+      this.accessPlug.reconnect()
+   
+  }, 
   methods: {
-         
+          
   }
 }
 </script>

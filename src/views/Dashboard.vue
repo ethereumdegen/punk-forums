@@ -7,6 +7,7 @@
      <div class=" ">
         <Navbar 
         v-bind:web3Plug="web3Plug"
+        v-bind:accessPlug="accessPlug"
        />
      </div>
 
@@ -32,11 +33,7 @@
 
             <div v-if="selectedTab=='bids'" class="mb-4 ">
 
-              <GenericTable
-                v-bind:labelsArray="['nftType','currencyType','bidAmount','expires']"
-                v-bind:rowsArray="bidRowsArray"
-                v-bind:clickedRowCallback="clickedBidRowCallback"
-               />
+           
 
            </div>
 
@@ -67,16 +64,16 @@
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
 import Web3Plug from '../js/web3-plug.js' 
+import AccessPlug from '../js/access-plug.js' 
 
+ 
 
 import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
 import GenericTable from './components/GenericTable.vue';
-
-import BidPacketHelper from '../js/bidpacket-helper.js'
-
+ 
 
 import FrontendHelper from '../js/frontend-helper.js'
 
@@ -87,6 +84,7 @@ export default {
   data() {
     return {
       web3Plug: new Web3Plug() ,
+      accessPlug: new AccessPlug() ,
       activePanelId: null,
       selectedTab:"bids",
       bidRowsArray:[],
@@ -108,7 +106,7 @@ export default {
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
         this.currentBlockNumber = await this.web3Plug.getBlockNumber()
 
-        this.fetchBidsData()
+         
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -119,73 +117,17 @@ export default {
       }.bind(this));
 
       this.web3Plug.reconnectWeb()
-
-      //this.populateContractAddressLookupTable()
-
-       
-      this.fetchBidsData()
+    
+ 
 
   },
   mounted: function () {
     
-   
+      this.accessPlug.reconnect()
    
   }, 
   methods: {
-          setActivePanel(panelId){
-              if(panelId == this.activePanelId){
-                this.activePanelId = null;
-                return 
-              }
-               this.activePanelId = panelId ;
-          },
-          onTabSelect(tabname){
-            console.log(tabname)
-
-
-
-
-          },
-          async fetchBidsData(){
-             var hostname = window.location.hostname; 
-
-                 
-            let serverURL = BuyTheFloorHelper.getSocketURL(this.web3Plug.getActiveNetId())  
-            console.log('serverURL',serverURL)
-
-            let contractData = this.web3Plug.getContractDataForActiveNetwork()
-            let btfContractAddress = contractData['buythefloor'].address
-
-
-            let query = {bidderAddress: this.web3Plug.getActiveAccountAddress() , exchangeContractAddress: btfContractAddress }
-
-            let bidPackets = await BidPacketHelper.getBidPackets(serverURL,query)
-            console.log('bidPackets',bidPackets)
-
-             bidPackets = bidPackets.filter( (bid) => {
-              return (bid.status == 'active')
-            } )
-
-            let chainId = this.web3Plug.getActiveNetId()
-            
-
-            this.bidRowsArray = bidPackets.map(pkt => (
-                                                           {
-                                                            nftContractAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.nftContractAddress,pkt.projectId,chainId),
-                                                            currencyTokenAddress: BuyTheFloorHelper.getNameFromContractAddress(pkt.currencyTokenAddress,0,chainId),
-                                                            currencyTokenAmount: BuyTheFloorHelper.getFormattedCurrencyAmount(pkt.currencyTokenAmount,pkt.currencyTokenAddress, chainId) ,
-                                                            expires: pkt.expires,
-                                                            signature: pkt.signature.signature
-                                                          } 
-                                                        ))
-          },
-
           
-          clickedBidRowCallback(row){
-            console.log('clicked bid row',row )
-
-            this.$router.push({ path: `/bid/${row.signature}` })
-          }
   }
 }
 </script>

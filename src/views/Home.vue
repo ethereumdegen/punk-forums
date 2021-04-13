@@ -106,11 +106,7 @@ export default {
         console.log('stateChanged',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
-        this.activeNetworkId = connectionState.activeNetworkId
-
-        
-          
-
+        this.activeNetworkId = connectionState.activeNetworkId 
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -121,14 +117,14 @@ export default {
       }.bind(this));
 
       this.web3Plug.reconnectWeb()
-
+   
        
 
   },
   mounted: function () {
+         this.accessPlug.reconnect()
+   
     
-   
-   
   }, 
   methods: {
           setActivePanel(panelId){

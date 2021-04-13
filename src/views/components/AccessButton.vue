@@ -22,7 +22,7 @@ export default {
       signedIn: false
     }
   },
-   mounted: async function()
+   created: async function()
   { 
       //this is required because vue cant detect changes otherwise 
       this.accessPlug.getPlugEventEmitter().on('stateChanged', function(accessState) {
