@@ -6,12 +6,11 @@
           <h3 class="heading-3 footer">Documentation</h3>
 
 
-          <a href="https://docs.buythefloor.com" target="_blank" class="footer-link">BTF Docs</a>
+          <a href="https://docs.starflask.com" target="_blank" class="footer-link">Starflask Docs</a>
           </div>
         <div class="column-6 w-col w-col-4 w-col-small-4">
           <h3 class="heading-3 footer">Community &amp; Social</h3>
-            <a href="https://discord.gg/mUPRJbpMsG" target="_blank" class="footer-link">BTF Discord</a>
-
+         
         <div class="column-7 w-col w-col-4 w-col-small-4 flex flex-col h-full">
 
              </div>

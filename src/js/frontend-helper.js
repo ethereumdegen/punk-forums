@@ -17,7 +17,7 @@ export default class FrontendHelper {
     }
 
     static async requestAccessChallenge(publicAddress){
-      let api_root = clientConfig.REST_URL
+      let api_root = FrontendHelper.getRouteTo('api')
 
 
       let uri = api_root.concat( '/generate_access_challenge/' )
@@ -46,7 +46,8 @@ export default class FrontendHelper {
     }
 
     static async requestAccessToken(publicAddress , signature){
-      let api_root = clientConfig.REST_URL
+      let api_root = FrontendHelper.getRouteTo('api')
+
 
       let uri = api_root.concat('/generate_access_token')
       let inputData = {publicAddress:publicAddress,signature:signature} 
@@ -71,6 +72,14 @@ export default class FrontendHelper {
      }); 
 
      
+    }
+
+
+    static getRouteTo(dest){
+ 
+        return clientConfig.external_routes[dest]
+      
+
     }
 
 

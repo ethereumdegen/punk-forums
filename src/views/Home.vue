@@ -2,7 +2,7 @@
 
 <div>
 
-   <div class="section  bg-white border-b-2 border-black px-0 lg:px-1">
+   <div class="section  bg-white border-b-4 border-black px-0 lg:px-1">
 
      <div class=" ">
         <Navbar 
@@ -16,26 +16,30 @@
 
   
 
-   <div class="section  bg-white border-b-2 border-black">
+   <div class="section  border-b-2 border-black" style="background:#222;">
      <div class=" w-container">
        <div class="w-row">
 
        </div>
-       <div class="w-row">
+       <div class="w-row ">
 
          
 
 
-         <div class="column w-col w-col-6 mt-8 py-8">
+         <div class="column w-col w-col-6 mt-8 py-8 ">
 
-            Starflask API 
+            <div class="text-white text-xl">  Ethereum API Made Simple.  </div> 
+
+            <div class="m-4 p-4 border-2 border-white" style="min-height:200px"> </div>
+
+            <a :href="getRouteTo('docs')" class="text-white text-lg"> Read the docs  </a> 
 
 
          </div>
          <div class="column-2 w-col w-col-6  ">
            
              
-
+           <FrontPageMedia />
 
 
          </div>
@@ -45,7 +49,7 @@
 
 
     <div class="section  bg-white border-b-2 border-black ">
-     <div class="w-container pt-8">
+     <div class="w-container  ">
 
          
 
@@ -75,6 +79,7 @@ import Web3Plug from '../js/web3-plug.js'
 import AccessPlug from '../js/access-plug.js' 
 
  
+import FrontPageMedia from './components/FrontPageMedia.vue';
  
 import Navbar from './components/Navbar.vue';
  
@@ -82,12 +87,13 @@ import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
   
 import StarflaskAPIHelper from '../js/starflask-api-helper.js';
+import FrontendHelper from '../js/frontend-helper.js';
 
 
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar,  },
+  components: {Navbar, Footer, TabsBar, FrontPageMedia },
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -141,6 +147,10 @@ export default {
 
 
           },
+
+          getRouteTo(dest){
+            return FrontendHelper.getRouteTo(dest)
+          }
 
        
  
