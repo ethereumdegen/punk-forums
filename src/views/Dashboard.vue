@@ -16,11 +16,11 @@
 
   
 
-   <div class="section   border-b-2 border-black" style="background:#222;">
-     <div class="autospacing w-container">
+   <div class="section   border-b-2 border-black text-white" style="background:#222;">
+     <div class="py-16 w-container">
         
        <div class="w-column">
-          <div class="text-lg font-bold"> Your Bids  </div>
+          <div class="text-lg font-bold"> Applications  </div>
           
           <div  class=" " v-if="!connectedToWeb3">
               <NotConnectedToWeb3 />
