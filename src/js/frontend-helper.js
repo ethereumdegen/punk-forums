@@ -4,7 +4,10 @@
  
 import axios from "axios";
 
+const env = process.env.NODE_ENV
 
+const clientConfig = require('../config/clientConfig.json')[env]
+ 
 
 export default class FrontendHelper {
 
@@ -14,8 +17,10 @@ export default class FrontendHelper {
     }
 
     static async requestAccessChallenge(publicAddress){
+      let api_root = clientConfig.REST_URL
 
-      let uri = '/generate_access_challenge/' 
+
+      let uri = api_root.concat( '/generate_access_challenge/' )
       let inputData = {publicAddress: publicAddress} 
 
 
@@ -41,8 +46,9 @@ export default class FrontendHelper {
     }
 
     static async requestAccessToken(publicAddress , signature){
+      let api_root = clientConfig.REST_URL
 
-      let uri = `/generate_access_token/` //${publicAddress}/${signature}`.concat(publicAddress)
+      let uri = api_root.concat('/generate_access_token')
       let inputData = {publicAddress:publicAddress,signature:signature} 
 
 

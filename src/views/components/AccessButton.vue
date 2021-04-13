@@ -4,7 +4,7 @@
      Sign In 
   </div>
 
-  <div v-if="signedIn==true"  @click="signOut" class=" button text-gray-200  bg-gray-900 hover:bg-gray-700 text-sm   py-2 px-2 rounded cursor-pointer">
+  <div v-if="signedIn==true"  @click="signOut" class=" button text-gray-800 border-2 border-black bg-gray-100 hover:bg-gray-200 text-sm   py-2 px-2 rounded cursor-pointer">
      Sign Out
   </div>
 </div>
