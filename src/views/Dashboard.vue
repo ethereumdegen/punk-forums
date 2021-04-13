@@ -2,7 +2,7 @@
 
 <div>
 
-   <div class="section  bg-white border-b-2 border-black px-0 lg:px-1">
+   <div class="section  bg-gray-200  border-b-2 border-black px-0 lg:px-1">
 
      <div class=" ">
         <Navbar 
@@ -16,7 +16,7 @@
 
   
 
-   <div class="section  bg-white border-b-2 border-black">
+   <div class="section   border-b-2 border-black" style="background:#222;">
      <div class="autospacing w-container">
         
        <div class="w-column">

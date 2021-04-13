@@ -2,7 +2,7 @@
 
 <div>
 
-   <div class="section  bg-white border-b-2 border-black px-0 lg:px-1">
+   <div class="section bg-gray-200  border-b-2 border-black px-0 lg:px-1">
 
      <div class=" ">
         <Navbar 

@@ -2,7 +2,7 @@
 
 <div>
 
-   <div class="section  bg-white border-b-4 border-black px-0 lg:px-1">
+   <div class="section  bg-gray-200  border-b-4 border-black px-0 lg:px-1">
 
      <div class=" ">
         <Navbar 
@@ -17,26 +17,23 @@
   
 
    <div class="section  border-b-2 border-black" style="background:#222;">
-     <div class=" w-container">
-       <div class="w-row">
+     <div class=" ">
+       <div class=" ">
 
        </div>
-       <div class="w-row ">
-
-         
-
-
-         <div class="column w-col w-col-6 mt-8 py-8 ">
+       <div class="  flex lg:flex-row flex-col  ">
+ 
+         <div class="  md:w-1/2  w-full mt-8 py-8  px-8  text-center">
 
             <div class="text-white text-xl">  Ethereum API Made Simple.  </div> 
 
-            <div class="m-4 p-4 border-2 border-white" style="min-height:200px"> </div>
+            <div class="m-4 p-4 border-2 border-white   " style="max-width:200px; min-height:200px; margin:24px auto;"> </div>
 
             <a :href="getRouteTo('docs')" class="text-white text-lg"> Read the docs  </a> 
 
 
          </div>
-         <div class="column-2 w-col w-col-6  ">
+         <div class="   md:w-1/2  w-full  text-center ">
            
              
            <FrontPageMedia />

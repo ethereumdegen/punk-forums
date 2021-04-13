@@ -1,29 +1,22 @@
 <template>
-  <div class="section footer">
-    <div class="container-3 w-container">
-      <div class="w-row">
-        <div class="column-5 w-col w-col-4 w-col-small-4">
-          <h3 class="heading-3 footer">Documentation</h3>
+  <div class="section py-4 text-white h-full" style="background: #1d1e26">
+    <div class=" h-full ">
+      <div class=" flex flex-row h-full">
+         <div class="w-1/4 ">
+         </div>
+        <div class="w-1/4 ">
+          <h3 class=" ">Documentation</h3>
 
 
           <a href="https://docs.starflask.com" target="_blank" class="footer-link">Starflask Docs</a>
           </div>
-        <div class="column-6 w-col w-col-4 w-col-small-4">
-          <h3 class="heading-3 footer">Community &amp; Social</h3>
+        <div class="w-1/4 h-full">
+          <h3 class=" ">Community &amp; Social</h3>
          
-        <div class="column-7 w-col w-col-4 w-col-small-4 flex flex-col h-full">
-
-             </div>
-             
-          <div class="flex-grow h-32">
-          </div>
-
-
-          <div class="text-yellow-400">
-            
+         
          </div>
 
-         </div>
+         
       </div>
     </div>
   </div>
