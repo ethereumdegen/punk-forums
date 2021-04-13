@@ -1,5 +1,5 @@
 <template>
-  <div class="section py-4 text-white h-full" style="background: #1d1e26">
+  <div class="section py-4 text-white h-full" style="background: #1d1e26; min-height: 250px;">
     <div class=" h-full ">
       <div class=" flex flex-row h-full">
          <div class="w-1/4 ">
@@ -16,7 +16,7 @@
          
          </div>
 
-         
+
       </div>
     </div>
   </div>
