@@ -55,6 +55,19 @@
             }
 
 
+            if(inputData.requestType == 'ERC20_balance_by_token'){
+ 
+                let inputParameters = inputData.input
+
+                let token = inputParameters.token 
+
+                let results = await APIHelper.findAllERC20ByToken(token, mongoInterface)
+
+                return {success:true, input: inputParameters, output: results  }
+            }
+
+
+
             if(inputData.requestType == 'burned_ERC20_by_from'){
  
                 let inputParameters = inputData.input
@@ -93,6 +106,10 @@
             return await mongoInterface.findAll('erc721_balances',{contractAddress: publicAddress })
         }
 
+        static async findAllERC20ByToken(publicAddress,mongoInterface){
+            publicAddress = web3utils.toChecksumAddress(publicAddress)
+            return await mongoInterface.findAll('erc20_balances',{contractAddress: publicAddress })
+        }
 
 
         static async findBurnedERC20ByFrom(publicAddress,mongoInterface){
