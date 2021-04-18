@@ -93,7 +93,7 @@ export default class APIInterface  {
 
         let appIdResults = await ApplicationManager.validateAppId( appId, this.mongoInterface )
 
-        if( !appIdResults.success ){
+        if( !appIdResults.success && this.serverConfig.requireAuthentication){
           res.send(appIdResults)
           return 
         }
