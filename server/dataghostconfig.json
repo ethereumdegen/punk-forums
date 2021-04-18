@@ -1,7 +1,15 @@
 {
     "development":{
         "wolfPackConfig":{
-            "contracts":[ ],
+            "contracts":[ 
+
+                {"address":"0xab89a7742cb10e7bce98540fd05c7d731839cf9f", "startBlock":5039000 , "type":"ERC20"} ,
+                {"address":"0x39ec448b891c476e166b3c3242a90830db556661", "startBlock": 4465713, "type":"ERC721"},
+                {"address":"0x7cea7e61f8be415bee361799f19644b9889713cd", "startBlock": 4528636, "type":"ERC721"},
+              {"address":"0x1fd534630e4e720c1a71c596aeb896faaa979f19", "startBlock": 4531988 , "type":"BuyTheFloor"},
+              {"address":"0x87d091782e7a222ce5b0a65283abd32ec29466e8", "startBlock": 4580955  , "type":"BurnBook"}
+
+            ],
       
             "suffix":"dev" ,
             "logging":true
