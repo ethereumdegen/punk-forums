@@ -74,8 +74,8 @@ import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
 import GenericTable from './components/GenericTable.vue';
  
-
-import FrontendHelper from '../js/frontend-helper.js'
+ 
+import FrontendHelper from '../js/frontend-helper';
 
 export default {
   name: 'Dashboard',
@@ -85,13 +85,12 @@ export default {
     return {
       web3Plug: new Web3Plug() ,
       accessPlug: new AccessPlug() ,
-      activePanelId: null,
-      selectedTab:"bids",
-      bidRowsArray:[],
+     
+      
+      existingApplicationsList:[],
 
        
-      connectedToWeb3: false,
-      currentBlockNumber: 0
+      connectedToWeb3: false  
     }
   },
 
@@ -116,18 +115,42 @@ export default {
        
       }.bind(this));
 
+       this.accessPlug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
+        console.log('access Changed',connectionState);
+         
+        
+          this.fetchMyApplications()
+         
+      }.bind(this));
+
       this.web3Plug.reconnectWeb()
-    
- 
+      
+
+
+     
+     
 
   },
   mounted: function () {
     
       this.accessPlug.reconnect()
+       //  this.fetchMyApplications()
    
   }, 
   methods: {
+      async fetchMyApplications(){
+
+       
+
+        let accessToken = this.accessPlug.getAccessToken() 
+
           
+
+        let response = await FrontendHelper.handleAPIRequest('/list_my_applications', {accessToken: accessToken})
+        
+
+        this.existingApplicationsList = response.list 
+      }
   }
 }
 </script>

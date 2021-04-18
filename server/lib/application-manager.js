@@ -1,12 +1,10 @@
  
     import Web3Helper from './web3-helper.js'
-    import BidPacketUtils from '../../src/js/bidpacket-utils.js'
-    
+ 
     import FileHelper from './file-helper.js'
 
     import web3utils from 'web3-utils'
-
-   import ethJsUtil from 'ethereumjs-util' 
+ 
     
    const MAX_APP_COUNT = 25 
  
@@ -27,6 +25,8 @@
                     return {success: false, message: 'User has exceeded application limit.'}
                 }
 
+                publicAddress = web3utils.toChecksumAddress(publicAddress)
+
                 let appId = web3utils.randomHex(20)
                 let newApp = await mongoInterface.insertOne('api_application', {publicAddress: publicAddress, applicationId: appId } )
  
@@ -35,6 +35,8 @@
             }
 
             static async findAllApplicationsForUser(publicAddress, mongoInterface){
+                publicAddress = web3utils.toChecksumAddress(publicAddress)
+
                 return await mongoInterface.findAll('api_application', {publicAddress: publicAddress } )
  
             }

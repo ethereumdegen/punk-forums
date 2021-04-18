@@ -150,18 +150,45 @@ export default class APIInterface  {
         let inputData = req.body   
         let accessToken =  inputData.accessToken   
 
-        let accessTokenData = AccessHelper.findAccessToken( accessToken )
+       
 
+        let accessTokenData = await AccessHelper.findAccessToken( accessToken, this.mongoInterface )
+
+   
         if(accessTokenData &&  accessTokenData.isValid){
 
           let userPublicAddress = accessTokenData.publicAddress
 
-          let newApplicationResult = ApplicationManager.generateNewApplicationForUser( userPublicAddress, this.mongoInterface )
+          let newApplicationResult = await ApplicationManager.generateNewApplicationForUser( userPublicAddress, this.mongoInterface )
 
-          return newApplicationResult
+          res.send({success:true, result: newApplicationResult} )
+
+          return 
         }
 
-        return {success: false}
+        res.send({success:false } ) 
+
+      })
+
+      app.post('/list_my_applications', async (req, res) => {
+ 
+        let inputData = req.body   
+        let accessToken =  inputData.accessToken   
+
+        let accessTokenData = await  AccessHelper.findAccessToken( accessToken , this.mongoInterface)
+ 
+        if(accessTokenData &&  accessTokenData.isValid){
+          
+          let userPublicAddress = accessTokenData.publicAddress
+
+          let list = await ApplicationManager.findAllApplicationsForUser( userPublicAddress, this.mongoInterface )
+         
+           
+          res.send({success:true, list: list} )
+          return
+        }
+
+        res.send({success:false } ) 
 
       })
 

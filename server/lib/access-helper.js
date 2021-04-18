@@ -70,7 +70,7 @@
 
         }
 
-        static async findAccessToken(accessToken){
+        static async findAccessToken(accessToken, mongoInterface){
             let accessTokenData = await mongoInterface.findOne('access_token',{accessToken:accessToken})
 
             if(!accessTokenData){

@@ -89,7 +89,9 @@ export default class AccessPlug {
     getConnectionState(){
         return {isConnected: this.isConnected, accessToken: this.accessToken}
     }
-
+    getAccessToken(){
+        return  this.accessToken
+    }
 
  
 
