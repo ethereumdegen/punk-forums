@@ -36,9 +36,9 @@
                 
 
                 {"address":"0xa7d8d9ef8d8ce8992df33d8b8cf4aebabd5bd270","startBlock":11437151, "type":"ERC721" },
-                    {"address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a","startBlock":11338811, "type":"ERC721" },
+                {"address":"0x059edd72cd353df5106d2b9cc5ab83a52287ac3a","startBlock":11338811, "type":"ERC721" },
 
-                    {"address":"0x9b2214d749f736873b2232a54889342610878651","name":"digitaltoast","startBlock":12203006, "type":"ERC721" },
+                {"address":"0x9b2214d749f736873b2232a54889342610878651","name":"digitaltoast","startBlock":12203006, "type":"ERC721" },
 
                 
 
@@ -46,7 +46,9 @@
                 {"address":"0x392d7bda765d8bbe626abeb2127e6d6395eff44c", "startBlock":12158466 , "type":"BuyTheFloor"},
                 {"address":"0x5a0361e743b1d172dc09456388aa3d4acd14adf3", "startBlock":12202860 , "type":"BurnBook"},
 
-                {"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31", "startBlock":5039000 , "type":"ERC20"}
+                {"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31", "startBlock":5039000 , "type":"ERC20"},
+                {"address":"0x657223e3fdf539d92c40664db340097d5d6bd9f5", "name": "MinersGuildReserve", "startBlock": 12244573 , "type":"ERC20"}
+
 
 
                 
