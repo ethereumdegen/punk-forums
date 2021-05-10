@@ -6,8 +6,7 @@
 
      <div class=" ">
         <Navbar 
-        v-bind:web3Plug="web3Plug"
-        v-bind:accessPlug="accessPlug"
+        v-bind:web3Plug="web3Plug" 
        />
      </div>
 
@@ -19,31 +18,156 @@
    <div class="section  bg-white border-b-2 border-black  ">
      <div class="autospacing w-container">
         
+     <form id="newApplicationForm"> 
        <div class="w-column py-16">
-          <div class="text-lg font-bold"> Create a New Application  </div>
-
-
-
+          <div class="text-lg font-bold mb-8"> Create a New Application  </div>
+ 
 
           <div> 
+            <div class="mb-4">
+
+                <label   class="block text-md font-medium font-bold text-gray-800  ">Application Name</label>
+                 
+                <div class="flex flex-col w-1/2">
+
+               
+                  <input type="text" v-model="formInputs.name" class="border-gray-200 border-2 p-2 m-2 " placeholder="My First Application" />
+
+               
+                  
+                </div>
+
+
+              </div>
+
+
+
+            <div class="mb-4">
+
+                <label   class="block text-md font-medium font-bold text-gray-800  ">Application Description</label>
+                 
+                <div class="flex flex-col w-1/2">
+
+               
+                  <textarea type="text" v-model="formInputs.description" class="border-gray-200 border-2 p-2 m-2 " placeholder=" " />
+
+               
+                  
+                </div>
+
+
+              </div>
+
+
+
 
              <div class="mb-4">
-                <label   class="block text-md font-medium font-bold text-gray-800  ">Bid Currency Token</label>
-                
-
+                <label   class="block text-md font-medium font-bold text-gray-800  ">Subscription Price (per month)</label>
+                 
                 <div class="flex flex-row">
+
+                <input type="number" v-model="formInputs.priceAmount" class="border-black border-2 p-2 m-2 " />
 
                 <GenericDropdown
                   v-bind:optionList="currencyTokensOptionsList" 
                   v-bind:onSelectCallback="onCurrencySelectCallback"
                 />
-                  <div class="mb-4 p-4 ml-8" v-if="formInputs.tokenContractAddress">
-                    Balance: {{ getSelectedCurrencyBalanceFormatted() }}
-                </div>
+                  
                 </div>
 
 
             </div>
+             <div class="mb-4">
+
+                <label   class="block text-md font-medium font-bold text-gray-800  ">Payouts Address</label>
+                 
+                <div class="flex flex-col w-1/2">
+
+                  <div class="text-xs p-2"> The Public address of an Ethereum account you control.  Do not use an exchange address or your funds may be non-recoverable.  Please use a personal account (such as metamask).    </div>
+
+                  <input type="text" v-bind:model="formInputs.payoutsAddress" class="border-black border-2 p-2 m-2 " placeholder="0x..." />
+
+               
+                  
+                </div>
+
+
+              </div>
+
+
+               <div class="mb-4">
+
+                <label   class="block text-md font-medium font-bold text-gray-800  ">Cover Image</label>
+
+
+                   <div class="flex flex-row ">
+
+                      <div class="flex flex-col w-1/2">
+
+                        <div class="text-xs p-2">  Recommended dimensions 1500x500.    </div>
+
+                        <input type="file"  class="border-black border-2 p-2 m-2 "  @change="onCoverImageChange" /> 
+                        
+                      </div>
+                
+                
+                
+                   <div class="flex flex-col p-2 ">
+                
+                      
+                    <div id="preview">
+                      <img v-if="formInputs.coverImageURL" :src="formInputs.coverImageURL" width="80px" />
+                    </div>
+                  </div> 
+
+
+                  </div>
+
+
+              </div>
+
+
+          <div class="mb-4">
+
+                <label   class="block text-md font-medium font-bold text-gray-800  ">Thumbnail Image</label>
+
+              <div class="flex flex-row ">
+
+                <div class="flex flex-col w-1/2">
+
+                  <div class="text-xs p-2">  Recommended dimensions 500x500.    </div>
+
+                  <input type="file"   class="border-black border-2 p-2 m-2 " @change="onThumbnailImageChange"  /> 
+                  
+                </div>
+
+                <div class="flex flex-col p-2 ">
+
+               
+                     
+                  <div id="preview">
+                    <img v-if="formInputs.thumbnailImageURL" :src="formInputs.thumbnailImageURL" width="80px" />
+                  </div>
+                </div> 
+
+
+                </div> 
+
+
+              </div>
+
+
+
+              <div> 
+
+
+                <div class="  p-4">
+                     <div @click="submitForm" class="select-none font-bold  p-2 inline-block bg-blue-400 rounded border-gray-600 hover:border-gray-300 text-white border-2 cursor-pointer  px-8"> Submit </div>
+                </div>
+
+
+              </div> 
+
 
             
 
@@ -64,6 +188,8 @@
 
           
        </div>
+
+      </form>
      </div>
    </div>
 
@@ -85,8 +211,6 @@
 import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
 
 import Web3Plug from '../js/web3-plug.js' 
-import AccessPlug from '../js/access-plug.js' 
-
  
 
 import Navbar from './components/Navbar.vue';
@@ -94,6 +218,7 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
 import GenericTable from './components/GenericTable.vue';
+ import GenericDropdown from './components/GenericDropdown.vue';
  
 
 import FrontendHelper from '../js/frontend-helper.js'
@@ -101,15 +226,15 @@ import FrontendHelper from '../js/frontend-helper.js'
 export default {
   name: 'Application',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable, NotConnectedToWeb3},
+  components: {Navbar, Footer, TabsBar, GenericDropdown, NotConnectedToWeb3},
   data() {
     return {
-      web3Plug: new Web3Plug() ,
-      accessPlug: new AccessPlug() ,
-      activePanelId: null,
-      selectedTab:"bids",
-      bidRowsArray:[],
+      web3Plug: new Web3Plug() , 
+      
+      currencyTokensOptionsList: [{name:'0xBTC',label:'0xBTC'}],
 
+      formInputs: {name:null,description:null,priceAmount:1,thumbnailImageURL:null,coverImageURL:null},
+       
        
       connectedToWeb3: false,
       currentBlockNumber: 0
@@ -144,10 +269,33 @@ export default {
   },
   mounted: function () {
     
-      this.accessPlug.reconnect()
+     // this.accessPlug.reconnect()
+
+
+ 
    
   }, 
   methods: {
+
+    async onCurrencySelectCallback(currency){
+      console.log('onCurrencySelectCallback',currency)
+    },
+
+     onCoverImageChange(e) {
+      const file = e.target.files[0];
+      this.formInputs.coverImageURL = URL.createObjectURL(file);
+ 
+    },
+
+     onThumbnailImageChange(e) {
+      const file = e.target.files[0];
+      this.formInputs.thumbnailImageURL = URL.createObjectURL(file);
+    },
+
+    submitForm(){
+      console.log('submit form', this.formInputs)
+
+    }
           
   }
 }

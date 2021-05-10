@@ -26,6 +26,19 @@ a {
 }
 
 
+
+
+#preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#preview img {
+  max-width: 100%;
+  max-height: 500px;
+}
+
 /* -----
 SVG Icons - svgicons.sparkk.fr
 ----- */

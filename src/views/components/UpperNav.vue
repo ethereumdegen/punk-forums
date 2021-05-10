@@ -56,11 +56,7 @@
 
         <div v-if="web3Plug.connectedToWeb3() "   class="truncate  text-gray-800 p-2" style="max-width:250px;  ">
 
-        <AccessButton
-           v-bind:providerNetworkID="activeNetworkId"
-           v-bind:web3Plug='web3Plug'
-           v-bind:accessPlug='accessPlug' 
-         />
+       
 
           <span class="  " style="max-width:120px">
           <a   v-bind:href="getEtherscanBaseURL()+'/address/'+web3Plug.getActiveAccountAddress()" class="text-gray-800  "   target="_blank">  {{web3Plug.getActiveAccountAddress()}} </a>
@@ -73,12 +69,12 @@
 
 
 <script>
-import AccessButton from './AccessButton.vue'
+ 
 import Config from '../config/UpperNav.js'
 export default {
   name: 'UpperNav',
   props: ['web3Plug', 'accessPlug' ],
-  components:{AccessButton},
+  components:{ },
   data() {
     return {
       activeAccountAddress:null,
