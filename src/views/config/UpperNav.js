@@ -4,7 +4,7 @@ const config={
     {"title":"Navigation","rows":[
       {"title":"Home","url":"/"},    
       {"title":"Official Docs","url":"https://docs.starflask.com"},   
-      {"title":"Dashboard","url":"/dashboard"} 
+      {"title":"New Application","url":"/new"} 
     ]}  
   ]
 

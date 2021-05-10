@@ -9,6 +9,8 @@ import Dashboard from './views/Dashboard.vue'
 
 import Application from './views/Application.vue'
 
+import New from './views/New.vue'
+
 import NotFound from './views/NotFound.vue'
 
 Vue.use(Router)
@@ -29,6 +31,14 @@ export default new Router({
       name: 'dashboard',
       component: Dashboard
     } ,
+
+    {
+      path: '/new',
+      name: 'new',
+      component: New
+    } ,
+
+
 
     {
       path: '/application/:app_id',

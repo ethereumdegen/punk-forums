@@ -1,17 +1,14 @@
-# Starflask API Web
- 
-Web frontend for API Service
- 
+# Subscriber Service 
+  
 
  
 
 
 ### TODO
  
--allow logged-in users to generate API key 
--when a new request comes in, increment use counter on API key - limit max  
-
--Certain api keys will have allowlists - can only come from certain domain 
+-allow user to sign in w web3 
+-user can specify a new 'project' as a creator   (enable acct as creator) 
+-This project will have a cover image, a description, a list of 'perks' , and it will have 'subscription plans' such as .. 0.05 ETH per 6 months. 
 
 
 
