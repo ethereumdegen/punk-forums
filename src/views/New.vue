@@ -23,7 +23,15 @@
           <div class="text-lg font-bold mb-8"> Create a New Application  </div>
  
 
-          <div> 
+
+
+              <div  class=" " v-if="!connectedToWeb3">
+                      <NotConnectedToWeb3 />
+                  </div>
+ 
+
+
+          <div  v-if=" connectedToWeb3"> 
             <div class="mb-4">
 
                 <label   class="block text-md font-medium font-bold text-gray-800  ">Application Name</label>
@@ -162,7 +170,14 @@
 
 
                 <div class="  p-4">
+
+                   
+                 
                      <div @click="submitForm" class="select-none font-bold  p-2 inline-block bg-blue-400 rounded border-gray-600 hover:border-gray-300 text-white border-2 cursor-pointer  px-8"> Submit </div>
+             
+
+                 
+             
                 </div>
 
 
@@ -174,17 +189,7 @@
           </div>
 
           
-          <div  class=" " v-if="!connectedToWeb3">
-              <NotConnectedToWeb3 />
-          </div>
-
-          <div  class=" " v-if=" connectedToWeb3">
-
-             
-            
- 
-          </div>
-
+         
 
           
        </div>
