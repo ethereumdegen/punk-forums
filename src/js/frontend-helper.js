@@ -91,7 +91,12 @@ export default class FrontendHelper {
   
         return new Promise(   (resolve, reject) => {
   
-          axios.post(uri, inputData )
+          axios({
+            method: "post",
+            url: uri,
+            data: inputData,
+            headers: { "Content-Type": "multipart/form-data" },
+          })
           .then((res) => {
              
                console.log('res', res.data)
@@ -110,7 +115,7 @@ export default class FrontendHelper {
        
       }
 
-
+ 
     static getRouteTo(dest){
 
         console.log('ENV IS ', env )

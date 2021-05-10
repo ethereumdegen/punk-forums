@@ -241,7 +241,7 @@ export default {
       currencyTokensOptionsList: [{name:'0xBTC',label:'0xBTC'}],
 
       formInputs: {name:null,description:null,priceAmount:1,thumbnailImageURL:null,coverImageURL:null},
-       
+      formData: new FormData(),
        
       connectedToWeb3: false,
       currentBlockNumber: 0
@@ -290,12 +290,19 @@ export default {
 
      onCoverImageChange(e) {
       const file = e.target.files[0];
+ 
+     
+      this.formData.append("coverImage", file);
+ 
       this.formInputs.coverImageURL = URL.createObjectURL(file);
  
     },
 
      onThumbnailImageChange(e) {
       const file = e.target.files[0];
+
+      this.formData.append("thumbnailImage", file); 
+
       this.formInputs.thumbnailImageURL = URL.createObjectURL(file);
     },
 
@@ -305,7 +312,11 @@ export default {
       this.formInputs.creatorAddress = this.activeAccountAddress
       this.formInputs.priceCurrency = '0xBTC'
 
-      let result = await FrontendHelper.submitNewApplicationForm(this.formInputs)
+     // this.formInputs.formData =  this.formData
+
+      console.log( this.formData)
+
+      let result = await FrontendHelper.submitNewApplicationForm(this.formData)
 
     }
           
