@@ -303,6 +303,7 @@ export default {
       console.log('submit form', this.formInputs)
 
       this.formInputs.creatorAddress = this.activeAccountAddress
+      this.formInputs.priceCurrency = '0xBTC'
 
       let result = await FrontendHelper.submitNewApplicationForm(this.formInputs)
 
