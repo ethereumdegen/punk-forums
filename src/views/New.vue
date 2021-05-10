@@ -297,8 +297,10 @@ export default {
       this.formInputs.thumbnailImageURL = URL.createObjectURL(file);
     },
 
-    submitForm(){
+    async submitForm(){
       console.log('submit form', this.formInputs)
+
+      let result = await FrontendHelper.submitNewApplicationForm(this.formInputs)
 
     }
           

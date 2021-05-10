@@ -121,4 +121,19 @@ export default class FrontendHelper {
     }
 
 
+    static async submitNewApplicationForm(formInputs){
+
+         
+        let endpoint =   '/application/create' 
+
+        let inputData = formInputs 
+
+        return FrontendHelper.handleAPIRequest(endpoint,inputData)
+
+    }
+ 
+
+
 }
+
+ 
