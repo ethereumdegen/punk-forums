@@ -111,7 +111,7 @@ export default class APIInterface  {
 
 
 
-      app.post('/generate_access_challenge', async (req, res) => {
+     /* app.post('/generate_access_challenge', async (req, res) => {
 
         let inputData = req.body 
 
@@ -143,26 +143,23 @@ export default class APIInterface  {
           res.send(response)
         }
      
-      })
+      })*/
 
-      app.post('/generate_new_application', async (req, res) => {
+      app.post('/application/create', async (req, res) => {
 
-        let inputData = req.body   
-        let accessToken =  inputData.accessToken   
-
+        let inputData = req.body 
+        
+        console.log('create new application,', inputData )
        
-
-        let accessTokenData = await AccessHelper.findAccessToken( accessToken, this.mongoInterface )
-
    
-        if(accessTokenData &&  accessTokenData.isValid){
+        if(inputData  ){
 
-          let userPublicAddress = accessTokenData.publicAddress
+          //let userPublicAddress = accessTokenData.publicAddress
 
-          let newApplicationResult = await ApplicationManager.generateNewApplicationForUser( userPublicAddress, this.mongoInterface )
+          //let newApplicationResult = await ApplicationManager.generateNewApplicationForUser( userPublicAddress, this.mongoInterface )
 
-          res.send({success:true, result: newApplicationResult} )
-
+         // res.send({success:true, result: newApplicationResult} )
+ 
           return 
         }
 
@@ -280,87 +277,7 @@ export default class APIInterface  {
                });
     
     
-    
-      
-    
-    
-            socket.on('submitBidPacket', async function (data) {
-    
-                 let packet = data.packet 
-    
-                console.log('got Websocket data', data  )
-    
-          
-
-
-                    var bidPacket = {
-                        bidderAddress:packet.bidderAddress,
-                        nftContractAddress: packet.nftContractAddress,
-                        currencyTokenAddress: packet.currencyTokenAddress,
-                        currencyTokenAmount: packet.currencyTokenAmount,
-                        requireProjectId: packet.requireProjectId,
-                        projectId: packet.projectId,
-                        expires:packet.expires,
-                        signature:packet.signature,
-
-                        exchangeContractAddress: packet.exchangeContractAddress,
-                        chainId: packet.chainId
-                    }
-                     
-
-                    let packetIsValid = PacketHelper.checkPacketValidity(bidPacket, serverConfig)
-                    
-                    if(packetIsValid){
-                      var result = await PacketHelper.storeNewBidPacket(bidPacket,  mongoInterface);
-                      
-                      if(result.success){
-                        socket.emit('submittedBidPacket',  result );
-        
-                      }else{
-                        socket.emit('submittedBidPacket',  {success:false, error: 'received duplicate packet' });
-        
-                      }
-                      
-                    }else{
-                      socket.emit('submittedBidPacket',  {success:false, error: 'invalid packet signature' });
-        
-                    }
-                      
-                 socket.disconnect()
-    
-            }.bind(this));
-    
-    
-    
      
-    
-             socket.on('bidPackets', async function (data) {
-             
-             
-              let query = {} 
-              if(data.query){
-                let queryString = JSON.stringify(data.query)
-                  query = JSON.parse(queryString.replace("$", " "))
-  
-              }
-             
-                var bidPackets = await PacketHelper.findBidPackets( mongoInterface, query )
-
-              
-                socket.emit('bidPackets',  bidPackets);
-                socket.disconnect()
-              });
-
-
-              socket.on('bidPacket', async function (data) {
-                        console.log('findBidPacketBySignature', data)
-                var bidPackets = await PacketHelper.findBidPacketBySignature(data.signature, mongoInterface)
-
-               
-   
-               socket.emit('bidPacket',  bidPackets);
-               socket.disconnect()
-             });
     
               
           
