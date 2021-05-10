@@ -235,6 +235,8 @@ export default {
   data() {
     return {
       web3Plug: new Web3Plug() , 
+
+      activeAccountAddress: null,
       
       currencyTokensOptionsList: [{name:'0xBTC',label:'0xBTC'}],
 
@@ -299,6 +301,8 @@ export default {
 
     async submitForm(){
       console.log('submit form', this.formInputs)
+
+      this.formInputs.creatorAddress = this.activeAccountAddress
 
       let result = await FrontendHelper.submitNewApplicationForm(this.formInputs)
 
