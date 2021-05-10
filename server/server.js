@@ -20,7 +20,7 @@ let serverConfig = serverConfigFile[envmode]
     console.log('server config: ',serverConfig)
 
 
-    let mongoInterface = new MongoInterface( 'starflask_api_'.concat(envmode) ) 
+    let mongoInterface = new MongoInterface( 'subscriber_api_'.concat(envmode) ) 
 
     let wolfpackInterface = new MongoInterface( 'wolfpack_'.concat(envmode) ) 
 
