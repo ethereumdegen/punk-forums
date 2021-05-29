@@ -128,10 +128,18 @@ export default {
        
 
   },
-  mounted: function () {
+  mounted: async function () {
          this.accessPlug.reconnect()
+
+
+
+ 
+
+
+
+         let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'ERC721_balance_by_owner' , input:{publicAddress:'0x99a848F6d8bb6D6Cd1A524B3C99a97e41e1E4b5A'}})
    
-    
+          console.log('response', response)
   }, 
   methods: {
           setActivePanel(panelId){

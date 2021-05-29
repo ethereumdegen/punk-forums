@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
  
-
 [v-cloak] { display:none; }
 
 a {
@@ -25,7 +24,9 @@ a {
   100% { transform: rotate(360deg); }
 }
 
-
+.font-brand {
+  font-family: 'Shadows Into Light', cursive;
+}
 
 
 #preview {

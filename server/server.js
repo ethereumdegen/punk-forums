@@ -20,9 +20,9 @@ let serverConfig = serverConfigFile[envmode]
     console.log('server config: ',serverConfig)
 
 
-    let mongoInterface = new MongoInterface( 'subscriber_api_'.concat(envmode) ) 
+    let mongoInterface = new MongoInterface( 'punkforums_api_'.concat(envmode) ) 
 
-    let wolfpackInterface = new MongoInterface( 'wolfpack_'.concat(envmode) ) 
+    let wolfpackInterface = new MongoInterface( 'wolfpack_punkforums_'.concat(envmode) ) 
 
 
     let web3 = new Web3( serverConfig.web3provider  )
@@ -32,12 +32,7 @@ let serverConfig = serverConfigFile[envmode]
     
     let apiInterface = new APIInterface(web3, mongoInterface, wolfpackInterface, serverConfig)
  
-      
-    
-
-    //let packetCustodian = new PacketCustodian(web3,mongoInterface, serverConfig)
-
-
+       
 
 }
 

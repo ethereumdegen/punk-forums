@@ -6,9 +6,9 @@
 
         <div class="mt-6 mx-2 flex-grow"> 
         <div class=" inline-block mx-2 ">
-        <img class="inline-block mb-1 " width="24" height="24" src="/squiggle_sm.png" />
+         
         </div>
-        <router-link to="/" class='no-underline flex-grow inline text-xl text-gray-900 font-bold'>{{brandTitle}}</router-link>
+        <router-link to="/" class='no-underline flex-grow inline text-2xl text-gray-900 font-bold font-brand '>{{brandTitle}}</router-link>
        </div>
  
  

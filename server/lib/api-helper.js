@@ -16,7 +16,7 @@
         }
 
         //http://localhost:3000/api/v1/somestuff
-        static async handleApiRequest(request, appId, wolfpackInterface, mongoInterface){
+        static async handleApiRequest(request,   wolfpackInterface, mongoInterface){
            
             let inputData = request.body 
             
@@ -30,7 +30,7 @@
 
                 let results = await APIHelper.findAllERC721ByOwner(publicAddress, wolfpackInterface)
 
-                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
+                //await ApplicationManager.logNewRequest( inputData.requestType,inputParameters,results, mongoInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             } 
@@ -45,38 +45,13 @@
 
                 let results = await APIHelper.findAllERC721ByToken(token, wolfpackInterface)
 
-                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
+                //await ApplicationManager.logNewRequest( inputData.requestType,inputParameters,results, mongoInterface)
 
                 return {success:true, input: inputParameters, output: results  }
             }
 
-
-            if(inputData.requestType == 'ERC20_burned_by_from'){
- 
-                let inputParameters = inputData.input
-
-                let from = inputParameters.from 
-
-                let results = await APIHelper.findBurnedERC20ByFrom(from, wolfpackInterface)
-
-                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
-
-                return {success:true, input: inputParameters, output: results  }
-            }
 
              
-            if(inputData.requestType == 'ERC20_burned_by_token'){
- 
-                let inputParameters = inputData.input
-
-                let token = inputParameters.token 
-
-                let results = await APIHelper.findBurnedERC20ByToken(token, wolfpackInterface)
-
-                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
-
-                return {success:true, input: inputParameters, output: results  }
-            }
 
             if(inputData.requestType == 'ERC20_balance_by_owner'){
  
@@ -138,53 +113,8 @@
 
 
 
-
-             //Name Deprecated
-            if(inputData.requestType == 'burned_ERC20_by_from'){
  
-                let inputParameters = inputData.input
-
-                let from = inputParameters.from 
-
-                let results = await APIHelper.findBurnedERC20ByFrom(from, wolfpackInterface)
-
-                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
-
-                return {success:true, input: inputParameters, output: results  }
-            }
-
-             //Name Deprecated
-            if(inputData.requestType == 'burned_ERC20_by_token'){
  
-                let inputParameters = inputData.input
-
-                let token = inputParameters.token 
-
-                let results = await APIHelper.findBurnedERC20ByToken(token, wolfpackInterface)
-
-                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
-
-                return {success:true, input: inputParameters, output: results  }
-            }
-
-
-
-               //Name Deprecated
-               if(inputData.requestType == 'all_ERC721'){
- 
-                let inputParameters = inputData.input
-
-                let publicAddress = inputParameters.publicAddress 
-
-                
-
-                let results = await APIHelper.findAllERC721ByOwner(publicAddress, wolfpackInterface)
-
-                await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
-
-                return {success:true, input: inputParameters, output: results  }
-            } 
-
 
 
             return {success:false}
@@ -214,9 +144,7 @@
             return await mongoInterface.findAll('erc20_burned',{token: tokenAddress })
         }
 
-        
-
-        //TEST THESE 
+         
         static async findERC20BalanceByAccount(accountAddress, mongoInterface){
             accountAddress = web3utils.toChecksumAddress(accountAddress) 
             return await mongoInterface.findAll('erc20_balances',{accountAddress: accountAddress  })
