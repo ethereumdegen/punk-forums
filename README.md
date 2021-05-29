@@ -5,6 +5,11 @@ Unofficial web forum for Cryptopunks by Larva Labs
 
 
 ### Dev Notes
+-Need to allow for user to click on punk in punksbar to 'select' it 
+-When a punk is selected, rest of app needs to know.  Then, New Topic button will appear.  
+
+
+
 -getting erc20 balance doesnt work
 -need to wolfpack events from Payspec 
 
