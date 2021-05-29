@@ -62,11 +62,16 @@ export default {
       this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
       this.fetchOwnedTokenIds()
 
-      // this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
+      this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
 
 
 
   },
+    beforeDestroy: function () {
+     
+     this.web3Plug.clearEventEmitter()
+  },
+
   methods: {
        async fetchOwnedTokenIds(){
           

@@ -285,7 +285,7 @@ export default {
 
       this.web3Plug.reconnectWeb()
     
- 
+   
 
   },
   mounted: function () {
@@ -296,6 +296,10 @@ export default {
  
    
   }, 
+  beforeDestroy: function () {
+      this.web3Plug.clearEventEmitter()
+  },
+
   methods: {
 
     async onCurrencySelectCallback(currency){

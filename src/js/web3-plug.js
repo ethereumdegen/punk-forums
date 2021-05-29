@@ -27,6 +27,8 @@ class Web3PlugEmitter extends EventEmitter {}
 const web3PlugEmitter = new Web3PlugEmitter();
 
 var web3Instance = null 
+
+var initializedWeb3PlugEmitter = false
  
   let networkIds = {
     'mainnet':1,
@@ -39,6 +41,8 @@ var web3Instance = null
 export default class Web3Plug {
 
   async reconnectWeb(){
+
+     
     if (window.ethereum && !this.connectedToWeb3()) {
 
      
@@ -61,26 +65,30 @@ export default class Web3Plug {
 
     console.log('connectWeb3')
 
-    if (window.ethereum) {
+    if (window.ethereum  ) {
 
  
 
          window.web3 = new Web3(window.ethereum);
 
          web3Instance = window.web3 
-
-
+ 
         
          window.ethereum.enable();
          console.log('meep', window.web3.currentProvider.host )
 
-         window.ethereum.on('accountsChanged', (accounts) => {
-                  web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
-          });
-
-         window.ethereum.on('chainChanged', (chainId) => {
-                  web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+        if(!initializedWeb3PlugEmitter){
+          initializedWeb3PlugEmitter = true
+          window.ethereum.on('accountsChanged', (accounts) => {
+                   web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
            });
+ 
+          window.ethereum.on('chainChanged', (chainId) => {
+                   web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+            });
+        }
+
+      
 
 
         web3PlugEmitter.emit('stateChanged', this.getConnectionState() )

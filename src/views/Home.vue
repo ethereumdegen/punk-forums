@@ -118,12 +118,18 @@ export default {
       this.web3Plug.reconnectWeb()
    
        
+     this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
 
   },
+
   mounted: async function () {
         
 
   }, 
+    beforeDestroy: function () {
+     
+     this.web3Plug.clearEventEmitter()
+  },
   methods: {
 
     onPerformAction(name){
