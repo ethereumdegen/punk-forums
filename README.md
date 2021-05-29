@@ -1,6 +1,6 @@
-# Subscriber Service 
+# Cryptopunk Forums 
   
-
+Unofficial web forum for Cryptopunks by Larva Labs
  
 
 
