@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>punk3315.png">
+    <link id="favicon" rel="icon"  >
     <title>Etherpunks</title>
 
     
@@ -19,4 +19,17 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  
 </html>
+
+<script> 
+
+const punkIdsArray = [3315,1164]
+
+let randomIndex = Math.floor( Math.random() * punkIdsArray.length  )
+let punkId = punkIdsArray[randomIndex] 
+
+
+document.getElementById("favicon").href="/punk".concat(punkId).concat(".png");
+
+</script> 
