@@ -28,7 +28,11 @@
    <div class="section  bg-white border-b-2 border-black  ">
      <div class="autospacing w-container">
         
-     <form id="newApplicationForm"> 
+     <form id="newTopicForm"  >  
+
+
+       <input type="text" name="name" value="John">
+
        <div class="w-column py-16">
           <div class="text-lg font-bold "> Create a New Topic  </div>
  
@@ -48,6 +52,7 @@
              <div class="my-4">
                  
                 <SimpleDropdown
+                  ref="categoryDropdown"
                   v-bind:optionList="forumCategoriesOptions" 
                   v-bind:onSelectCallback="onCategorySelected"
                 />
@@ -115,10 +120,8 @@
 
                 <div class="  p-4">
 
-                   
-                 
-                     <div @click="submitForm" class="select-none font-bold  p-2 inline-block bg-blue-400 rounded border-gray-600 hover:border-gray-300 text-white border-2 cursor-pointer  px-8"> Submit </div>
-             
+                    
+                     <div @click="submitTopicForm" class="select-none font-bold  p-2 inline-block bg-blue-400 rounded border-gray-600 hover:border-gray-300 text-white border-2 cursor-pointer  px-8" >Submit</div>
 
                  
              
@@ -303,16 +306,38 @@ computed: {
 
     },
 
-    async submitForm(){
-      console.log('submit form', this.formInputs)
+    async submitTopicForm( ){
+ 
 
-      this.formInputs.creatorAddress = this.activeAccountAddress
-      this.formInputs.priceCurrency = '0xBTC'
+
+    /*  var entireForm = document.querySelector("#newApplicationForm");
+
+      const formData = new FormData(entireForm);
+      console.log('submit form', formData)
+ 
 
      // this.formInputs.formData =  this.formData
 
-      console.log( this.formData)
+      */ 
 
+      let selectedCategoryOption = this.$refs.categoryDropdown.getSelectedOption()
+
+      let selectedCategoryName = null
+
+      if(selectedCategoryOption){
+        selectedCategoryName = selectedCategoryOption.name
+      }
+
+      const formData = {
+
+        category: selectedCategoryName,
+        title: this.formInputs.name,
+        markdownInput: this.markdownInput
+
+      }
+      console.log('this.formData',  formData)  
+      
+      return false 
    //   let result = await FrontendHelper.submitNewApplicationForm(this.formData)
 
     }

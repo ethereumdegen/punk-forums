@@ -83,7 +83,10 @@ export default {
       }
       
       
-    } 
+    },
+    getSelectedOption(){
+      return this.selectedOptionData
+    }
 
 
   }
