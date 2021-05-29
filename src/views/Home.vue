@@ -23,46 +23,28 @@
        />
 
 
-   <div class="section  border-b-2 border-black" style="background:#222;">
-     <div class=" ">
-       <div class=" ">
+   <div class="section  border-b-2 border-black" style="background:#eee;">
+     <div class=" w-container py-8">
+
+       <div class="my-4"> 
+         Categories
 
        </div>
-       <div class="  flex lg:flex-row flex-col  ">
- 
-         <div class="  md:w-1/2  w-full mt-8 py-8  px-8  text-center">
 
-            <div class="text-white text-xl"> Monthly subscriptions using crypto.  </div> 
 
+
+       <div > 
+         <TopicsList 
          
- 
+         /> 
 
-         </div>
-         <div class="   md:w-1/2  w-full  text-center ">
-           
-             
-           <FrontPageMedia />
-
-
-         </div>
        </div>
+        
      </div>
    </div>
 
 
-    <div class="section  bg-white border-b-2 border-black ">
-     <div class="w-container  ">
-
-         
-
-        
-
-        
-         
-
-
-     </div>
-   </div>
+    
 
 
 
@@ -80,15 +62,15 @@
 import Web3Plug from '../js/web3-plug.js' 
 import AccessPlug from '../js/access-plug.js' 
 
- 
-import FrontPageMedia from './components/FrontPageMedia.vue';
-import AnimatedTextArea from './components/AnimatedTextArea.vue';
+  
  
 import Navbar from './components/Navbar.vue';
 import Punksbar from './components/PunksBar.vue';
  
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
+
+import TopicsList from './components/forum/TopicsList.vue';
   
 import StarflaskAPIHelper from '../js/starflask-api-helper.js';
 import FrontendHelper from '../js/frontend-helper.js';
@@ -97,18 +79,10 @@ import FrontendHelper from '../js/frontend-helper.js';
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Punksbar, Footer, TabsBar, FrontPageMedia, AnimatedTextArea },
+  components: {Navbar, Punksbar, Footer, TopicsList   },
   data() {
     return {
-      web3Plug: new Web3Plug() ,
-      accessPlug: new AccessPlug() ,
-      activePanelId: null,
-      frontpageSampleCode: `This is some code {}
-      This is some code {}
-      This is some code {}
-      
-      `
-       
+      web3Plug: new Web3Plug()  
 
       
     }
@@ -137,27 +111,11 @@ export default {
 
   },
   mounted: async function () {
-         this.accessPlug.reconnect()
-
- 
+        
 
   }, 
   methods: {
-          setActivePanel(panelId){
-              if(panelId == this.activePanelId){
-                this.activePanelId = null;
-                return 
-              }
-               this.activePanelId = panelId ;
-          },
-          onTabSelect(tabname){
-            console.log(tabname)
-
-              this.selectedTab = tabname.toLowerCase()
-
-
-          },
-
+           
           getRouteTo(dest){
             return FrontendHelper.getRouteTo(dest)
           }

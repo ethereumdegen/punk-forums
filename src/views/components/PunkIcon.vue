@@ -1,7 +1,7 @@
 <template>
   <div class="  ">
        
-     <canvas class="pixelfriendly" ref="iconCanvas" v-bind:width="renderSize" v-bind:height="renderSize"> 
+     <canvas class="pixelfriendly pt-1" ref="iconCanvas" v-bind:width="renderSize" v-bind:height="renderSize"> 
          
      </canvas> 
 
@@ -14,11 +14,11 @@
  
 export default {
   name: 'PunkIcon',
-  props: ['iconId'],
+  props: ['iconId','renderSize'],
   components: { },
   data() {
     return {
-      renderSize: 48
+       
     }
   },
     watch: {
@@ -58,7 +58,7 @@ export default {
             image.onload = function drawImageActualSize() {
                             console.log('draw!',-renderSize * y_index, -renderSize * x_index, renderSize*cols, renderSize*rows)
                              
-                            ctx.drawImage(this,  -iconDimension * y_index   ,-iconDimension *  x_index -5,iconDimension*cols,iconDimension*rows);
+                            ctx.drawImage(this,  -iconDimension * y_index   ,-iconDimension *  x_index -2,iconDimension*cols,iconDimension*rows);
                             }
         
             image.src = '/images/punkscomposite.png';

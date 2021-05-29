@@ -13,7 +13,7 @@
 
 <script>
     export default {
-    name: 'FrontPageMedia',
+    name: 'TopicRow',
     props: [ ],
     data() {
         return {

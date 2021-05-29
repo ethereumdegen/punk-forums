@@ -1,16 +1,17 @@
 <template>
-  <div class="w-container ">
+  <div class="   " style="background:#333">
       
      
 
-  <div>
+  <div class="w-container">
     
-    <div v-for="tokenId of ownedTokenIdsArray" class="m-4 p-2 inline-block border-2 border-black">
+    <div v-for="tokenId of ownedTokenIdsArray" class="m-1 p-2 inline-block border-2 border-black hover:bg-gray-200 cursor-pointer">
         
          
 
         <PunkIcon
           v-bind:iconId='tokenId'
+          v-bind:renderSize=24
         />
 
         
