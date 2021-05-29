@@ -6,7 +6,10 @@
     import web3utils from 'web3-utils'
     import ApplicationManager from './application-manager.js'
     
- 
+    import ForumManager  from './forum-manager.js'
+
+
+
     export default class APIHelper  {
     
         constructor(   ){
@@ -42,8 +45,16 @@
                 }
 
 
+                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.formAddress, inputData.activePunkId, mongoInterface)
+
+                if(!userOwnsPunk){
+                    return {success:false, input: inputData.input }
+                }
+
 
                 let threadId = 0; 
+
+                let newTopic = await ForumManager.createNewTopic(  inputData.input )
 
                 
                 return {success:true, input: inputData.input, output: {threadId: threadId}  }
@@ -180,6 +191,12 @@
              }
 
             return true 
+        }
+
+        static async validatePunkOwnership(accountAddress, punkId, mongoInterface){
+          //  let ownsPunk = await mongoInterface 
+
+            return ownsPunk
         }
 
         static ethJsUtilecRecover(msg,signature)
