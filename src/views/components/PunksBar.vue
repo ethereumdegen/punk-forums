@@ -3,23 +3,41 @@
       
      
 
-  <div class="w-container">
-    
-    <div v-for="tokenId of ownedTokenIdsArray" class="m-1 p-2 inline-block border-2 border-black hover:bg-gray-200 cursor-pointer">
-        
-         
+  <div class="w-container flex">
 
+    <div class="flex-grow"> 
+    
+    <div v-for="tokenId of ownedTokenIdsArray" 
+    class="m-1 inline-block border-2 border-black hover:bg-gray-200 cursor-pointer"
+        :class="{'bg-purple-500': activePunkId == tokenId }"
+    >
+         
         <PunkIcon
           v-bind:iconId='tokenId'
           v-bind:renderSize=24
+          v-bind:onClickedCallback="onPunkClicked"
+          v-bind:largeSize="true"
         />
 
         
     </div>
+    
 
     <div v-if="ownedTokenIdsArray.length ==0" class="p-2 text-white">
       No punks found.
     </div>
+
+    </div>
+
+  <div v-if="activePunkId" class="flex flex-row"> 
+      <div class="pt-8 text-xs text-gray-300"  > Punk #{{activePunkId}} </div>
+        <PunkIcon
+          v-bind:iconId='activePunkId'
+          v-bind:renderSize=48
+          v-bind:onClickedCallback="onPunkClicked" 
+        />
+ 
+  </div> 
     
   </div>
        
@@ -43,7 +61,9 @@ export default {
     return {
       nftType: null,
       connectedToWeb3: false,
-      ownedTokenIdsArray: [] 
+      ownedTokenIdsArray: [] ,
+      activePunkId: null,
+
     }
   },
    
@@ -86,6 +106,17 @@ export default {
           console.log('response', response)
  
           this.ownedTokenIdsArray = response.output[0].tokenIds
+       },
+
+       async onPunkClicked(punkId){
+
+         if(this.activePunkId == punkId){
+           this.activePunkId = null
+         }else{
+           this.activePunkId=punkId
+         }
+         
+         
        }
   }
 }

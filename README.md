@@ -14,7 +14,7 @@ Unofficial web forum for Cryptopunks by Larva Labs
 -need to wolfpack events from Payspec 
 
 
-
+-Add custom frontend color schemes, based on punks colors. (limited) 
 
 
 ### Development commands

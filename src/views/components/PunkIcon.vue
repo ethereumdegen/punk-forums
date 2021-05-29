@@ -1,5 +1,5 @@
 <template>
-  <div class="  ">
+  <div class=" p2 select-none "   @click="onClickedCallback(iconId)" >
        
      <canvas class="pixelfriendly pt-1" ref="iconCanvas" v-bind:width="renderSize" v-bind:height="renderSize"> 
          
@@ -14,7 +14,7 @@
  
 export default {
   name: 'PunkIcon',
-  props: ['iconId','renderSize'],
+  props: ['iconId','renderSize','onClickedCallback', 'largeSize'],
   components: { },
   data() {
     return {
@@ -45,7 +45,7 @@ export default {
 
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            console.log('render!',canvas.width)
+             
             let iconId = this.iconId
             let iconDimension = this.renderSize;
             let renderSize = this.renderSize
@@ -53,11 +53,10 @@ export default {
             let rows = 100
             let x_index = Math.floor(iconId / cols);
             let y_index = Math.floor(iconId % cols);
-            console.log('indices',x_index, y_index)
+            
             const image = new Image(24, 24);
             image.onload = function drawImageActualSize() {
-                            console.log('draw!',-renderSize * y_index, -renderSize * x_index, renderSize*cols, renderSize*rows)
-                             
+                               
                             ctx.drawImage(this,  -iconDimension * y_index   ,-iconDimension *  x_index -2,iconDimension*cols,iconDimension*rows);
                             }
         
