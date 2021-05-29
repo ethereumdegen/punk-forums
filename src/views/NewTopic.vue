@@ -355,9 +355,17 @@ computed: {
       }
       console.log('this.formData',  formData)  
       
-      return false 
-   //   let result = await FrontendHelper.submitNewApplicationForm(this.formData)
+     
+      let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'create_thread' , input:formData } )
+   
+      console.log('response',response)
+      
 
+      if(response.success){
+        //redirect to the topic 
+
+
+      }
     },
 
 

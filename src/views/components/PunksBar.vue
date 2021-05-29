@@ -112,10 +112,9 @@ export default {
 
           let activeAddress = this.web3Plug.getActiveAccountAddress()
  
+ 
 
-        
-
-          let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'ERC721_balance_by_owner' , input:{publicAddress: activeAddress  }})
+          let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'ERC721_balance_by_owner' , input:{publicAddress: activeAddress  }})
    
            
  

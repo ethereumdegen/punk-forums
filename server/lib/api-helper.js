@@ -1,8 +1,7 @@
  
-    import Web3Helper from './web3-helper.js'
-    import BidPacketUtils from '../../src/js/bidpacket-utils.js'
-    
-    import FileHelper from './file-helper.js'
+    //const ethJsUtil = require('ethereumjs-util')
+    import ethJsUtil from 'ethereumjs-util'
+
 
     import web3utils from 'web3-utils'
     import ApplicationManager from './application-manager.js'
@@ -32,11 +31,30 @@
                 return {success:true, input: {}, output: categoriesData  }
             } 
 
+ 
+              
+            if(inputData.requestType == 'create_thread'){
+                
+                let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
+                
+                if(!personalSignatureIsValid){
+                    return {success:false, input: inputData.input }
+                }
 
 
+
+                let threadId = 0; 
+
+                
+                return {success:true, input: inputData.input, output: {threadId: threadId}  }
+            } 
 
             
 
+
+
+
+            // ------------  Data retrieval ------------
          
             if(inputData.requestType == 'ERC721_balance_by_owner'){
  
@@ -135,6 +153,57 @@
 
             return {success:false}
         }
+
+
+        /*
+        fromAddress: '0x99a848f6d8bb6d6cd1a524b3c99a97e41e1e4b5a',
+        activePunkId: '3315', 
+        signedAt: '1622323329977',
+        accountSignature: '0xa7cc18dd4d0b4193016814072157165dd236f64eadb913ca43162b26e9e6221076031be48f5cbc5fb0180293c06712e760f04a990357768afec012d29d56d1f31b
+
+        */
+        static validatePersonalSignature(input){
+
+                console.log('input',input)
+
+           // let signatureIsValid = web3.recover( input )
+
+            let challenge = 'Signing for Etherpunks at '.concat(input.signedAt)
+
+            var recoveredAddress =  APIHelper.ethJsUtilecRecover(challenge, input.accountSignature)
+
+             recoveredAddress = recoveredAddress.toLowerCase()
+             console.log('recoveredAddress',recoveredAddress)
+
+             if(recoveredAddress != input.fromAddress){
+                 return false 
+             }
+
+            return true 
+        }
+
+        static ethJsUtilecRecover(msg,signature)
+        {
+      
+      
+      
+          console.log('ecrecover ', msg, signature)
+            var res = ethJsUtil.fromRpcSig(signature)
+      
+            const msgHash = ethJsUtil.hashPersonalMessage(Buffer.from( msg ) );
+      
+      
+            var pubKey = ethJsUtil.ecrecover( ethJsUtil.toBuffer(msgHash) , res.v, res.r, res.s);
+            const addrBuf = ethJsUtil.pubToAddress(pubKey);
+            const recoveredSignatureSigner    = ethJsUtil.bufferToHex(addrBuf);
+            console.log('rec:', recoveredSignatureSigner)
+      
+      
+          return recoveredSignatureSigner;
+      
+         }
+
+
 
         static async findAllERC721ByOwner(publicAddress,mongoInterface){
             publicAddress = web3utils.toChecksumAddress(publicAddress)
