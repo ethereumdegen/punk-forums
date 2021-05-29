@@ -30,7 +30,7 @@
         
      <form id="newApplicationForm"> 
        <div class="w-column py-16">
-          <div class="text-lg font-bold mb-8"> Create a New Topic  </div>
+          <div class="text-lg font-bold "> Create a New Topic  </div>
  
 
 
@@ -42,137 +42,71 @@
 
 
           <div  v-if=" connectedToWeb3"> 
-            <div class="mb-4">
+          
+            
 
-                <label   class="block text-md font-medium font-bold text-gray-800  ">Application Name</label>
+             <div class="my-4">
                  
-                <div class="flex flex-col w-1/2">
-
-               
-                  <input type="text" v-model="formInputs.name" class="border-gray-200 border-2 p-2 m-2 " placeholder="My First Application" />
-
-               
-                  
-                </div>
-
-
-              </div>
-
-
-
-            <div class="mb-4">
-
-                <label   class="block text-md font-medium font-bold text-gray-800  ">Application Description</label>
-                 
-                <div class="flex flex-col w-1/2">
-
-               
-                  <textarea type="text" v-model="formInputs.description" class="border-gray-200 border-2 p-2 m-2 " placeholder=" " />
-
-               
-                  
-                </div>
-
-
-              </div>
-
-
-
-
-             <div class="mb-4">
-                <label   class="block text-md font-medium font-bold text-gray-800  ">Subscription Price (per month)</label>
-                 
-                <div class="flex flex-row">
-
-                <input type="number" v-model="formInputs.priceAmount" class="border-black border-2 p-2 m-2 " />
-
-                <GenericDropdown
+                <SimpleDropdown
                   v-bind:optionList="currencyTokensOptionsList" 
-                  v-bind:onSelectCallback="onCurrencySelectCallback"
+             
                 />
                   
-                </div>
-
+              
 
             </div>
-             <div class="mb-4">
+            
+             
 
-                <label   class="block text-md font-medium font-bold text-gray-800  ">Payouts Address</label>
+          
+            <div class="mb-4">
+
+                
                  
                 <div class="flex flex-col w-1/2">
 
-                  <div class="text-xs p-2"> The Public address of an Ethereum account you control.  Do not use an exchange address or your funds may be non-recoverable.  Please use a personal account (such as metamask).    </div>
+               
+                  <input type="text" v-model="formInputs.name" class="border-gray-200 border-2 p-2 my-2 " placeholder="Title" />
 
-                  <input type="text" v-bind:model="formInputs.payoutsAddress" class="border-black border-2 p-2 m-2 " placeholder="0x..." />
+                
+                 </div>
+              </div>
 
+
+
+            <div class="mb-4 flex flex-row">
+
+                
+                <div class="flex flex-grow  ">
+
+                 <div class="markdowneditor border-gray-200 border-2 p-2 m-2  w-full " id="editor" >
+                      <textarea rows="15" :value="markdownInput" @input="updatemarkdown" class=" w-full"></textarea>
+                       
+                 </div>
                
                   
                 </div>
 
 
-              </div>
+                  <div class="flex   w-1/2">
 
-
-               <div class="mb-4">
-
-                <label   class="block text-md font-medium font-bold text-gray-800  ">Cover Image</label>
-
-
-                   <div class="flex flex-row ">
-
-                      <div class="flex flex-col w-1/2">
-
-                        <div class="text-xs p-2">  Recommended dimensions 1500x500.    </div>
-
-                        <input type="file"  class="border-black border-2 p-2 m-2 "  @change="onCoverImageChange" /> 
-                        
-                      </div>
-                
-                
-                
-                   <div class="flex flex-col p-2 ">
-                
-                      
-                    <div id="preview">
-                      <img v-if="formInputs.coverImageURL" :src="formInputs.coverImageURL" width="80px" />
+                    <div class="markdowneditor border-gray-200 w-full " id="editor" >
+                          
+                          <div class="w-full preview" v-html="compiledMarkdown"></div>
                     </div>
-                  </div> 
-
-
-                  </div>
-
-
-              </div>
-
-
-          <div class="mb-4">
-
-                <label   class="block text-md font-medium font-bold text-gray-800  ">Thumbnail Image</label>
-
-              <div class="flex flex-row ">
-
-                <div class="flex flex-col w-1/2">
-
-                  <div class="text-xs p-2">  Recommended dimensions 500x500.    </div>
-
-                  <input type="file"   class="border-black border-2 p-2 m-2 " @change="onThumbnailImageChange"  /> 
                   
+                      
                 </div>
 
-                <div class="flex flex-col p-2 ">
-
-               
-                     
-                  <div id="preview">
-                    <img v-if="formInputs.thumbnailImageURL" :src="formInputs.thumbnailImageURL" width="80px" />
-                  </div>
-                </div> 
-
-
-                </div> 
-
 
               </div>
+
+
+
+
+
+
+        
 
 
 
@@ -233,18 +167,22 @@ import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
 import Punksbar from './components/PunksBar.vue';
- import GenericDropdown from './components/GenericDropdown.vue';
+ import SimpleDropdown from './components/SimpleDropdown.vue';
  
 
 import FrontendHelper from '../js/frontend-helper.js'
 
+import marked from 'marked'
+
 export default {
   name: 'NewTopic',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericDropdown, Punksbar, NotConnectedToWeb3},
+  components: {Navbar, Footer, TabsBar, SimpleDropdown, Punksbar, NotConnectedToWeb3},
   data() {
     return {
+
       web3Plug: new Web3Plug() , 
+
 
       activeAccountAddress: null,
       
@@ -254,10 +192,17 @@ export default {
       formData: new FormData(),
        
       connectedToWeb3: false,
-      currentBlockNumber: 0
+      
+
+      markdownInput: "# hello"
+
     }
   },
-
+computed: {
+          compiledMarkdown: function() {
+            return marked(this.markdownInput, { sanitize: true });
+          }
+        },
   created(){
 
  
@@ -288,6 +233,7 @@ export default {
      
     this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
  
+ 
    
   }, 
   beforeDestroy: function () {
@@ -296,8 +242,17 @@ export default {
 
   methods: {
 
-     
-/*
+        updatemarkdown(e){
+
+           this.markdownInput = e.target.value;
+
+           /* _.debounce(function(e) {
+                        this.markdownInput = e.target.value;
+                      }, 300)*/
+
+        } ,
+
+        /*
      onCoverImageChange(e) {
       const file = e.target.files[0];
  
@@ -316,6 +271,10 @@ export default {
       this.formInputs.thumbnailImageURL = URL.createObjectURL(file);
     },*/
 
+    onCategorySelectCallback(name){
+
+    },
+
     async submitForm(){
       console.log('submit form', this.formInputs)
 
@@ -326,7 +285,7 @@ export default {
 
       console.log( this.formData)
 
-      let result = await FrontendHelper.submitNewApplicationForm(this.formData)
+   //   let result = await FrontendHelper.submitNewApplicationForm(this.formData)
 
     }
           
