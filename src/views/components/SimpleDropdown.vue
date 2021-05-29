@@ -1,10 +1,8 @@
 <template> 
 
 <select name="cars" class="cursor-pointer p-2 bg-white border-2 border-black">
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="mercedes">Mercedes</option>
-  <option value="audi">Audi</option>
+  <option v-for="item in optionList" v-bind:value="item.name">{{item.label}}</option>
+ 
 </select>
 
 

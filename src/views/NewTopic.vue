@@ -48,7 +48,7 @@
              <div class="my-4">
                  
                 <SimpleDropdown
-                  v-bind:optionList="currencyTokensOptionsList" 
+                  v-bind:optionList="forumCategoriesOptions" 
                   v-bind:onSelectCallback="onCategorySelected"
                 />
                   
@@ -176,6 +176,7 @@ import StarflaskAPIHelper from '../js/starflask-api-helper.js';
 import FrontendHelper from '../js/frontend-helper.js'
 
 import marked from 'marked'
+import * as sanitizeHtml from 'sanitize-html';
 
 export default {
   name: 'NewTopic',
@@ -189,7 +190,7 @@ export default {
 
       activeAccountAddress: null,
       
-      currencyTokensOptionsList: [{name:'0xBTC',label:'0xBTC'}],
+      forumCategoriesOptions: [ ],
 
       formInputs: {name:null,description:null,priceAmount:1,thumbnailImageURL:null,coverImageURL:null},
       formData: new FormData(),
@@ -203,10 +204,16 @@ export default {
   },
 computed: {
           compiledMarkdown: function() {
-            return marked(this.markdownInput, { sanitize: true });
+            return    (marked(this.markdownInput ));
           }
         },
   created(){
+
+
+      var markedImages = require('marked-images');
+
+      marked.use(markedImages({}));
+
 
  
       this.web3Plug.reconnectWeb()
@@ -256,9 +263,9 @@ computed: {
         let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'forum_categories' , input:{  }})
     
 
-        this.forumCategoriesArray =  response.output 
+        this.forumCategoriesOptions =  response.output 
 
-        console.log('cats', this.forumCategoriesArray)
+        console.log('cats', this.forumCategoriesOptions)
 
       },
 

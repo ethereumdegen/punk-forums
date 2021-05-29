@@ -25,7 +25,7 @@
               
             if(inputData.requestType == 'forum_categories'){
                 let categoriesData =  [
-                    {name: 'generaldiscussion', color:'#222'}
+                    {name: 'generaldiscussion', label:'General Discussion' , color:'#222'}
                 ]
                  
                 
