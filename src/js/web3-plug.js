@@ -43,21 +43,33 @@ export default class Web3Plug {
   async reconnectWeb(){
 
      
-    if (window.ethereum && !this.connectedToWeb3()) {
+    if (window.ethereum ) {
 
-     
-      console.log('reconnect web ')
+      
+
+    window.web3 = new Web3(window.ethereum);
+    web3Instance = window.web3 
+
+    if( !this.connectedToWeb3()){
+
+
 
       window.ethereum.on('accountsChanged', (accounts) => {
-            web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+        web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
       });
 
       window.ethereum.on('chainChanged', (chainId) => {
               web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
       });
 
+
+    }
+      console.log('reconnect web ')
+
       web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
     }
+
+
 
   }
 

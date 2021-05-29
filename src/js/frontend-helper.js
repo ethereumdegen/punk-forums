@@ -1,7 +1,7 @@
 
 
   
- 
+ import Web3 from 'web3'
 import axios from "axios";
 
 const env = process.env.NODE_ENV
@@ -126,16 +126,46 @@ export default class FrontendHelper {
     }
 
 
-    static async submitNewApplicationForm(formInputs){
+    static async submitNewTopicForm(formInputs){
 
          
-        let endpoint =   '/application/create' 
+        let endpoint =   '/topic/create' 
 
         let inputData = formInputs 
 
         return FrontendHelper.handleAPIRequest(endpoint,inputData)
 
     }
+
+
+
+    static async personalSignWithMetamask( challenge,address , web3Instance)
+    {
+      console.log('personal signing ', challenge, address, web3Instance)
+  
+ 
+
+      var challengeHash =    Web3.utils.fromUtf8 (challenge)
+
+
+
+  
+      var sig =   await new Promise(async (resolve,reject) => {
+        
+  
+        web3Instance.eth.personal.sign( challengeHash , address, function (err,result){
+                if (err) {return console.error(err)}
+                console.log('PERSONAL SIGNED:' + result)
+                resolve(result);
+        })
+  
+      })
+  
+      return sig;
+  
+    }
+  
+
  
 
 

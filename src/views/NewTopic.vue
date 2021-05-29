@@ -320,6 +320,21 @@ computed: {
 
       */ 
 
+      let signerAddress = this.web3Plug.getActiveAccountAddress() 
+
+      let currentUnixTime = Date.now().toString()
+
+      console.log(this.web3Plug.getWeb3Instance())
+
+      let accountSignature = await this.web3Plug.requestPersonalSignature( 
+        'Signing for Etherpunks at '.concat(currentUnixTime)  )
+
+
+
+
+
+
+
       let selectedCategoryOption = this.$refs.categoryDropdown.getSelectedOption()
 
       let selectedCategoryName = null
@@ -332,7 +347,10 @@ computed: {
 
         category: selectedCategoryName,
         title: this.formInputs.name,
-        markdownInput: this.markdownInput
+        markdownInput: this.markdownInput,
+
+        signedAt: currentUnixTime,
+        accountSignature: accountSignature
 
       }
       console.log('this.formData',  formData)  
@@ -340,7 +358,10 @@ computed: {
       return false 
    //   let result = await FrontendHelper.submitNewApplicationForm(this.formData)
 
-    }
+    },
+
+
+
           
   }
 }
