@@ -4,17 +4,29 @@
       <div class=" flex flex-row h-full">
          <div class="w-1/4 ">
          </div>
-        <div class="w-1/4 ">
+        <div class="w-1/3 ">
           <h3 class=" text-lg font-bold ">Documentation</h3>
 
 
           <a href="https://docs.starflask.com" target="_blank" class="no-underline text-sm text-gray-200 ">Starflask Docs</a>
           </div>
-        <div class="w-1/4 h-full">
+        <div class="w-1/3 h-full">
           <h3 class=" text-lg font-bold ">Community &amp; Social</h3>
          
          
          </div>
+
+          <div class="w-1/3 h-full">
+          <h3 class=" text-lg font-bold "> </h3>
+
+          <div class="text-sm  text-gray-700 mt-24 p-8"> 
+            In the spirit of decentralization, neutrality and composability, Etherpunks is a community website. <br> No affiliation with Larva Labs.  
+
+          </div>
+         </div>
+
+
+         
 
 
       </div>
