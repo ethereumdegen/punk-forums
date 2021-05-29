@@ -261,18 +261,16 @@ export default {
   created(){
 
  
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
-        console.log('stateChanged',connectionState);
+      this.web3Plug.reconnectWeb()
+    
+       this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
+        console.log('stateChanged nt ',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
+        
+ 
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-
-        if( this.connectedToWeb3  ){
-          // this.currentBlockNumber = await this.web3Plug.getBlockNumber()
-
-        }
-      
          
          
       }.bind(this));
@@ -283,16 +281,12 @@ export default {
        
       }.bind(this));
 
-      this.web3Plug.reconnectWeb()
-    
-   
-
   },
   mounted: function () {
+ 
     
-     // this.accessPlug.reconnect()
-
-
+     
+    this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
  
    
   }, 
@@ -302,10 +296,8 @@ export default {
 
   methods: {
 
-    async onCurrencySelectCallback(currency){
-      console.log('onCurrencySelectCallback',currency)
-    },
-
+     
+/*
      onCoverImageChange(e) {
       const file = e.target.files[0];
  
@@ -322,7 +314,7 @@ export default {
       this.formData.append("thumbnailImage", file); 
 
       this.formInputs.thumbnailImageURL = URL.createObjectURL(file);
-    },
+    },*/
 
     async submitForm(){
       console.log('submit form', this.formInputs)
