@@ -57,27 +57,12 @@ export default {
   components: {Navbar, Footer},
   data() {
     return {
-      web3Plug: new Web3Plug() ,
-      bidPacketData: {} 
+       
     }
   },
   created: function () {
-    this.web3Plug.reconnectWeb()
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
-        console.log('stateChanged',connectionState);
-         
-        this.activeAccountAddress = connectionState.activeAccountAddress
-        this.activeNetworkId = connectionState.activeNetworkId
-         
-      }.bind(this));
-   this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
-        console.error('error',errormessage);
-         
-        this.web3error = errormessage
-        
-      }.bind(this));
-   
-      this.fetchPacketData(this.$route.params.signature)
+    
+    
   }, 
   methods: {
       

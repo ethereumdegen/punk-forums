@@ -5,21 +5,23 @@
 
   <div class="w-container flex">
 
-    <div class="flex-grow"> 
+    <div class="flex-grow "> 
     
-    <div v-for="tokenId of ownedTokenIdsArray" 
-    class="m-1 inline-block border-2 border-black hover:bg-gray-200 cursor-pointer"
-        :class="{'bg-purple-500': activePunkId == tokenId }"
-    >
-         
-        <PunkIcon
-          v-bind:iconId='tokenId'
-          v-bind:renderSize=24
-          v-bind:onClickedCallback="onPunkClicked"
-          v-bind:largeSize="true"
-        />
+    <div class="overflow-x-auto overflow-y-none"  style="max-width:50%; max-height:50px">
+      <div v-for="tokenId of ownedTokenIdsArray" 
+      class="m-1 inline-block border-2 border-black hover:bg-gray-200 cursor-pointer"
+          :class="{'bg-purple-500': activePunkId == tokenId }"
+      >
+          
+          <PunkIcon
+            v-bind:iconId='tokenId'
+            v-bind:renderSize=24
+            v-bind:onClickedCallback="onPunkClicked"
+            v-bind:largeSize="true"
+          />
 
-        
+          
+      </div>
     </div>
     
 
@@ -29,13 +31,17 @@
 
     </div>
 
-  <div v-if="activePunkId" class="flex flex-row"> 
-      <div class="pt-8 text-xs text-gray-300"  > Punk #{{activePunkId}} </div>
+  <div v-if="activePunkId" class="flex flex-row" style="min-width:120px">  
+      
+      <div class="pt-8 text-xs text-gray-300 inline-block"  > Punk #{{activePunkId}} </div>
+      
+        <router-link :to="'/profile'"> 
         <PunkIcon
           v-bind:iconId='activePunkId'
           v-bind:renderSize=48
-          v-bind:onClickedCallback="onPunkClicked" 
+          
         />
+        </router-link>
  
   </div> 
     
@@ -106,6 +112,9 @@ export default {
           console.log('response', response)
  
           this.ownedTokenIdsArray = response.output[0].tokenIds
+
+
+          // this.ownedTokenIdsArray = [1164,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,]
        },
 
        async onPunkClicked(punkId){
