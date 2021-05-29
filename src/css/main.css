@@ -37,6 +37,9 @@ a {
   font-family: 'Shadows Into Light', cursive;
 }
 
+.font-address {
+  font-family: 'Inconsolata', monospace;
+}
 
 #preview {
   display: flex;
