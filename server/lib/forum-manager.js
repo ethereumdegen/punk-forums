@@ -33,6 +33,7 @@
 
 
             }
+            console.log('create new topic', newTopicData)
 
 
             let result = await mongoInterface.insertOne( 'topics', newTopicData  )

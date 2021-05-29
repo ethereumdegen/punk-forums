@@ -8,6 +8,11 @@
     
     import ForumManager  from './forum-manager.js'
 
+    import FileHelper from './file-helper.js'
+
+
+    const contractData = FileHelper.readJSONFile('./src/config/contractdata.json')
+
 
 
     export default class APIHelper  {
@@ -18,7 +23,7 @@
         }
 
         //http://localhost:3000/api/v1/somestuff
-        static async handleApiRequest(request,   wolfpackInterface, mongoInterface){
+        static async handleApiRequest(request, serverConfig,  wolfpackInterface, mongoInterface){
            
             let inputData = request.body 
 
@@ -45,16 +50,16 @@
                 }
 
 
-                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.formAddress, inputData.activePunkId, mongoInterface)
+                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.input.fromAddress, inputData.input.activePunkId, wolfpackInterface , serverConfig)
 
                 if(!userOwnsPunk){
-                    return {success:false, input: inputData.input }
+                    return {success:false, input: inputData.input, message: 'Not owner of punk' }
                 }
 
 
                 let threadId = 0; 
 
-                let newTopic = await ForumManager.createNewTopic(  inputData.input )
+                let newTopic = await ForumManager.createNewTopic(  inputData.input , mongoInterface )
 
                 
                 return {success:true, input: inputData.input, output: {threadId: threadId}  }
@@ -71,12 +76,11 @@
  
                 let inputParameters = inputData.input
 
-                let publicAddress = inputParameters.publicAddress 
+                let ownerAddress = inputParameters.ownerAddress 
 
-                let results = await APIHelper.findAllERC721ByOwner(publicAddress, wolfpackInterface)
+                let results = await APIHelper.findAllERC721ByOwner(ownerAddress, wolfpackInterface)
 
-                //await ApplicationManager.logNewRequest( inputData.requestType,inputParameters,results, mongoInterface)
-
+               
                 return {success:true, input: inputParameters, output: results  }
             } 
 
@@ -90,8 +94,20 @@
 
                 let results = await APIHelper.findAllERC721ByToken(token, wolfpackInterface)
 
-                //await ApplicationManager.logNewRequest( inputData.requestType,inputParameters,results, mongoInterface)
+                
+                return {success:true, input: inputParameters, output: results  }
+            }
 
+            if(inputData.requestType == 'ERC721_balance_by_owner_and_token'){
+ 
+                let inputParameters = inputData.input
+
+                let token = inputParameters.token 
+                let ownerAddress = inputParameters.ownerAddress 
+
+                let results = await APIHelper.findAllERC721ByTokenAndOwner(token, ownerAddress, wolfpackInterface)
+
+                
                 return {success:true, input: inputParameters, output: results  }
             }
 
@@ -193,8 +209,27 @@
             return true 
         }
 
-        static async validatePunkOwnership(accountAddress, punkId, mongoInterface){
-          //  let ownsPunk = await mongoInterface 
+        static async validatePunkOwnership(accountAddress, punkId, wolfpackInterface, serverConfig){
+
+            let networkName = serverConfig.networkName 
+
+            let punkContractAddress = contractData[networkName].contracts['cryptopunks'].address
+
+            let allPunksData = await APIHelper.findAllERC721ByTokenAndOwner( punkContractAddress,accountAddress, wolfpackInterface)
+
+            let allPunksList = allPunksData[0]
+
+
+            let ownsPunk = false
+            
+            console.log('.check punk1', accountAddress, allPunksData)
+
+            for(let id of allPunksList.tokenIds){
+                console.log('.check punk', punkId , id)
+                if(!isNaN(punkId) && parseInt(punkId) == parseInt(id)){
+                    ownsPunk = true 
+                }
+            }
 
             return ownsPunk
         }
@@ -232,6 +267,14 @@
         static async findAllERC721ByToken(publicAddress,mongoInterface){
             publicAddress = web3utils.toChecksumAddress(publicAddress)
             return await mongoInterface.findAll('erc721_balances',{contractAddress: publicAddress })
+        }
+
+
+        static async findAllERC721ByTokenAndOwner(contractAddress,ownerAddress, mongoInterface){
+            ownerAddress = web3utils.toChecksumAddress(ownerAddress)
+            contractAddress = web3utils.toChecksumAddress(contractAddress)
+           
+            return await mongoInterface.findAll('erc721_balances',{contractAddress:contractAddress, accountAddress: ownerAddress })
         }
 
 

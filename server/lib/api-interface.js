@@ -86,7 +86,7 @@ export default class APIInterface  {
         console.log('got api request', req.params , req.body    )
 
         //this needs to log activity so limits can be checked by validateAppId
-        let response = await APIHelper.handleApiRequest( req ,  this.wolfpackInterface , this.mongoInterface )
+        let response = await APIHelper.handleApiRequest( req , this.serverConfig,  this.wolfpackInterface , this.mongoInterface )
 
         console.log('sending reply:', response   )
 

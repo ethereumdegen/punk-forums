@@ -111,12 +111,14 @@ export default {
           
 
           let activeAddress = this.web3Plug.getActiveAccountAddress()
- 
- 
+  
+          let contractData = this.web3Plug.getContractDataForActiveNetwork()
+          console.log('cdata', contractData)
+          let punkContractAddress = contractData['cryptopunks'].address
 
-          let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'ERC721_balance_by_owner' , input:{publicAddress: activeAddress  }})
+          let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'ERC721_balance_by_owner_and_token' , input:{ownerAddress: activeAddress , token: punkContractAddress }})
    
-           
+          console.log('fetched token ids',  response)
  
           this.ownedTokenIdsArray = response.output[0].tokenIds
 

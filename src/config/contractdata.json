@@ -5,7 +5,9 @@
  
       "weth":{"name":"wEth","address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", "decimals":18, "minBidAmount":0.02},
      
-      "payspec":{"address":"0x22b01e79bb5910d3dde8235d2425190df1f07481"} 
+      "payspec":{"address":"0x22b01e79bb5910d3dde8235d2425190df1f07481"} ,
+
+      "cryptopunks":{"address":"0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"} 
 
       
  
@@ -19,9 +21,11 @@
  
       "weth":{"name":"wEth","address":"0xf5e7aa9fd045ce55c68f9a4f80a608496f152524", "decimals":18, "minBidAmount":0.02},
 
+      "payspec":{"address":"0x22b01e79bb5910d3dde8235d2425190df1f07481"} ,
 
+      
 
-      "payspec":{"address":"0x6bf822a6fb40c2238248de42e7027632775c3841"} 
+      "cryptopunks":{"address":"0x8a4c85478568ec5284301eaa0ddfd06c0ed73323"} 
 
      
     }
