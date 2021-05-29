@@ -26,14 +26,22 @@
    <div class="section  border-b-2 border-black" style="background:#eee;">
      <div class=" w-container py-8">
 
-       <div class="my-4"> 
-         Categories
+       <div class="my-4 flex flex-row"> 
+         <div class="flex-grow"> 
+           
+           <div class="border-2 border-black p-2 inline-block "> Categories  </div>
+           
+         </div>
+
+           <div> 
+             <div class="bg-purple-500 p-2 hover:bg-purple-400 cursor-pointer">New Topic</div> 
+           </div>
 
        </div>
 
 
 
-       <div > 
+       <div class="mt-16"> 
          <TopicsList 
          
          /> 
