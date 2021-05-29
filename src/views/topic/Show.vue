@@ -14,29 +14,32 @@
 
    </div>
 
-  
+    <Punksbar 
+        ref="punksbar"
+        v-bind:web3Plug="web3Plug"
+        
+       />
 
-   <div class="section  bg-white border-b-2 border-black">
+
+
+   <div class="section  bg-white border-b-2 border-black  ">
      <div class="autospacing w-container">
         
-       <div class="w-column">
+        
+       <div class="w-column py-16">
           <div class="text-lg font-bold"> Topic  </div>
           
           <div  class=" " v-if="!connectedToWeb3">
               <NotConnectedToWeb3 />
           </div>
 
+
+
+
+
           <div  class=" " v-if=" connectedToWeb3">
 
-             
-            
-
-            <div v-if="selectedTab=='bids'" class="mb-4 ">
-
-           
-
-           </div>
-
+              
 
           </div>
 
@@ -75,12 +78,14 @@ import GenericTable from '../components/GenericTable.vue';
  import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
 
 
+import Punksbar from '../components/PunksBar.vue';
+
 import FrontendHelper from '../../js/frontend-helper.js'
 
 export default {
   name: 'Application',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable, NotConnectedToWeb3},
+  components: {Navbar, Footer, TabsBar, GenericTable, Punksbar, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() , 
