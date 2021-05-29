@@ -1,6 +1,8 @@
 <template>
   <nav role="navigation" class="w-full m-2 p-2 flex flex-row">
-    <div class="w-full lg:w-auto block lg:inline-block" v-for="item in navConfig.dropdowns" :key="item.title">
+   
+    <!-- 
+    <div class="w-full lg:w-auto block lg:inline-block  " v-for="item in navConfig.dropdowns" :key="item.title">
     <t-dropdown  class="w-full" >
       <div
         slot="trigger"
@@ -49,7 +51,7 @@
 
 
   </div>
-
+ -->
 
       <div class="inline-block">
         <div v-if="web3Plug.connectedToWeb3() == false" @click="connectToWeb3" class="button bg-blue-500 hover:bg-blue-700 text-sm text-black font-bold my-2 py-1 px-2 rounded cursor-pointer">Login with Web3</div>

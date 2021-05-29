@@ -7,11 +7,7 @@
       <div v-if="web3Plug.connectedToWeb3() "   class="truncate text-center text-gray-800 p-2" style="   ">
 
       
-        <AccessButton
-           v-bind:providerNetworkID="activeNetworkId"
-           v-bind:web3Plug='web3Plug'
-           v-bind:accessPlug='accessPlug' 
-         />
+        
 
 
         <span class="  " style=" ">
@@ -20,7 +16,7 @@
        </div>
     </div>
 
-
+<!-- 
 
     <div class="w-full lg:w-auto block lg:inline-block" v-for="item in navConfig.dropdowns" :key="item.title">
 
@@ -46,7 +42,7 @@
           <div class="flex justify-between h-16">
             <div class="flex ml-auto">
               <div class="-ml-2 mr-2 flex items-center lg:hidden">
-                <!-- Mobile menu button -->
+               
                 <div class="flex-shrink-0 flex items-center text-gray-800">
                     <span class="px-2">{{item.title}}</span>
                 </div>
@@ -98,13 +94,11 @@
         </div>
       </t-dropdown>
 
+ 
 
 
 
-
-
-
-  </div>
+  </div>  -->
 
 
 

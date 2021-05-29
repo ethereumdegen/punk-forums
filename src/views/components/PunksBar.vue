@@ -1,5 +1,5 @@
 <template>
-  <div v-if="connectedToWeb3 " class="   " style="background:#333">
+  <div v-if="connectedToWeb3 " class="   " style="background:#333" v-cloak>
       
      
 
@@ -25,7 +25,7 @@
     </div>
     
 
-    <div v-if="ownedTokenIdsArray.length ==0" class="p-2 text-white">
+    <div  v-if="noPunksFound" class="p-2 text-white"  >
       No punks found.
     </div>
 
@@ -69,6 +69,7 @@ export default {
       connectedToWeb3: false,
       ownedTokenIdsArray: [] ,
       activePunkId: null,
+      noPunksFound: false
 
     }
   },
@@ -91,6 +92,8 @@ export default {
       this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
 
 
+      this.activePunkId = localStorage.getItem('activePunkId');
+
 
   },
     beforeDestroy: function () {
@@ -109,9 +112,11 @@ export default {
 
           let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'ERC721_balance_by_owner' , input:{publicAddress: activeAddress  }})
    
-          console.log('response', response)
+           
  
           this.ownedTokenIdsArray = response.output[0].tokenIds
+
+          this.noPunksFound = (this.ownedTokenIdsArray.length == 0)
 
 
           // this.ownedTokenIdsArray = [1164,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,]
@@ -122,8 +127,10 @@ export default {
          if(this.activePunkId == punkId){
            this.activePunkId = null
          }else{
-           this.activePunkId=punkId
+           this.activePunkId=punkId 
          }
+
+         localStorage.setItem('activePunkId', this.activePunkId);
          
          
        }
