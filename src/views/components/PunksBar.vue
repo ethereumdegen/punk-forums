@@ -1,5 +1,5 @@
 <template>
-  <div class="   " style="background:#333">
+  <div v-if="connectedToWeb3 " class="   " style="background:#333">
       
      
 
@@ -17,8 +17,8 @@
         
     </div>
 
-    <div v-if="ownedTokenIdsArray.length ==0">
-      No results found.
+    <div v-if="ownedTokenIdsArray.length ==0" class="p-2 text-white">
+      No punks found.
     </div>
     
   </div>
@@ -42,22 +42,28 @@ export default {
   data() {
     return {
       nftType: null,
+      connectedToWeb3: false,
       ownedTokenIdsArray: [] 
     }
   },
    
-  mounted(){
+  created(){
       
 
-      this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
-
+    
       this.web3Plug.getPlugEventEmitter().on('stateChanged', (state) => {
-
+         
+        this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
+        
         this.fetchOwnedTokenIds()
 
       })
 
+      this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
       this.fetchOwnedTokenIds()
+
+      // this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
+
 
 
   },
