@@ -7,14 +7,21 @@
      <div class=" ">
         <Navbar 
         v-bind:web3Plug="web3Plug"
-        v-bind:accessPlug="accessPlug"
+        
        />
+
+      
      </div>
 
 
    </div>
 
-  
+
+      <Punksbar 
+        v-bind:web3Plug="web3Plug"
+        
+       />
+
 
    <div class="section  border-b-2 border-black" style="background:#222;">
      <div class=" ">
@@ -78,6 +85,7 @@ import FrontPageMedia from './components/FrontPageMedia.vue';
 import AnimatedTextArea from './components/AnimatedTextArea.vue';
  
 import Navbar from './components/Navbar.vue';
+import Punksbar from './components/PunksBar.vue';
  
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
@@ -89,7 +97,7 @@ import FrontendHelper from '../js/frontend-helper.js';
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Footer, TabsBar, FrontPageMedia, AnimatedTextArea },
+  components: {Navbar, Punksbar, Footer, TabsBar, FrontPageMedia, AnimatedTextArea },
   data() {
     return {
       web3Plug: new Web3Plug() ,
@@ -131,15 +139,8 @@ export default {
   mounted: async function () {
          this.accessPlug.reconnect()
 
-
-
  
 
-
-
-         let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'ERC721_balance_by_owner' , input:{publicAddress:'0x99a848F6d8bb6D6Cd1A524B3C99a97e41e1E4b5A'}})
-   
-          console.log('response', response)
   }, 
   methods: {
           setActivePanel(panelId){
