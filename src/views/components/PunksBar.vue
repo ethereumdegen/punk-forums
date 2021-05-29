@@ -48,6 +48,9 @@ export default {
    
   mounted(){
       
+
+      this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
+
       this.web3Plug.getPlugEventEmitter().on('stateChanged', (state) => {
 
         this.fetchOwnedTokenIds()

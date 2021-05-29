@@ -9,7 +9,7 @@ import Dashboard from './views/Dashboard.vue'
 
 import Application from './views/Application.vue'
 
-import New from './views/New.vue'
+import NewTopic from './views/NewTopic.vue'
 
 import NotFound from './views/NotFound.vue'
 
@@ -33,9 +33,9 @@ export default new Router({
     } ,
 
     {
-      path: '/new',
-      name: 'new',
-      component: New
+      path: '/newtopic',
+      name: 'newtopic',
+      component: NewTopic
     } ,
 
 

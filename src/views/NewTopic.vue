@@ -2,16 +2,26 @@
 
 <div>
 
-   <div class="section bg-gray-200  border-b-2 border-black px-0 lg:px-1">
+    <div class="section  bg-gray-200  border-b-4 border-black px-0 lg:px-1">
 
      <div class=" ">
         <Navbar 
-        v-bind:web3Plug="web3Plug" 
+        v-bind:web3Plug="web3Plug"
+        
        />
+
+      
      </div>
 
 
    </div>
+
+
+      <Punksbar 
+        v-bind:web3Plug="web3Plug"
+        
+       />
+
 
   
 
@@ -20,7 +30,7 @@
         
      <form id="newApplicationForm"> 
        <div class="w-column py-16">
-          <div class="text-lg font-bold mb-8"> Create a New Application  </div>
+          <div class="text-lg font-bold mb-8"> Create a New Topic  </div>
  
 
 
@@ -222,16 +232,16 @@ import Navbar from './components/Navbar.vue';
  
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
-import GenericTable from './components/GenericTable.vue';
+import Punksbar from './components/PunksBar.vue';
  import GenericDropdown from './components/GenericDropdown.vue';
  
 
 import FrontendHelper from '../js/frontend-helper.js'
 
 export default {
-  name: 'Application',
+  name: 'NewTopic',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericDropdown, NotConnectedToWeb3},
+  components: {Navbar, Footer, TabsBar, GenericDropdown, Punksbar, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() , 
@@ -257,8 +267,12 @@ export default {
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-        this.currentBlockNumber = await this.web3Plug.getBlockNumber()
 
+        if( this.connectedToWeb3  ){
+          // this.currentBlockNumber = await this.web3Plug.getBlockNumber()
+
+        }
+      
          
          
       }.bind(this));
