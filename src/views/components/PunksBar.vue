@@ -102,6 +102,11 @@ export default {
   },
 
   methods: {
+
+       getActivePunkId(){
+        return this.activePunkId
+       },  
+
        async fetchOwnedTokenIds(){
           
 

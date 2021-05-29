@@ -18,6 +18,7 @@
 
 
       <Punksbar 
+        ref="punksbar"
         v-bind:web3Plug="web3Plug"
         
        />
@@ -30,9 +31,7 @@
         
      <form id="newTopicForm"  >  
 
-
-       <input type="text" name="name" value="John">
-
+ 
        <div class="w-column py-16">
           <div class="text-lg font-bold "> Create a New Topic  </div>
  
@@ -344,7 +343,8 @@ computed: {
       }
 
       const formData = {
-
+        fromAddress: signerAddress,
+        activePunkId: this.$refs.punksbar.getActivePunkId(), 
         category: selectedCategoryName,
         title: this.formInputs.name,
         markdownInput: this.markdownInput,
