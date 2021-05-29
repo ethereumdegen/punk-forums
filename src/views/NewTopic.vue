@@ -49,7 +49,7 @@
                  
                 <SimpleDropdown
                   v-bind:optionList="currencyTokensOptionsList" 
-             
+                  v-bind:onSelectCallback="onCategorySelected"
                 />
                   
               
@@ -170,6 +170,9 @@ import Punksbar from './components/PunksBar.vue';
  import SimpleDropdown from './components/SimpleDropdown.vue';
  
 
+
+import StarflaskAPIHelper from '../js/starflask-api-helper.js';
+
 import FrontendHelper from '../js/frontend-helper.js'
 
 import marked from 'marked'
@@ -234,23 +237,41 @@ computed: {
     this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
  
  
-   
+    this.fetchForumCategories()
+
+
   }, 
   beforeDestroy: function () {
       this.web3Plug.clearEventEmitter()
   },
 
   methods: {
+      onCategorySelected(){
+      },
 
-        updatemarkdown(e){
+      async fetchForumCategories(){
 
-           this.markdownInput = e.target.value;
 
-           /* _.debounce(function(e) {
-                        this.markdownInput = e.target.value;
-                      }, 300)*/
 
-        } ,
+        let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'forum_categories' , input:{  }})
+    
+
+        this.forumCategoriesArray =  response.output 
+
+        console.log('cats', this.forumCategoriesArray)
+
+      },
+
+
+      updatemarkdown(e){
+
+          this.markdownInput = e.target.value;
+
+          /* _.debounce(function(e) {
+                      this.markdownInput = e.target.value;
+                    }, 300)*/
+
+      } ,
 
         /*
      onCoverImageChange(e) {

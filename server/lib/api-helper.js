@@ -19,6 +19,22 @@
         static async handleApiRequest(request,   wolfpackInterface, mongoInterface){
            
             let inputData = request.body 
+
+
+
+              
+            if(inputData.requestType == 'forum_categories'){
+                let categoriesData =  [
+                    {name: 'generaldiscussion', color:'#222'}
+                ]
+                 
+                
+                return {success:true, input: {}, output: categoriesData  }
+            } 
+
+
+
+
             
 
          

@@ -70,8 +70,7 @@
 
 
 import Web3Plug from '../js/web3-plug.js' 
-import AccessPlug from '../js/access-plug.js' 
-
+ 
   
  
 import Navbar from './components/Navbar.vue';
