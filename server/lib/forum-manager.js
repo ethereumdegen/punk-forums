@@ -1,7 +1,8 @@
  
     //const ethJsUtil = require('ethereumjs-util')
   
- 
+    import web3utils from 'web3-utils'
+    
     export default class ForumManager  {
     
         constructor(   ){
@@ -23,13 +24,20 @@
 
 
         */
+
+
         static async createNewTopic( input , mongoInterface ){ 
 
+            let topicHash = web3utils.randomHex(16)
+     
+            
             let newTopicData = {
                 title: ForumManager.sanitizeInput(input.title),
                 markdownInput: ForumManager.sanitizeInput(input.markdownInput),     //sanitize
                 punkId: parseInt( input.activePunkId ),
-                fromAddress: input.fromAddress.toLowerCase()
+                fromAddress: input.fromAddress.toLowerCase(),
+
+                topicHash: topicHash
 
 
             }
@@ -39,7 +47,7 @@
             let result = await mongoInterface.insertOne( 'topics', newTopicData  )
 
 
-
+            return {success:true, topicHash: topicHash }
 
 
         }

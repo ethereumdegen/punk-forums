@@ -159,23 +159,23 @@
 
 
 
-import NotConnectedToWeb3 from './components/NotConnectedToWeb3.vue'
+import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
 
-import Web3Plug from '../js/web3-plug.js' 
+import Web3Plug from '../../js/web3-plug.js' 
  
 
-import Navbar from './components/Navbar.vue';
+import Navbar from '../components/Navbar.vue';
  
-import Footer from './components/Footer.vue';
-import TabsBar from './components/TabsBar.vue';
-import Punksbar from './components/PunksBar.vue';
- import SimpleDropdown from './components/SimpleDropdown.vue';
+import Footer from '../components/Footer.vue';
+import TabsBar from '../components/TabsBar.vue';
+import Punksbar from '../components/PunksBar.vue';
+ import SimpleDropdown from '../components/SimpleDropdown.vue';
  
 
 
-import StarflaskAPIHelper from '../js/starflask-api-helper.js';
+import StarflaskAPIHelper from '../../js/starflask-api-helper.js';
 
-import FrontendHelper from '../js/frontend-helper.js'
+import FrontendHelper from '../../js/frontend-helper.js'
 
 import marked from 'marked'
 import * as sanitizeHtml from 'sanitize-html';
@@ -363,6 +363,8 @@ computed: {
 
       if(response.success){
         //redirect to the topic 
+
+        this.$router.push('/topic/'.concat( response.output.topicHash ));
 
 
       }

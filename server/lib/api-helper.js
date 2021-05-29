@@ -56,13 +56,15 @@
                     return {success:false, input: inputData.input, message: 'Not owner of punk' }
                 }
 
-
-                let threadId = 0; 
+ 
 
                 let newTopic = await ForumManager.createNewTopic(  inputData.input , mongoInterface )
 
+                if(newTopic.success){
+                    return {success:true, input: inputData.input, output: {topicHash: newTopic.topicHash}  }
+                }
                 
-                return {success:true, input: inputData.input, output: {threadId: threadId}  }
+                return {success:false, input: inputData.input, message:'Could not create database record' }
             } 
 
             

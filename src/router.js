@@ -12,7 +12,9 @@ import Application from './views/Application.vue'
 
 import Profile from './views/Profile.vue'
 
-import NewTopic from './views/NewTopic.vue'
+import TopicNew from './views/topic/New.vue'
+
+import TopicShow from './views/topic/Show.vue'
 
 import NotFound from './views/NotFound.vue'
 
@@ -38,11 +40,16 @@ export default new Router({
     
 
     {
-      path: '/newtopic',
-      name: 'newtopic',
-      component: NewTopic
+      path: '/topic/new',
+      name: 'topicnew',
+      component: TopicNew
     } ,
 
+    {
+      path: '/topic/:hash',
+      name: 'topicshow',
+      component: TopicShow
+    } ,
 
 
     {

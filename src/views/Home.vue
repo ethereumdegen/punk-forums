@@ -34,7 +34,7 @@
          </div>
 
            <div> 
-             <router-link :to="'/newtopic'" class="no-underline"> 
+             <router-link :to="'/topic/new'" class="no-underline"> 
                <div class="bg-purple-500 p-2 hover:bg-purple-400 cursor-pointer select-none text-white  " >New Topic</div> 
             </router-link>
            </div>
