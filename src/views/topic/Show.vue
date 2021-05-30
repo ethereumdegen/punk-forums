@@ -27,22 +27,29 @@
         
         
        <div class="w-column py-16">
-          <div class="text-lg font-bold"> Topic  </div>
+
+
+        <div class=" ">
+
           
-          <div  class=" " v-if="!connectedToWeb3">
-              <NotConnectedToWeb3 />
-          </div>
+          <div class="text-2xl font-bold"> {{loadedTopicOutputs.title}}  </div>
+
+        </div>
+
+          <div class="text-xs  " v-if="loadedTopicOutputs.category"> {{loadedTopicOutputs.category.label}}  </div>
+          
+         
 
 
 
+        <ForumPost 
+            v-bind:postData='firstPostData'
 
+        />
 
-          <div  class=" " v-if=" connectedToWeb3">
+    
 
-              
-
-          </div>
-
+        
 
           
        </div>
@@ -68,46 +75,71 @@
 import Web3Plug from '../../js/web3-plug.js' 
  
 
- 
 
 import Navbar from '../components/Navbar.vue';
  
 import Footer from '../components/Footer.vue';
 import TabsBar from '../components/TabsBar.vue';
 import GenericTable from '../components/GenericTable.vue';
- import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
+import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
 
+ 
 
+ 
+import ForumPost from './ForumPost.vue';
 import Punksbar from '../components/PunksBar.vue';
 
+import StarflaskAPIHelper from '../../js/starflask-api-helper.js'
 import FrontendHelper from '../../js/frontend-helper.js'
+
+
+import marked from 'marked'
+import * as sanitizeHtml from 'sanitize-html';
+
+
+const categoryColors = require('../../../src/config/categoryColors.json')
 
 export default {
   name: 'Application',
   props: [],
-  components: {Navbar, Footer, TabsBar, GenericTable, Punksbar, NotConnectedToWeb3},
+  components: {Navbar, Footer,  ForumPost,  Punksbar, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() , 
-   
+
+
+      loadedTopicOutputs:{},
+
+      firstPostData: {},
+
 
        
       connectedToWeb3: false 
     }
   },
 
+    computed: {
+          compiledMarkdown: function() {
+            return    (marked(this.loadedTopicOutputs.markdownInput ));
+          }
+        },
   created(){
 
- 
+      
+
+      var markedImages = require('marked-images');
+
+      marked.use(markedImages({}));
+
+
     this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
         console.log('stateChanged',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-        this.currentBlockNumber = await this.web3Plug.getBlockNumber()
-
-         
+        
+             this.fetchTopicData(this.$route.params.hash)
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -123,12 +155,33 @@ export default {
 
   },
   mounted: function () {
-    
-      this.accessPlug.reconnect()
+     
+
+      this.fetchTopicData(this.$route.params.hash)
    
   }, 
   methods: {
-          
+      async fetchTopicData(topicHash){
+          console.log('fetch topic hash', topicHash)
+
+           let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topic' , input:{topicHash: topicHash }})
+           
+           if(response.success){
+               console.log('got topic results'  ,response )
+
+             this.loadedTopicOutputs = response.output 
+
+
+             this.firstPostData = {
+                 markdownInput: this.loadedTopicOutputs.markdownInput ,
+                 title: this.loadedTopicOutputs.title,
+                 category: this.loadedTopicOutputs.category,
+                 punkId: this.loadedTopicOutputs.punkId
+             }
+           }
+
+
+      }
   }
 }
 </script>

@@ -34,6 +34,7 @@
             let newTopicData = {
                 title: ForumManager.sanitizeInput(input.title),
                 markdownInput: ForumManager.sanitizeInput(input.markdownInput),     //sanitize
+                category: input.category,
                 punkId: parseInt( input.activePunkId ),
                 fromAddress: input.fromAddress.toLowerCase(),
 
@@ -52,6 +53,13 @@
 
         }
 
+        static async findTopicFromHash(topicHash, mongoInterface){
+
+                
+            return await mongoInterface.findOne('topics',{ topicHash: topicHash })
+        }
+
+///impl
         static sanitizeInput(input){
 
             return input 

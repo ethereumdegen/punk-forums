@@ -32,7 +32,7 @@
               
             if(inputData.requestType == 'forum_categories'){
                 let categoriesData =  [
-                    {name: 'generaldiscussion', label:'General Discussion' , color:'#222'}
+                    {name: 'generaldiscussion', label:'General Discussion' }
                 ]
                  
                 
@@ -66,6 +66,21 @@
                 
                 return {success:false, input: inputData.input, message:'Could not create database record' }
             } 
+
+
+            if(inputData.requestType == 'topic'){
+                let topicHash = inputData.input.topicHash
+
+
+
+
+                //make sure the user has permission to read this topic (later) 
+                
+                let topicData = await ForumManager.findTopicFromHash(  topicHash , mongoInterface )
+
+               
+                return {success:true, input: inputData.input, output: topicData }
+            }
 
             
 
