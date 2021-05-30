@@ -1,12 +1,11 @@
 <template> 
-<div class="pt-8 relative pb-2 mb-12" style="min-height:300px">
-            
-            
-    <img   src="@/assets/images/squiggle.png" width="256" height="256" alt="" style="margin: auto;  ">
-
-        
-
- </div>
+        <tr>
+                    <td > Intro to CSSIntro to CSSIntro to CSSIntro to CSSs</td>
+                    <td>Adam</td>
+                    <td>858</td>
+                    <td>858</td>
+                    <td>858</td>
+     </tr>
  </template>
 
 
@@ -14,24 +13,17 @@
 <script>
     export default {
     name: 'TopicRow',
-    props: [ ],
+    props: [ 'rowData' ],
     data() {
         return {
-            startTime: 0
+             
         }
     },
     created(){
-        this.startTime= Date.now()
-
-        setInterval(this.update,500)
+       
     },
     methods: {
-         update(){
-             this.$forceUpdate()
-         },
-         getTimeElapsed(){
-             return Date.now() - this.startTime
-         }
+       
     }
     }
 </script>

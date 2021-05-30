@@ -6,6 +6,7 @@ import router from './router'
 
 //import "tailwindcss/tailwind.css"
 
+import './css/github-markdown.css'
 import './css/tailwind.css'
 import '@fortawesome/fontawesome-free/js/all.js';
 import './css/main.css'

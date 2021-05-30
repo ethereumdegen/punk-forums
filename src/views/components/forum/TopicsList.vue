@@ -11,13 +11,12 @@
         </thead>  
 
         <tbody>
-            <tr>
-                    <td > Intro to CSSIntro to CSSIntro to CSSIntro to CSSs</td>
-                    <td>Adam</td>
-                    <td>858</td>
-                    <td>858</td>
-                    <td>858</td>
-            </tr>
+
+            <TopicRow 
+                v-for='row in topicsArray'
+                v-bind:rowData='row'
+            />
+           
         </tbody>
         
 
@@ -27,26 +26,21 @@
 
 
 <script>
+
+    import TopicRow from './TopicRow.vue'
+
     export default {
     name: 'TopicsList',
-    props: [ ],
+    props: [ 'topicsArray' ],
+    components: {TopicRow},
     data() {
-        return {
-            startTime: 0
-        }
+         
     },
     created(){
-        this.startTime= Date.now()
-
-        setInterval(this.update,500)
+        
     },
     methods: {
-         update(){
-             this.$forceUpdate()
-         },
-         getTimeElapsed(){
-             return Date.now() - this.startTime
-         }
+          
     }
     }
 </script>

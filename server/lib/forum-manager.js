@@ -59,6 +59,14 @@
             return await mongoInterface.findOne('topics',{ topicHash: topicHash })
         }
 
+
+        static async findTopicsUsingFilter(filter, mongoInterface){
+
+                
+            return await mongoInterface.findAll('topics', filter )
+        }
+
+
 ///impl
         static sanitizeInput(input){
 

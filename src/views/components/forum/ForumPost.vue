@@ -13,7 +13,7 @@
 
                    <div> Punk #{{ postData.punkId }}  </div>
 
-                   <div class="w-full preview " v-html="compiledMarkdown"></div>
+                   <div class="w-full preview markdown-body" v-html="compiledMarkdown"></div>
 
               </div>
 
@@ -24,10 +24,13 @@
 <script>
  
 
- import PunkIcon from '../components/PunkIcon.vue'
+ import PunkIcon from '../PunkIcon.vue'
 
-import marked from 'marked'
-import * as sanitizeHtml from 'sanitize-html';
+
+import  MarkdownIt  from 'markdown-it'; 
+
+var markdownIt = new MarkdownIt();
+
 
 export default {
   name: 'ForumPost',
@@ -43,7 +46,7 @@ export default {
   },
 computed: {
           compiledMarkdown: function() {
-            return    (marked(this.postData.markdownInput ));
+            return  markdownIt.render( this.postData.markdownInput ) 
           }
         },
   created(){

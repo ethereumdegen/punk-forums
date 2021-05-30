@@ -32,11 +32,11 @@
         <div class=" ">
 
           
-          <div class="text-2xl font-bold"> {{loadedTopicOutputs.title}}  </div>
+          <div class="text-4xl font-bold"> {{loadedTopicOutputs.title}}  </div>
 
         </div>
 
-          <div class="text-xs  " v-if="loadedTopicOutputs.category"> {{loadedTopicOutputs.category.label}}  </div>
+          <div class="text-xs  " v-if="loadedTopicOutputs.category"> {{loadedTopicOutputs.category}}  </div>
           
          
 
@@ -86,15 +86,12 @@ import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
  
 
  
-import ForumPost from './ForumPost.vue';
+import ForumPost from '../components/forum/ForumPost.vue';
 import Punksbar from '../components/PunksBar.vue';
 
 import StarflaskAPIHelper from '../../js/starflask-api-helper.js'
 import FrontendHelper from '../../js/frontend-helper.js'
 
-
-import marked from 'marked'
-import * as sanitizeHtml from 'sanitize-html';
 
 
 const categoryColors = require('../../../src/config/categoryColors.json')
@@ -118,19 +115,11 @@ export default {
     }
   },
 
-    computed: {
-          compiledMarkdown: function() {
-            return    (marked(this.loadedTopicOutputs.markdownInput ));
-          }
-        },
+     
   created(){
 
       
-
-      var markedImages = require('marked-images');
-
-      marked.use(markedImages({}));
-
+ 
 
     this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
         console.log('stateChanged',connectionState);

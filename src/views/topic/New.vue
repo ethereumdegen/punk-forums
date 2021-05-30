@@ -96,7 +96,7 @@
 
                     <div class="markdowneditor border-gray-200 w-full " id="editor" >
                           
-                          <div class="w-full preview" v-html="compiledMarkdown"></div>
+                          <div class="w-full preview markdown-body " v-html="compiledMarkdown"></div>
                     </div>
                   
                       
@@ -177,8 +177,12 @@ import StarflaskAPIHelper from '../../js/starflask-api-helper.js';
 
 import FrontendHelper from '../../js/frontend-helper.js'
 
-import marked from 'marked'
-import * as sanitizeHtml from 'sanitize-html';
+import  MarkdownIt  from 'markdown-it';
+
+var markdownIt = new MarkdownIt();
+
+//import marked from 'marked'
+//import * as sanitizeHtml from 'sanitize-html';
 
 export default {
   name: 'NewTopic',
@@ -200,23 +204,36 @@ export default {
       connectedToWeb3: false,
       
 
-      markdownInput: "# hello"
+      markdownInput: `
+# New topic 
+
+Add details here
+       
+
+How To Use The editor
+-------------------
+
+1. Type in stuff on the left.
+2. See the live updates on the right.
+
+
+      
+      
+      `
 
     }
   },
 computed: {
           compiledMarkdown: function() {
-            return    (marked(this.markdownInput ));
+ 
+
+
+            return   markdownIt.render(this.markdownInput)
           }
         },
   created(){
 
-
-      var markedImages = require('marked-images');
-
-      marked.use(markedImages({}));
-
-
+ 
  
       this.web3Plug.reconnectWeb()
     
@@ -266,8 +283,7 @@ computed: {
     
 
         this.forumCategoriesOptions =  response.output 
-
-        console.log('cats', this.forumCategoriesOptions)
+ 
 
       },
 

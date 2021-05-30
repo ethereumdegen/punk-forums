@@ -45,7 +45,7 @@
 
        <div class="mt-16"> 
          <TopicsList 
-         
+          v-bind:topicsArray='topicsArray'
          /> 
 
        </div>
@@ -91,9 +91,9 @@ export default {
   components: {Navbar, Punksbar, Footer, TopicsList   },
   data() {
     return {
-      web3Plug: new Web3Plug()  
+      web3Plug: new Web3Plug()  ,
   
-      
+      topicsArray: []
     }
   },
 
@@ -122,6 +122,8 @@ export default {
   },
 
   mounted: async function () {
+
+    this.fetchTopics( )
         
 
   }, 
@@ -140,6 +142,12 @@ export default {
            
     getRouteTo(dest){
       return FrontendHelper.getRouteTo(dest)
+    },
+
+    async fetchTopics(){
+      let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input:{  }})
+      console.log('fetch topics', response)
+      this.topicsArray = response.output 
     }
 
        

@@ -83,6 +83,19 @@
             }
 
             
+            if(inputData.requestType == 'topics'){
+               // let topicHash = inputData.input.topicHash
+
+                //check filtering here - usually based on URL params
+
+
+                //make sure the user has permission to read this topic (later)                 
+                let topicsArray = await ForumManager.findTopicsUsingFilter(  {} , mongoInterface )
+
+               
+                return {success:true, input: inputData.input, output: topicsArray }
+            }
+
 
 
 
