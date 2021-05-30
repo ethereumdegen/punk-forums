@@ -127,9 +127,14 @@ export default {
         
 
   }, 
-    beforeDestroy: function () {
+  beforeDestroy: function () {
+     try{
+      //  this.web3Plug.clearEventEmitter()
+
+     }catch(e){
+
+     }
      
-     this.web3Plug.clearEventEmitter()
   },
   methods: {
 

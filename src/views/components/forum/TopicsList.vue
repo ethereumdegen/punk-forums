@@ -6,7 +6,7 @@
                 <th> </th>
                 <th>Replies</th>
                 <th>Views</th>
-                <th>Activity</th>
+                 
             </tr>
         </thead>  
 

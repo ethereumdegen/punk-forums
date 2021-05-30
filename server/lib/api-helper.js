@@ -32,7 +32,7 @@
               
             if(inputData.requestType == 'forum_categories'){
                 let categoriesData =  [
-                    {name: 'generaldiscussion', label:'General Discussion' }
+                    'General Discussion'
                 ]
                  
                 

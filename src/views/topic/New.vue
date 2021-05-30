@@ -52,6 +52,7 @@
                  
                 <SimpleDropdown
                   ref="categoryDropdown"
+                  v-if="forumCategoriesOptions"
                   v-bind:optionList="forumCategoriesOptions" 
                   v-bind:onSelectCallback="onCategorySelected"
                 />
@@ -70,7 +71,7 @@
                 <div class="flex flex-col w-1/2">
 
                
-                  <input type="text" v-model="formInputs.name" class="border-gray-200 border-2 p-2 my-2 " placeholder="Title" />
+                  <input type="text" v-if="formInputs" v-model="formInputs.name" class="border-gray-200 border-2 p-2 my-2 " placeholder="Title" />
 
                 
                  </div>
@@ -83,7 +84,7 @@
                 
                 <div class="flex flex-grow  ">
 
-                 <div class="markdowneditor border-gray-200 border-2 p-2 m-2  w-full " id="editor" >
+                 <div class="markdowneditor border-gray-200 border-2 p-2 m-2  w-full " id="editor" v-if="markdownInput" >
                       <textarea rows="15" :value="markdownInput" @input="updatemarkdown" class=" w-full"></textarea>
                        
                  </div>
@@ -258,7 +259,8 @@ computed: {
   },
   mounted: function () {
  
-    
+
+      this.web3Plug.reconnectWeb()
      
     this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
  
@@ -280,8 +282,7 @@ computed: {
 
 
         let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'forum_categories' , input:{  }})
-    
-
+     
         this.forumCategoriesOptions =  response.output 
  
 
@@ -355,7 +356,7 @@ computed: {
       let selectedCategoryName = null
 
       if(selectedCategoryOption){
-        selectedCategoryName = selectedCategoryOption.name
+        selectedCategoryName = selectedCategoryOption 
       }
 
       const formData = {

@@ -1,10 +1,10 @@
 <template> 
-        <tr>
-                    <td > Intro to CSSIntro to CSSIntro to CSSIntro to CSSs</td>
-                    <td>Adam</td>
-                    <td>858</td>
-                    <td>858</td>
-                    <td>858</td>
+        <tr>  
+                    <td > <router-link  :to="'/topic/'.concat(rowData.topicHash)" > {{ rowData.title }} </router-link> </td>
+                    <td> Punk #{{ rowData.punkId }} </td>
+                    <td v-if="rowData.metrics"> {{ rowData.metrics.replies }} </td>
+                    <td v-if="rowData.metrics"> {{ rowData.metrics.views }} </td>
+                     
      </tr>
  </template>
 

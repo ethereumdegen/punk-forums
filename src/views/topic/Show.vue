@@ -32,7 +32,7 @@
         <div class=" ">
 
           
-          <div class="text-4xl font-bold"> {{loadedTopicOutputs.title}}  </div>
+          <div class="text-4xl font-bold" v-if="loadedTopicOutputs"> {{loadedTopicOutputs.title}}  </div>
 
         </div>
 

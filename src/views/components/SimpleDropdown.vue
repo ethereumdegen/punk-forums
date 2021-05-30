@@ -1,7 +1,7 @@
 <template> 
 
 <select name="cars" class="cursor-pointer p-2 bg-white border-2 border-black">
-  <option v-for="item in optionList" v-bind:value="item.name">{{item.label}}</option>
+  <option v-for="item in optionList" v-bind:value="item">{{item}}</option>
  
 </select>
 
@@ -27,7 +27,7 @@ export default {
       console.log('watch optionList',this.optionList)
         if(this.optionList && this.optionList.length > 0){
            
-           if( !this.selectedOptionData  || !this.selectedOptionData.label ){
+           if( !this.selectedOptionData    ){
              console.log('handleSelectedOptionChanged')
                 this.handleSelectedOptionChanged( this.optionList[0] )
            }
@@ -61,11 +61,10 @@ export default {
         this.selectOptionByName(optionName)
     },
     selectOptionByName(optionName){
-      console.log('sel 1', optionName)
+       
        for(let optionData of this.optionList){
-        if(optionData.name.toLowerCase() == (optionName.toLowerCase())){
-
-             console.log('sel 2', optionData)
+        if(optionData.toLowerCase() == (optionName.toLowerCase())){
+ 
 
           this.handleSelectedOptionChanged(optionData)
           return
@@ -74,7 +73,7 @@ export default {
     },
     handleSelectedOptionChanged(optionData){
 
-      if(optionData && optionData.label){
+      if(optionData ){
         this.selectedOptionData = optionData
         console.log('selected option changed', optionData)
         if(optionData){

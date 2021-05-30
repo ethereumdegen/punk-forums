@@ -8,12 +8,13 @@
     <div class="flex-grow "> 
     
     <div class="overflow-x-auto overflow-y-none"  style="max-width:50%; max-height:50px">
-      <div v-for="tokenId of ownedTokenIdsArray" 
+      <div v-for="tokenId of ownedTokenIdsArray" v-if="ownedTokenIdsArray"
       class="m-1 inline-block border-2 border-black hover:bg-gray-200 cursor-pointer"
           :class="{'bg-purple-500': activePunkId == tokenId }"
       >
           
           <PunkIcon
+            v-if="tokenId"
             v-bind:iconId='tokenId'
             v-bind:renderSize=24
             v-bind:onClickedCallback="onPunkClicked"
