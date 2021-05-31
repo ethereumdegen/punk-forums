@@ -50,7 +50,7 @@
                 }
 
 
-                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.input.fromAddress, inputData.input.activePunkId, wolfpackInterface , serverConfig)
+                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.input.fromAddress, inputData.input.punkId, wolfpackInterface , serverConfig)
 
                 if(!userOwnsPunk){
                     return {success:false, input: inputData.input, message: 'Not owner of punk' }
@@ -60,12 +60,41 @@
 
                 let newTopic = await ForumManager.createNewTopic(  inputData.input , mongoInterface )
 
-                if(newTopic.success){
+                let newPost = await ForumManager.createNewPost(  inputData.input , newTopic.topicHash, mongoInterface )
+
+
+                if(newTopic.success && newPost.success){
                     return {success:true, input: inputData.input, output: {topicHash: newTopic.topicHash}  }
                 }
                 
                 return {success:false, input: inputData.input, message:'Could not create database record' }
             } 
+
+
+            if(inputData.requestType == 'create_post'){
+
+                let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
+                
+                if(!personalSignatureIsValid){
+                    return {success:false, input: inputData.input }
+                }
+
+
+                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.input.fromAddress, inputData.input.punkId, wolfpackInterface , serverConfig)
+
+                if(!userOwnsPunk){
+                    return {success:false, input: inputData.input, message: 'Not owner of punk' }
+                }
+
+                let newPost = await ForumManager.createNewPost(  inputData.input , inputData.input.parentTopicHash, mongoInterface )
+
+                if( newPost.success ){
+                    return {success:true, input: inputData.input, output: {postHash: newPost.postHash}  }
+                }
+                
+                return {success:false, input: inputData.input, message:'Could not create database record' }
+
+            }
 
 
             if(inputData.requestType == 'topic'){
@@ -76,7 +105,7 @@
 
                 //make sure the user has permission to read this topic (later) 
                 
-                let topicData = await ForumManager.findTopicFromHash(  topicHash , mongoInterface )
+                let topicData = await ForumManager.findTopicDataFromHash(  topicHash , mongoInterface )
 
                
                 return {success:true, input: inputData.input, output: topicData }
@@ -214,7 +243,7 @@
 
         /*
         fromAddress: '0x99a848f6d8bb6d6cd1a524b3c99a97e41e1e4b5a',
-        activePunkId: '3315', 
+        punkId: '3315', 
         signedAt: '1622323329977',
         accountSignature: '0xa7cc18dd4d0b4193016814072157165dd236f64eadb913ca43162b26e9e6221076031be48f5cbc5fb0180293c06712e760f04a990357768afec012d29d56d1f31b
 

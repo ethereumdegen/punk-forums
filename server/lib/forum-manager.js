@@ -15,7 +15,7 @@
         /*
 
         fromAddress: '0x99a848f6d8bb6d6cd1a524b3c99a97e41e1e4b5a',
-        activePunkId: '3315',
+        punkId: '3315',
         category: 'generaldiscussion',
         title: null,
         markdownInput: '# hello',
@@ -29,16 +29,19 @@
         static async createNewTopic( input , mongoInterface ){ 
 
             let topicHash = web3utils.randomHex(16)
+
+            //make sure signed at was recent 
      
             
             let newTopicData = {
                 title: ForumManager.sanitizeInput(input.title),
-                markdownInput: ForumManager.sanitizeInput(input.markdownInput),     //sanitize
+               // markdownInput: ForumManager.sanitizeInput(input.markdownInput),     //sanitize
                 category: input.category,
-                punkId: parseInt( input.activePunkId ),
+                punkId: parseInt( input.punkId ),
                 fromAddress: input.fromAddress.toLowerCase(),
 
-                topicHash: topicHash
+                topicHash: topicHash,
+                createdAt: Date.now()
 
 
             }
@@ -46,17 +49,58 @@
 
 
             let result = await mongoInterface.insertOne( 'topics', newTopicData  )
+            
 
-
+             
+            
             return {success:true, topicHash: topicHash }
 
 
         }
 
-        static async findTopicFromHash(topicHash, mongoInterface){
+        static async createNewPost( input, topicHash, mongoInterface ){
 
+            let existingTopic = await mongoInterface.findOne('topics',{ topicHash: topicHash })
+            
+            if(!existingTopic || !topicHash){
+                return {success: false}
+            }
+
+            let allowedToPost = await ForumManager.punkAllowedToPostToTopic( input.punkId , topicHash)
+
+            let postHash = web3utils.randomHex(16)
+
+            let newPostData = {                
+                markdownInput: ForumManager.sanitizeInput(input.markdownInput),     //sanitize
                 
-            return await mongoInterface.findOne('topics',{ topicHash: topicHash })
+                punkId: parseInt( input.punkId ),
+                fromAddress: input.fromAddress.toLowerCase(),
+
+                topicHash: topicHash,
+
+                postHash: postHash, 
+                createdAt: Date.now()
+            }
+
+            let newPost = await mongoInterface.insertOne( 'posts', newPostData  )
+
+            return {success:true, postHash: postHash }
+ 
+
+        }
+
+        static async findTopicDataFromHash(topicHash, mongoInterface){
+            let result = {}
+
+            let page = 0
+
+            result.topicData = await mongoInterface.findOne('topics',{ topicHash: topicHash })
+            
+            //sort by createdAt
+            result.postsArray = await mongoInterface.findAll('posts',{ topicHash: topicHash })
+            
+
+            return result
         }
 
 
@@ -67,10 +111,16 @@
         }
 
 
-///impl
+        ///impl
         static sanitizeInput(input){
 
             return input 
+        }
+
+        ///impl
+        static punkAllowedToPostToTopic(punkId, topicHash){
+
+            return true 
         }
         
 

@@ -23,17 +23,42 @@
 
 
    <div class="section  bg-white border-b-2 border-black  ">
-     <div class="autospacing w-container">
-        
-        
-       <div class="w-column py-16">
+     <div class="autospacing w-container py-16">
 
 
-           Punk {{ punkData.punkId }}
-        
+        <div class=" flex flex-row mt-8"> 
+            <div class="w-1/4"> 
 
-          
-       </div>
+
+             <div class="  rounded text-black text-xl   p-1"> Punk #{{ punkId }}  </div>
+
+                   <PunkIcon  
+                v-bind:iconId='punkId'
+                v-bind:renderSize=48
+                
+                />
+
+                
+            </div> 
+
+
+              <div  class="w-full border-2 border-gray-200    p-4  "   >
+
+                   <div class="text-lg">  Recent Posts  </div>
+                   
+              </div>
+
+
+        </div> 
+
+
+         
+
+ 
+
+
+
+
      </div>
    </div>
 
@@ -67,6 +92,9 @@ import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
  
 
  
+
+ import PunkIcon from '../components/PunkIcon.vue'
+
 import ForumPost from '../components/forum/ForumPost.vue';
 import Punksbar from '../components/PunksBar.vue';
 
@@ -74,13 +102,12 @@ import StarflaskAPIHelper from '../../js/starflask-api-helper.js'
 import FrontendHelper from '../../js/frontend-helper.js'
 
 
-
-const categoryColors = require('../../../src/config/categoryColors.json')
+ 
 
 export default {
-  name: 'Application',
+  name: 'PunkShow',
   props: [],
-  components: {Navbar, Footer,  ForumPost,  Punksbar, NotConnectedToWeb3},
+  components: {Navbar, Footer,  PunkIcon,  Punksbar, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() , 
@@ -96,7 +123,7 @@ export default {
      
   created(){
 
-      
+    this.punkId = this.$route.params.punkId
  
 
     this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
@@ -106,7 +133,7 @@ export default {
         this.activeNetworkId = connectionState.activeNetworkId
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
         
-             this.fetchTopicData(this.$route.params.hash)
+             this.fetchPunkData(this.punkId)
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -123,7 +150,7 @@ export default {
   },
   mounted: function () { 
 
-      this.fetchPunkData(this.$route.params.punkId)
+      this.fetchPunkData(this.punkId)
    
   }, 
   methods: {

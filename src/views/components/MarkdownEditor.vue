@@ -4,7 +4,7 @@
                 
                 <div class="flex flex-grow  ">
 
-                 <div class="markdowneditor border-gray-200 border-2 p-2 m-2  w-full " id="editor" v-if="markdownInput" >
+                 <div class="markdowneditor border-gray-200 border-2 p-2 m-2  w-full " id="editor"  >
                       <textarea rows="15" :value="markdownInput" @input="updatemarkdown" class=" w-full"></textarea>
                        
                  </div>
@@ -85,6 +85,12 @@ How To Use The editor
           /* _.debounce(function(e) {
                       this.markdownInput = e.target.value;
                     }, 300)*/
+
+    },
+
+    resetInput(){
+
+      this.markdownInput = ''
 
     },
 

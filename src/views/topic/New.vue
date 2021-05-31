@@ -305,14 +305,13 @@ export default {
 
       const formData = {
         fromAddress: signerAddress,
-        activePunkId: this.activePunkId, 
+        punkId: this.activePunkId, 
         category: selectedCategoryName,
         title: this.formInputs.name,
         markdownInput: this.$refs.markdownEditor.getMarkdownInput(),
 
         signedAt: currentUnixTime,
         accountSignature: accountSignature
-
       }
 
 

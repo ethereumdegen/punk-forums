@@ -29,21 +29,24 @@
        <div class="w-column py-16">
 
 
-        <div class=" ">
+        <div class=" pl-16 ">
 
           
-          <div class="text-4xl font-bold" v-if="loadedTopicOutputs"> {{loadedTopicOutputs.title}}  </div>
+          <div class="text-4xl font-bold" v-if="topicData"> {{topicData.title}}  </div>
+
+           <div class="text-xs  " v-if="topicData.category"> {{topicData.category}}  </div>
+          
 
         </div>
 
-          <div class="text-xs  " v-if="loadedTopicOutputs.category"> {{loadedTopicOutputs.category}}  </div>
-          
+         
          
 
 
 
         <ForumPost 
-            v-bind:postData='firstPostData'
+             v-for="post of postsArray"
+            v-bind:postData='post'
 
         />
 
@@ -131,9 +134,9 @@ export default {
       web3Plug: new Web3Plug() , 
 
 
-      loadedTopicOutputs:{},
+      topicData:{},
 
-      firstPostData: {},
+      postsArray: [],
 
       activePunkId: null,
        
@@ -172,7 +175,7 @@ export default {
   mounted: function () {
      
 
-      this.fetchTopicData(this.$route.params.hash)
+      this.refreshTopicData( )
 
 
     this.$refs.punksbar.getPunksEventEmitter().on('activePunkChanged', async function(activePunkId) {
@@ -192,6 +195,12 @@ export default {
   },
 
   methods: {
+      async refreshTopicData(){
+         this.fetchTopicData(this.$route.params.hash)
+
+      },
+
+
       async fetchTopicData(topicHash){
           console.log('fetch topic hash', topicHash)
 
@@ -199,16 +208,29 @@ export default {
            
            if(response.success){
                console.log('got topic results'  ,response )
+ 
 
-             this.loadedTopicOutputs = response.output 
-
-
-             this.firstPostData = {
-                 markdownInput: this.loadedTopicOutputs.markdownInput ,
-                 title: this.loadedTopicOutputs.title,
-                 category: this.loadedTopicOutputs.category,
-                 punkId: this.loadedTopicOutputs.punkId
+             this.topicData = {
+                
+                 title: response.output.topicData.title,
+                 category: response.output.topicData.category,
+                 punkId: response.output.topicData.punkId,
+                 topicHash: response.output.topicData.topicHash
+             
              }
+
+             this.postsArray = []
+
+             for (let post of response.output.postsArray){
+               this.postsArray.push({
+
+                 markdownInput: post.markdownInput, 
+                 punkId: post.punkId
+
+               })
+             }
+
+
            }
 
 
@@ -216,6 +238,39 @@ export default {
 
 
       async submitReply(){
+
+        let signerAddress = this.web3Plug.getActiveAccountAddress() 
+
+        let currentUnixTime = Date.now().toString()
+
+        let accountSignature = await this.web3Plug.requestPersonalSignature( 
+        'Signing for Etherpunks at '.concat(currentUnixTime)  )
+
+
+
+        const formData = {
+          fromAddress: signerAddress,
+          punkId: this.activePunkId, 
+          parentTopicHash: this.topicData.topicHash,
+          
+          markdownInput: this.$refs.markdownEditor.getMarkdownInput(),
+
+          signedAt: currentUnixTime,
+          accountSignature: accountSignature
+
+        }
+
+         let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'create_post' , input:formData } )
+   
+          console.log('create new post ',response)
+          
+
+          if(response.success){
+
+            this.$refs.markdownEditor.resetInput()
+            this.refreshTopicData( )
+
+          }
 
       }
   }
