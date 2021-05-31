@@ -6,13 +6,15 @@
                 v-bind:renderSize=48
                 
                 />
+
+                 <div class="bg-purple-500 rounded text-white text-sm inline-block p-1"> Punk #{{ postData.punkId }}  </div>
+
             </div> 
 
 
               <div  class="w-full border-2 border-gray-200    p-4  " v-if="postData" >
 
-                   <div> Punk #{{ postData.punkId }}  </div>
-
+                  
                    <div class="w-full preview markdown-body" v-html="compiledMarkdown" v-if="compiledMarkdown"></div>
 
               </div>

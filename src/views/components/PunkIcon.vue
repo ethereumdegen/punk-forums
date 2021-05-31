@@ -1,5 +1,5 @@
 <template>
-  <div class=" p2 select-none cursor-pointer "   @click="onClickedCallback(iconId)" >
+  <div class=" p2 select-none cursor-pointer inline-block"   @click="onClickedCallback(iconId)" >
        
      <canvas class="pixelfriendly pt-1" ref="iconCanvas" v-bind:width="renderSize" v-bind:height="renderSize"> 
          
