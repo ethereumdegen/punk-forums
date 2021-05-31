@@ -44,10 +44,8 @@
 
 
        <div class="mt-16"> 
-
-        
-         <TopicsList
-          v-bind:topicsArray="activeTopicsArray"
+         <TopicsList 
+          v-bind:topicsArray='topicsArray'
          /> 
 
        </div>
@@ -80,8 +78,7 @@ import Punksbar from './components/PunksBar.vue';
  
 import Footer from './components/Footer.vue';
 import TabsBar from './components/TabsBar.vue';
- 
-  
+
 import TopicsList from './components/forum/TopicsList.vue';
   
 import StarflaskAPIHelper from '../js/starflask-api-helper.js';
@@ -91,12 +88,12 @@ import FrontendHelper from '../js/frontend-helper.js';
 export default {
   name: 'Home',
   props: [],
-  components: {Navbar, Punksbar, Footer, TopicsList  },
+  components: {Navbar, Punksbar, Footer, TopicsList   },
   data() {
     return {
       web3Plug: new Web3Plug()  ,
   
-      activeTopicsArray: []
+      topicsArray: []
     }
   },
 
@@ -155,7 +152,7 @@ export default {
     async fetchTopics(){
       let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input:{  }})
       console.log('fetch topics', response)
-      this.activeTopicsArray = response.output 
+      this.topicsArray = response.output 
     }
 
        

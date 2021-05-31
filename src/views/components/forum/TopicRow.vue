@@ -1,7 +1,7 @@
 <template> 
-        <tr>  
+        <tr v-if="rowData">  
                     <td > <router-link  :to="'/topic/'.concat(rowData.topicHash)" > {{ rowData.title }} </router-link> </td>
-                    <td> Punk #{{ rowData.punkId }} </td>
+                    <td > Punk #{{ rowData.punkId }} </td>
                     <td v-if="rowData.metrics"> {{ rowData.metrics.replies }} </td>
                     <td v-if="rowData.metrics"> {{ rowData.metrics.views }} </td>
                      
@@ -11,7 +11,8 @@
 
 
 <script>
-    export default {
+
+export default {
     name: 'TopicRow',
     props: [ 'rowData' ],
     data() {
@@ -26,4 +27,5 @@
        
     }
     }
+    
 </script>

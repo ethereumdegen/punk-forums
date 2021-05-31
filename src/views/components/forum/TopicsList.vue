@@ -1,5 +1,5 @@
-<template> 
-<table class="table-auto w-full" style="min-height:300px">
+<template>
+  <table class="table-auto w-full" style="min-height:300px">
         <thead>
             <tr style="text-align: left;" class="text-sm text-gray-600 border-b-2 border-gray-400">
                 <th>Topic</th>
@@ -13,6 +13,7 @@
         <tbody>
 
             <TopicRow 
+                v-if="topicsArray"
                 v-for='row in topicsArray'
                 v-bind:rowData='row'
             />
@@ -21,26 +22,27 @@
         
 
  </table>
- </template>
-
+</template>
 
 
 <script>
+ import TopicRow from './TopicRow.vue'
 
-    import TopicRow from './TopicRow.vue'
 
-    export default {
-    name: 'TopicsList',
-    props: [ 'topicsArray' ],
+export default {
+  name: 'TopicsList2',
+   props: [ 'topicsArray' ],
     components: {TopicRow},
-    data() {
-         
-    },
-    created(){
-        
-    },
-    methods: {
-          
+  data() {
+    return {
+
     }
-    }
+  },
+  created(){
+
+  },
+  methods: {
+
+  }
+}
 </script>
