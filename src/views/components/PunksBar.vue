@@ -60,6 +60,12 @@ import FrontendHelper from '../../js/frontend-helper.js';
 import PunkIcon from './PunkIcon.vue'
 
  
+
+const EventEmitter = require('events');
+class PunksBarEmitter extends EventEmitter {}
+
+const punksBarEmitter = new PunksBarEmitter();
+
 export default {
   name: 'PunksBar',
   props: [  'web3Plug'],
@@ -100,6 +106,8 @@ export default {
     beforeDestroy: function () {
      
      this.web3Plug.clearEventEmitter()
+
+     this.clearEventEmitter()
   },
 
   methods: {
@@ -117,7 +125,7 @@ export default {
 
           let response;
 
-          if(contractData['cryptopunks']){
+          if(contractData && contractData['cryptopunks']){
             let punkContractAddress = contractData['cryptopunks'].address
 
             response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'ERC721_balance_by_owner_and_token' , input:{ownerAddress: activeAddress , token: punkContractAddress }})
@@ -156,12 +164,18 @@ export default {
          }
 
          localStorage.setItem('activePunkId', this.activePunkId);
-
-
-
-         this.web3Plug.getPlugEventEmitter().emit('activePunkChanged', this.activePunkId)
+ 
+         this.getPunksEventEmitter().emit('activePunkChanged', this.activePunkId)
          
          
+       },
+
+       getPunksEventEmitter(){
+         return punksBarEmitter 
+       },
+
+       clearEventEmitter(){
+         this.getPunksEventEmitter().removeAllListeners() 
        }
   }
 }

@@ -166,15 +166,7 @@ export default {
 
       this.web3Plug.reconnectWeb()
 
- 
-    
-      this.web3Plug.getPlugEventEmitter().on('activePunkChanged', async function(activePunkId) {
-        console.log('activePunkChanged',activePunkId);
-         
-        this.activePunkId = FrontendHelper.getActivePunkId()
-      }.bind(this));
-
-       this.activePunkId = FrontendHelper.getActivePunkId()
+  
 
   },
   mounted: function () {
@@ -182,8 +174,23 @@ export default {
 
       this.fetchTopicData(this.$route.params.hash)
 
-     
+
+    this.$refs.punksbar.getPunksEventEmitter().on('activePunkChanged', async function(activePunkId) {
+      console.log('activePunkChanged',activePunkId);
+        
+      this.activePunkId = this.$refs.punksbar.getActivePunkId()
+    }.bind(this));
+    
+      this.activePunkId = this.$refs.punksbar.getActivePunkId()
+
+
   }, 
+  beforeDestroy: function () {
+      this.web3Plug.clearEventEmitter()
+
+      this.$refs.punksbar.clearEventEmitter()
+  },
+
   methods: {
       async fetchTopicData(topicHash){
           console.log('fetch topic hash', topicHash)
