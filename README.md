@@ -5,9 +5,14 @@ Unofficial web forum for Cryptopunks by Larva Labs
 
 
 ### Dev Notes
--Need to allow for user to click on punk in punksbar to 'select' it 
--When a punk is selected, rest of app needs to know.  Then, New Topic button will appear.  
+ 
 
+
+-add reply feature
+-add categories
+-add metrics 
+
+-if changed accts and number of punks is 0 , sign out of punk (using localstorage) 
 
 
 -getting erc20 balance doesnt work

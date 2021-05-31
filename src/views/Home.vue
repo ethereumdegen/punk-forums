@@ -120,7 +120,7 @@ export default {
       this.web3Plug.reconnectWeb()
    
        
-     this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
+     //this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
 
   },
 
@@ -131,12 +131,7 @@ export default {
 
   }, 
   beforeDestroy: function () {
-     try{
-      //  this.web3Plug.clearEventEmitter()
-
-     }catch(e){
-
-     }
+    
      
   },
   methods: {

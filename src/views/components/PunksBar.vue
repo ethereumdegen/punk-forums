@@ -32,11 +32,11 @@
 
     </div>
 
-  <div v-if="activePunkId" class="flex flex-row" style="min-width:120px">  
+  <div v-if="activePunkId != null  " class="flex flex-row" style="min-width:120px">  
       
       <div class="pt-8 text-xs text-gray-300 inline-block"  > Punk #{{activePunkId}} </div>
       
-        <router-link :to="'/profile'"> 
+        <router-link :to="'/punk/'.concat(activePunkId)"> 
         <PunkIcon
           v-bind:iconId='activePunkId'
           v-bind:renderSize=48
@@ -93,7 +93,7 @@ export default {
       this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
 
 
-      this.activePunkId = localStorage.getItem('activePunkId');
+      this.activePunkId = FrontendHelper.getActivePunkId()
 
 
   },
@@ -114,16 +114,34 @@ export default {
           let activeAddress = this.web3Plug.getActiveAccountAddress()
   
           let contractData = this.web3Plug.getContractDataForActiveNetwork()
-         
-          let punkContractAddress = contractData['cryptopunks'].address
 
-          let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'ERC721_balance_by_owner_and_token' , input:{ownerAddress: activeAddress , token: punkContractAddress }})
-   
-          console.log('fetched token ids',  response)
- 
-          this.ownedTokenIdsArray = response.output[0].tokenIds
+          let response;
+
+          if(contractData['cryptopunks']){
+            let punkContractAddress = contractData['cryptopunks'].address
+
+            response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'ERC721_balance_by_owner_and_token' , input:{ownerAddress: activeAddress , token: punkContractAddress }})
+    
+            console.log('fetched token ids',  response)
+          }
+         
+         
+          if(response && response.output[0]){
+            this.ownedTokenIdsArray = response.output[0].tokenIds
+
+           // this.activePunkId =  this.ownedTokenIdsArray[0]
+
+          }else{
+            this.ownedTokenIdsArray = []
+          }
+          
 
           this.noPunksFound = (this.ownedTokenIdsArray.length == 0)
+
+          if(this.noPunksFound){
+            localStorage.setItem('activePunkId', null);
+            this.activePunkId = null
+          }
 
 
           // this.ownedTokenIdsArray = [1164,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8,]
@@ -138,6 +156,10 @@ export default {
          }
 
          localStorage.setItem('activePunkId', this.activePunkId);
+
+
+
+         this.web3Plug.getPlugEventEmitter().emit('activePunkChanged', this.activePunkId)
          
          
        }

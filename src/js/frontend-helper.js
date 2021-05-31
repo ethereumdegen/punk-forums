@@ -137,6 +137,14 @@ export default class FrontendHelper {
 
     }
 
+    static getActivePunkId(){
+      let punkId = localStorage.getItem('activePunkId');
+      if(punkId == 'null') punkId= null;
+
+      return punkId
+         
+    }
+
 
 
     static async personalSignWithMetamask( challenge,address , web3Instance)

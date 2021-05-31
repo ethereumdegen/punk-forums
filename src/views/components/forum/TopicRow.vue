@@ -1,10 +1,10 @@
 <template> 
         <tr v-if="rowData" class="hover:bg-gray-400 cursor-pointer">  
                     <td > <router-link  :to="'/topic/'.concat(rowData.topicHash)" class="no-underline" > {{ rowData.title }} </router-link> </td>
-                    <td > <PunkIcon 
+                    <td >  <router-link :to="'/punk/'.concat(rowData.punkId)">  <PunkIcon 
                           v-bind:iconId='rowData.punkId'
                           v-bind:renderSize=24
-                    /> <div class="inline-block text-xs  "> Punk {{rowData.punkId}} </div> </td>
+                    /> </router-link> <div class="inline-block text-xs  "> Punk {{rowData.punkId}} </div> </td>
                     <td v-if="rowData.metrics"> {{ rowData.metrics.replies }} </td>
                     <td v-if="rowData.metrics"> {{ rowData.metrics.views }} </td>
                      

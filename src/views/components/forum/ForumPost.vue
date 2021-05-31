@@ -1,11 +1,11 @@
 <template>
         <div class=" flex flex-row mt-8"> 
             <div> 
-                <PunkIcon v-if="postData"
+              <router-link :to="'/punk/'.concat(postData.punkId)">   <PunkIcon v-if="postData"
                 v-bind:iconId='postData.punkId'
                 v-bind:renderSize=48
                 
-                />
+                /></router-link>
 
                  <div class="bg-purple-500 rounded text-white text-sm inline-block p-1"> Punk #{{ postData.punkId }}  </div>
 

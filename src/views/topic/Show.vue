@@ -49,7 +49,32 @@
 
     
 
-        
+        <hr class="my-4 mt-16 "> 
+        <div   v-if="activePunkId">
+
+          <div class="py-4"> 
+            
+            <div class="inline-block"> Reply as Punk {{ activePunkId }} </div> (<PunkIcon 
+            v-bind:iconId='activePunkId'
+            v-bind:renderSize=24 />)
+            
+            
+          </div>
+
+
+            <MarkdownEditor 
+              ref="markdownEditor"
+              v-bind:placeholder="'reply'"
+
+            />
+
+            <div v-if="activePunkId">
+                <div @click="submitReply" class="select-none font-bold  p-2 inline-block bg-blue-400 rounded border-gray-600 hover:border-gray-300 text-white border-2 cursor-pointer  px-8" >Add Reply</div>
+
+
+            </div>
+
+        </div>
 
           
        </div>
@@ -80,7 +105,7 @@ import Navbar from '../components/Navbar.vue';
  
 import Footer from '../components/Footer.vue';
 import TabsBar from '../components/TabsBar.vue';
-import GenericTable from '../components/GenericTable.vue';
+import MarkdownEditor from '../components/MarkdownEditor.vue';
 import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
 
  
@@ -93,13 +118,14 @@ import StarflaskAPIHelper from '../../js/starflask-api-helper.js'
 import FrontendHelper from '../../js/frontend-helper.js'
 
 
+import PunkIcon from '../components/PunkIcon.vue'
 
 const categoryColors = require('../../../src/config/categoryColors.json')
 
 export default {
   name: 'Application',
   props: [],
-  components: {Navbar, Footer,  ForumPost,  Punksbar, NotConnectedToWeb3},
+  components: {Navbar, Footer,  ForumPost,  Punksbar, PunkIcon,  MarkdownEditor, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() , 
@@ -109,7 +135,7 @@ export default {
 
       firstPostData: {},
 
-
+      activePunkId: null,
        
       connectedToWeb3: false 
     }
@@ -139,15 +165,24 @@ export default {
       }.bind(this));
 
       this.web3Plug.reconnectWeb()
-    
+
  
+    
+      this.web3Plug.getPlugEventEmitter().on('activePunkChanged', async function(activePunkId) {
+        console.log('activePunkChanged',activePunkId);
+         
+        this.activePunkId = FrontendHelper.getActivePunkId()
+      }.bind(this));
+
+       this.activePunkId = FrontendHelper.getActivePunkId()
 
   },
   mounted: function () {
      
 
       this.fetchTopicData(this.$route.params.hash)
-   
+
+     
   }, 
   methods: {
       async fetchTopicData(topicHash){
@@ -169,6 +204,11 @@ export default {
              }
            }
 
+
+      },
+
+
+      async submitReply(){
 
       }
   }

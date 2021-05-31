@@ -46,7 +46,16 @@
 
           <div  v-if=" connectedToWeb3"> 
           
+          <div class="py-4" v-if="activePunkId"> 
             
+            <div class="inline-block">   Punk {{ activePunkId }} </div> 
+            (<PunkIcon 
+            v-bind:iconId='activePunkId'
+            v-bind:renderSize=24 />)
+            
+            
+          </div>
+
 
              <div class="my-4">
                  
@@ -62,7 +71,7 @@
             </div>
             
              
-
+            
           
             <div class="mb-4">
 
@@ -78,47 +87,17 @@
               </div>
 
 
-
-            <div class="mb-4 flex flex-row">
-
-                
-                <div class="flex flex-grow  ">
-
-                 <div class="markdowneditor border-gray-200 border-2 p-2 m-2  w-full " id="editor" v-if="markdownInput" >
-                      <textarea rows="15" :value="markdownInput" @input="updatemarkdown" class=" w-full"></textarea>
-                       
-                 </div>
-               
-                  
-                </div>
-
-
-                  <div class="flex   w-1/2">
-
-                    <div class="markdowneditor border-gray-200 w-full " id="editor" >
-                          
-                          <div class="w-full preview markdown-body " v-html="compiledMarkdown"></div>
-                    </div>
-                  
-                      
-                </div>
-
-
-              </div>
-
-
-
-
-
-
-        
-
+            <MarkdownEditor 
+              ref="markdownEditor"
+            />
+           
+ 
 
 
               <div> 
 
 
-                <div class="  p-4">
+                <div class="  p-4" v-if="activePunkId">
 
                     
                      <div @click="submitTopicForm" class="select-none font-bold  p-2 inline-block bg-blue-400 rounded border-gray-600 hover:border-gray-300 text-white border-2 cursor-pointer  px-8" >Submit</div>
@@ -170,17 +149,16 @@ import Navbar from '../components/Navbar.vue';
 import Footer from '../components/Footer.vue';
 import TabsBar from '../components/TabsBar.vue';
 import Punksbar from '../components/PunksBar.vue';
- import SimpleDropdown from '../components/SimpleDropdown.vue';
- 
 
+import PunkIcon from '../components/PunkIcon.vue';
+import SimpleDropdown from '../components/SimpleDropdown.vue';
+import MarkdownEditor from '../components/MarkdownEditor.vue';
+  
 
 import StarflaskAPIHelper from '../../js/starflask-api-helper.js';
 
 import FrontendHelper from '../../js/frontend-helper.js'
 
-import  MarkdownIt  from 'markdown-it';
-
-var markdownIt = new MarkdownIt();
 
 //import marked from 'marked'
 //import * as sanitizeHtml from 'sanitize-html';
@@ -188,7 +166,7 @@ var markdownIt = new MarkdownIt();
 export default {
   name: 'NewTopic',
   props: [],
-  components: {Navbar, Footer, TabsBar, SimpleDropdown, Punksbar, NotConnectedToWeb3},
+  components: {Navbar, Footer, TabsBar, SimpleDropdown, Punksbar, PunkIcon, MarkdownEditor, NotConnectedToWeb3},
   data() {
     return {
 
@@ -196,42 +174,20 @@ export default {
 
 
       activeAccountAddress: null,
+      activePunkId: null,
       
       forumCategoriesOptions: [ ],
 
       formInputs: {name:null,description:null,priceAmount:1,thumbnailImageURL:null,coverImageURL:null},
       formData: new FormData(),
        
-      connectedToWeb3: false,
-      
-
-      markdownInput: `
-# New topic 
-
-Add details here
+      connectedToWeb3: false 
        
-
-How To Use The editor
--------------------
-
-1. Type in stuff on the left.
-2. See the live updates on the right.
-
-
-      
-      
-      `
+     
 
     }
   },
-computed: {
-          compiledMarkdown: function() {
  
-
-
-            return   markdownIt.render(this.markdownInput)
-          }
-        },
   created(){
 
  
@@ -256,11 +212,21 @@ computed: {
        
       }.bind(this));
 
+
+
+      this.web3Plug.getPlugEventEmitter().on('activePunkChanged', async function(activePunkId) {
+        console.log('activePunkChanged',activePunkId);
+         
+        this.activePunkId = FrontendHelper.getActivePunkId()
+      }.bind(this));
+      
+       this.activePunkId = FrontendHelper.getActivePunkId()
+
   },
   mounted: function () {
  
 
-      this.web3Plug.reconnectWeb()
+    this.web3Plug.reconnectWeb()
      
     this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
  
@@ -279,8 +245,7 @@ computed: {
 
       async fetchForumCategories(){
 
-
-
+ 
         let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'forum_categories' , input:{  }})
      
         this.forumCategoriesOptions =  response.output 
@@ -289,35 +254,8 @@ computed: {
       },
 
 
-      updatemarkdown(e){
-
-          this.markdownInput = e.target.value;
-
-          /* _.debounce(function(e) {
-                      this.markdownInput = e.target.value;
-                    }, 300)*/
-
-      } ,
-
-        /*
-     onCoverImageChange(e) {
-      const file = e.target.files[0];
- 
-     
-      this.formData.append("coverImage", file);
- 
-      this.formInputs.coverImageURL = URL.createObjectURL(file);
- 
-    },
-
-     onThumbnailImageChange(e) {
-      const file = e.target.files[0];
-
-      this.formData.append("thumbnailImage", file); 
-
-      this.formInputs.thumbnailImageURL = URL.createObjectURL(file);
-    },*/
-
+    
+         
     onCategorySelectCallback(name){
 
     },
@@ -346,9 +284,7 @@ computed: {
         'Signing for Etherpunks at '.concat(currentUnixTime)  )
 
 
-
-
-
+ 
 
 
       let selectedCategoryOption = this.$refs.categoryDropdown.getSelectedOption()
@@ -361,15 +297,17 @@ computed: {
 
       const formData = {
         fromAddress: signerAddress,
-        activePunkId: this.$refs.punksbar.getActivePunkId(), 
+        activePunkId: this.activePunkId, 
         category: selectedCategoryName,
         title: this.formInputs.name,
-        markdownInput: this.markdownInput,
+        markdownInput: this.$refs.markdownEditor.getMarkdownInput(),
 
         signedAt: currentUnixTime,
         accountSignature: accountSignature
 
       }
+
+
       console.log('this.formData',  formData)  
       
      

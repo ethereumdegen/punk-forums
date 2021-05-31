@@ -50,7 +50,7 @@ export default class Web3Plug {
     window.web3 = new Web3(window.ethereum);
     web3Instance = window.web3 
 
-    if( !this.connectedToWeb3()){
+   // if( !this.connectedToWeb3()){
 
 
 
@@ -63,7 +63,7 @@ export default class Web3Plug {
       });
 
 
-    }
+   // }
       console.log('reconnect web ')
 
       web3PlugEmitter.emit('stateChanged', this.getConnectionState() )

@@ -16,6 +16,9 @@ import TopicNew from './views/topic/New.vue'
 
 import TopicShow from './views/topic/Show.vue'
 
+
+import PunkShow from './views/punk/Show.vue'
+
 import NotFound from './views/NotFound.vue'
 
 Vue.use(Router)
@@ -53,9 +56,9 @@ export default new Router({
 
 
     {
-      path: '/application/:app_id',
-      name: 'application',
-      component: Application
+      path: '/punk/:punkId',
+      name: 'punkshow',
+      component: PunkShow
     } ,
 
 
