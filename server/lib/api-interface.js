@@ -100,7 +100,7 @@ export default class APIInterface  {
       //these commands will be used for creating threads and posts 
 
 
-      app.post('/application/create', async (req, res) => {
+      /*app.post('/application/create', async (req, res) => {
 
         let inputData = req.body 
         
@@ -142,7 +142,7 @@ export default class APIInterface  {
 
         res.send({success:false } ) 
 
-      })
+      })*/
 
 
 

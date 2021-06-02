@@ -175,7 +175,7 @@ export default {
   mounted: function () {
      
 
-      //this.refreshTopicData( )
+      this.refreshTopicData( )
 
 
     this.$refs.punksbar.getPunksEventEmitter().on('activePunkChanged', async function(activePunkId) {

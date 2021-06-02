@@ -18,6 +18,7 @@
 
 
       <Punksbar 
+        ref="punksbar"
         v-bind:web3Plug="web3Plug"
         
        />
@@ -142,7 +143,10 @@ export default {
 
     this.allCategories = categoriesData.map(x => {return {name: x.name,label: x.name}})
     
-        
+    this.$refs.punksbar.getPunksEventEmitter().on('authTokenRefreshed', (address) => {
+        console.log('punksbar ref')
+        this.fetchTopics()
+    }) 
 
   }, 
   beforeDestroy: function () {
@@ -163,7 +167,18 @@ export default {
     },
 
     async fetchTopics(){
-      let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input:{  }})
+
+      let topicsRequestInput = {} 
+
+      let authToken = FrontendHelper.getAuthToken()
+
+      
+      if(FrontendHelper.authTokenIsValid( authToken  )){
+        topicsRequestInput.authToken = authToken.tokenHash 
+      }
+
+
+      let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input: topicsRequestInput})
       console.log('fetch topics', response)
       this.activeTopicsArray = response.output 
     },

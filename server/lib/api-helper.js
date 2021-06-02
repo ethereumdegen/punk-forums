@@ -59,6 +59,31 @@
                 return {success: false  }
             } 
 
+
+            if(inputData.requestType == 'create_authtoken'){
+
+                let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
+                
+                if(!personalSignatureIsValid){
+                    return {success:false, input: inputData.input }
+                }
+ 
+                let tokenData = {
+                    publicAddress: APIHelper.sanitizeInput(inputData.input.fromAddress) ,
+                    tokenHash: web3utils.randomHex(32),
+                    signedAt: APIHelper.sanitizeInput( inputData.input.signedAt )
+
+                }
+
+                let storedToken = await mongoInterface.upsertOne( 'authtokens', {publicAddress: APIHelper.sanitizeInput(inputData.input.fromAddress)   } , tokenData)
+
+                if(storedToken){
+                    return {success: true, input: {}, output: tokenData   }
+                }
+
+                return {success:false, input: inputData.input }
+            }
+
  
               
             if(inputData.requestType == 'create_thread'){
@@ -66,7 +91,7 @@
                 let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
                 
                 if(!personalSignatureIsValid){
-                    return {success:false, input: inputData.input }
+                    return {success:false, input: inputData.input, message: 'Invalid signature' }
                 }
 
 
@@ -154,7 +179,43 @@
 
                 let validatedAsRace = null 
 
-                //check for optional validation inputs 
+                //check for optional validation inputs
+
+                let validatedWithPunkRaces = [] 
+
+                if(inputData.input.authToken){
+                    console.log('validating auth token ')
+
+                    let publicAddressFromAuthToken = await APIHelper.validateAuthToken(APIHelper.sanitizeInput(inputData.input.authToken), mongoInterface)
+                
+                    if(!publicAddressFromAuthToken){
+                        return {success:false, input: inputData.input }
+                    }
+
+
+                    //get punks from address
+
+                    let punksOwnedByAddress = await APIHelper.getPunksOwnedByAddress( publicAddressFromAuthToken, serverConfig, wolfpackInterface   )
+
+                    console.log('punksOwnedByAddress', punksOwnedByAddress)
+                    //get punk races array 
+
+                    for(let punkId of punksOwnedByAddress){
+                        let  punkRace = APIHelper.getPunkRace(  punkId )
+
+                        if(punkRace){
+                            punkRace = punkRace.toLowerCase()
+
+                            validatedWithPunkRaces.push(punkRace)
+                        }else{
+                            console.log('warn: no race', punkId )
+                        }
+                       
+                    }
+
+
+                    
+                }
 
                 /*if(inputData.input.accountSignature){
 
@@ -192,7 +253,10 @@
 
                 //make sure the user has permission to read this topic (later)                 
                 let topicsArray = await ForumManager.findTopicsUsingFilter(  filter , sortBy,  mongoInterface )
+
                 
+                topicsArray = ForumManager.filterOutByRace( validatedWithPunkRaces, topicsArray )  
+
                /* if(!validatedAsRace){
                     topicsArray = ForumManager.filterOutByRace( [], topicsArray )               
                 }else{
@@ -324,24 +388,24 @@
         */
         static validatePersonalSignature(input){
 
-                console.log('input',input)
-
-           // let signatureIsValid = web3.recover( input )
+               
 
             let challenge = 'Signing for Etherpunks at '.concat(input.signedAt)
 
             var recoveredAddress =  APIHelper.ethJsUtilecRecover(challenge, input.accountSignature)
 
-             recoveredAddress = recoveredAddress.toLowerCase()
-             console.log('recoveredAddress',recoveredAddress)
+             recoveredAddress = web3utils.toChecksumAddress( recoveredAddress )
+              
 
-             if(recoveredAddress != input.fromAddress){
+             if(recoveredAddress != web3utils.toChecksumAddress(input.fromAddress)){
+                console.log('mismatch address')
                  return false 
              }
 
              const ONE_DAY = 1000 * 60 * 60 * 24
 
              if(parseInt(input.signedAt) < Date.now() - ONE_DAY ){
+                  
                 return false 
             }
 
@@ -352,20 +416,25 @@
             
             accountAddress = APIHelper.sanitizeInput(accountAddress)
             
-            let networkName = serverConfig.networkName 
+            /*let networkName = serverConfig.networkName 
 
             let punkContractAddress = contractData[networkName].contracts['cryptopunks'].address
 
             let allPunksData = await APIHelper.findAllERC721ByTokenAndOwner( punkContractAddress,accountAddress, wolfpackInterface)
 
-            let allPunksList = allPunksData[0]
+            let allPunksList = allPunksData[0]*/
 
+
+
+            let allPunksList = await APIHelper.getPunksOwnedByAddress(accountAddress, serverConfig, wolfpackInterface)  
+
+ 
 
             let ownsPunk = false
             
-            console.log('.check punk1', accountAddress, allPunksData)
+            console.log('.check punk1', accountAddress, allPunksList)
 
-            for(let id of allPunksList.tokenIds){
+            for(let id of allPunksList ){
                 console.log('.check punk', punkId , id)
                 if(!isNaN(punkId) && parseInt(punkId) == parseInt(id)){
                     ownsPunk = true 
@@ -373,6 +442,19 @@
             }
 
             return ownsPunk
+        }
+
+
+        static async validateAuthToken(tokenHash, mongoInterface){
+
+            let matchingRecord = await mongoInterface.findOne('authtokens', {tokenHash: tokenHash}  )
+
+            if(matchingRecord){
+
+                return matchingRecord.publicAddress
+            }
+
+            return null 
         }
 
         static ethJsUtilecRecover(msg,signature)
@@ -479,13 +561,29 @@
         }
          
 
-        static async getPunkRace(punkId){
+        static  getPunkRace(punkId){
            
             let matchingPunk = allPunkData[parseInt(punkId)]
             if(matchingPunk){
                 return matchingPunk.Type
             }
             return null 
+        }
+
+        static async getPunksOwnedByAddress( accountAddress, serverConfig, wolfpackInterface  ){
+
+            let networkName = serverConfig.networkName 
+
+            let punkContractAddress = contractData[networkName].contracts['cryptopunks'].address
+
+            let allPunksData = await APIHelper.findAllERC721ByTokenAndOwner( punkContractAddress,accountAddress, wolfpackInterface)
+
+            if(allPunksData[0]){
+                return allPunksData[0].tokenIds
+            }
+             
+            return [ ] 
+
         }
 
     }

@@ -84,6 +84,14 @@ export default {
   created(){
       
 
+   /*  this.web3Plug.getPlugEventEmitter().on('refreshAuthToken', (state) => {
+          console.log('refreshAuthToken')
+            this.refreshAuthToken(state.activeAccountAddress)
+      })*/
+
+    
+
+
     
       this.web3Plug.getPlugEventEmitter().on('stateChanged', (state) => {
          
@@ -91,7 +99,11 @@ export default {
         
         this.fetchOwnedTokenIds()
 
+        this.refreshAuthToken(state.activeAccountAddress)
+
       })
+
+      
 
       this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
       this.fetchOwnedTokenIds()
@@ -101,7 +113,7 @@ export default {
 
       this.activePunkId = FrontendHelper.getActivePunkId()
 
-
+      this.refreshAuthToken(  this.web3Plug.getActiveAccountAddress() )
   },
     beforeDestroy: function () {
      
@@ -115,6 +127,26 @@ export default {
        getActivePunkId(){
         return this.activePunkId
        },  
+
+       async refreshAuthToken(accountAddress){
+         console.log('refresh Auth Token' , accountAddress)
+
+         if(!accountAddress)return;
+
+           let authTokenExists = FrontendHelper.localAuthTokenExistsForAddress(  accountAddress )
+
+           if(!authTokenExists){
+              await  FrontendHelper.produceNewAuthToken( accountAddress , this.web3Plug )
+
+              punksBarEmitter.emit('authTokenRefreshed', accountAddress)
+
+            //  console.log('bar emitter 1')
+           } 
+
+
+           
+
+       },
 
        async fetchOwnedTokenIds(){
           

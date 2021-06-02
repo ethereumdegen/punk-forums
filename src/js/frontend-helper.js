@@ -4,6 +4,8 @@
  import Web3 from 'web3'
 import axios from "axios";
 
+import StarflaskAPIHelper from './starflask-api-helper.js'
+
 const env = process.env.NODE_ENV
 
 const punkAttributes = require('../config/punkAttributes.json')
@@ -80,6 +82,81 @@ export default class FrontendHelper {
 
      
     }
+
+    static localAuthTokenExistsForAddress( address  ){
+
+      address = Web3.utils.toChecksumAddress(address)
+
+      let authToken = FrontendHelper.getAuthToken()
+
+      if(authToken && authToken.fromAddress == address && !FrontendHelper.authTokenIsExpired(authToken)){
+        return true
+      }
+
+      console.log('no local auth token', address, authToken )
+
+      return false 
+    }
+
+    static async produceNewAuthToken( signerAddress , web3Plug ){
+
+      if(!signerAddress) return false 
+
+
+      signerAddress = Web3.utils.toChecksumAddress(signerAddress)
+  
+      let currentUnixTime = Date.now().toString()
+
+      //personal sign and send to server 
+      let accountSignature = await web3Plug.requestPersonalSignature( 
+        'Signing for Etherpunks at '.concat(currentUnixTime)  )
+
+      let input = {
+        fromAddress: signerAddress,
+        signedAt: currentUnixTime,
+        accountSignature: accountSignature
+      }
+
+      let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'create_authtoken' , input: input } )
+      
+      input.tokenHash = response.output.tokenHash
+
+      let success = FrontendHelper.storeAuthToken( input  )
+ 
+      return success 
+    }
+
+    static storeAuthToken( tokenData ){
+      localStorage.setItem('authToken', JSON.stringify( tokenData ) );
+      return true 
+    }
+
+    static getAuthToken(){
+      let jsonData = localStorage.getItem('authToken')
+
+      if(!jsonData) return jsonData 
+
+      return JSON.parse(jsonData)
+    }
+     
+    static authTokenIsExpired( token ){
+      const ONE_DAY = 1000*60*60*24 
+      return token.signedAt < Date.now() - ONE_DAY
+    }
+
+    static authTokenIsValid( token ){
+      if(!token) return false 
+      if(FrontendHelper.authTokenIsExpired(token)) return false 
+      if(!token.tokenHash) return false 
+
+      return true 
+    }
+
+
+
+
+
+
 
     static async handleAPIRequest(endpoint, inputData ){
         let api_root = FrontendHelper.getRouteTo('api')

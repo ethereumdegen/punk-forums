@@ -50,12 +50,11 @@ export default class Web3Plug {
     window.web3 = new Web3(window.ethereum);
     web3Instance = window.web3 
 
-    
-
+    this.getPlugEventEmitter().removeAllListeners();
 
       window.ethereum.on('accountsChanged', (accounts) => {
         web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
-        web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
+      //  web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
       });
 
       window.ethereum.on('chainChanged', (chainId) => {
@@ -71,12 +70,7 @@ export default class Web3Plug {
 
 
 
-    web3PlugEmitter.on('refreshAuthToken', (connectionState) => {
-
-      console.log('refresh Auth Token' , connectionState.activeAccountAddress)
-
-    })
-
+    
 
 
   }
@@ -95,18 +89,18 @@ export default class Web3Plug {
  
         
          window.ethereum.enable();
-         console.log('meep', window.web3.currentProvider.host )
-
-        if(!initializedWeb3PlugEmitter){
+        
+       // if(!initializedWeb3PlugEmitter){
           initializedWeb3PlugEmitter = true
           window.ethereum.on('accountsChanged', (accounts) => {
                    web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+           //        web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
            });
  
           window.ethereum.on('chainChanged', (chainId) => {
                    web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
             });
-        }
+       // }
 
       
 

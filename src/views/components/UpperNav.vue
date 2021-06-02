@@ -84,6 +84,7 @@ export default {
   created(){
     this.navConfig = Config;
     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+
            
           this.activeAccountAddress = connectionState.activeAccountAddress
           this.activeNetworkId = connectionState.activeNetworkId

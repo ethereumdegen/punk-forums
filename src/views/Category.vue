@@ -204,11 +204,20 @@ computed: {
 
     async fetchTopics(   ){
  
+ 
 
-      let input = {category: this.categoryName } 
+       let topicsRequestInput = { category: this.categoryName  } 
 
-      let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input: input  })
+      let authToken = FrontendHelper.getAuthToken()
+
       
+      if(FrontendHelper.authTokenIsValid( authToken  )){
+        topicsRequestInput.authToken = authToken.tokenHash 
+      }
+
+
+      let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input: topicsRequestInput})
+      console.log('fetch topics', response)
       this.activeTopicsArray = response.output 
     },
 
