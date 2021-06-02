@@ -65,6 +65,9 @@ export default class MongoInterface  {
       await this.createUniqueIndexOnCollection('punk_attributes', 'id')
       await this.createIndexOnCollection('punk_attributes', 'Type')
 
+
+      await this.createUniqueIndexOnCollection('topics', 'topicHash')
+
        /* await this.createUniqueIndexOnCollection('items', 'spawnLockId')
         await this.createUniqueIndexOnCollection('celestialgrid', 'uuid')
         await this.createUniqueIndexOnCollection('marketOrder', 'invoiceUUID')

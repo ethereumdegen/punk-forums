@@ -1,9 +1,10 @@
 <template>
-  <table class="table-auto w-full" style="min-height:300px">
+  <table class="table-auto w-full" >
         <thead>
             <tr style="text-align: left;" class="text-sm text-gray-600 border-b-2 border-gray-400">
                 <th>Topic</th>
                 <th> </th>
+                 <th> Category </th>
                 <th>Replies</th>
                 <th>Views</th>
                  

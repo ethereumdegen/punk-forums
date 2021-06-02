@@ -34,14 +34,19 @@
      
             
             let newTopicData = {
-                title: ForumManager.sanitizeInput(input.title),
-               // markdownInput: ForumManager.sanitizeInput(input.markdownInput),     //sanitize
-                category: input.category,
+                title: ForumManager.sanitizeInput(input.title) ,
+              
+                category: ForumManager.sanitizeInput( input.category ) ,
                 punkId: parseInt( input.punkId ),
-                fromAddress: input.fromAddress.toLowerCase(),
+                fromAddress: ForumManager.sanitizeInput( input.fromAddress.toLowerCase() ) ,
 
                 topicHash: topicHash,
-                createdAt: Date.now()
+                createdAt: Date.now(),
+                lastUpdatedAt: Date.now(),
+                metrics:{
+                    views:0,
+                    replies:0
+                }
 
 
             }
@@ -58,7 +63,7 @@
 
         }
 
-        static async createNewPost( input, topicHash, mongoInterface ){
+        static async createNewPost( inputPostData, topicHash, mongoInterface ){
 
             let existingTopic = await mongoInterface.findOne('topics',{ topicHash: topicHash })
             
@@ -66,15 +71,15 @@
                 return {success: false}
             }
 
-            let allowedToPost = await ForumManager.punkAllowedToPostToTopic( input.punkId , topicHash)
+            let allowedToPost = await ForumManager.punkAllowedToPostToTopic( parseInt(inputPostData.punkId) , topicHash)
 
             let postHash = web3utils.randomHex(16)
 
             let newPostData = {                
-                markdownInput: ForumManager.sanitizeInput(input.markdownInput),     //sanitize
+                markdownInput: ForumManager.sanitizeMarkdownInput(inputPostData.markdownInput),     //sanitize
                 
-                punkId: parseInt( input.punkId ),
-                fromAddress: input.fromAddress.toLowerCase(),
+                punkId: parseInt( inputPostData.punkId ),
+                fromAddress: inputPostData.fromAddress.toLowerCase(),
 
                 topicHash: topicHash,
 
@@ -83,6 +88,8 @@
             }
 
             let newPost = await mongoInterface.insertOne( 'posts', newPostData  )
+
+            let updated = await mongoInterface.updateCustomAndFindOne( 'topics', {topicHash: topicHash}, { $set:{ lastUpdatedAt: Date.now()}, $inc:{ 'metrics.replies':  1} }  )
 
             return {success:true, postHash: postHash }
  
@@ -99,6 +106,7 @@
             //sort by createdAt
             result.postsArray = await mongoInterface.findAll('posts',{ topicHash: topicHash })
             
+            await mongoInterface.updateCustomAndFindOne('topics',{ topicHash: topicHash }, {$inc: {'metrics.views': 1} })
 
             return result
         }
@@ -109,27 +117,37 @@
                 
             let results= await mongoInterface.findAll('topics', filter )
 
-            for(let result of results){
+            /*for(let result of results){
 
                 result.metrics = {}
 
                 result.metrics.replies = 0 
 
                 result.metrics.views = 0
-            }
+            }*/
 
             return results
         }
 
 
-        ///impl
         static sanitizeInput(input){
+            return input.replace('$','').replace('.','')
+        }
 
-            return input 
+       
+        static sanitizeMarkdownInput(input){
+
+            return escape(input)
         }
 
         ///impl
         static punkAllowedToPostToTopic(punkId, topicHash){
+
+            //find the category of the topic 
+
+            //find the type of the punk 
+
+            
 
             return true 
         }

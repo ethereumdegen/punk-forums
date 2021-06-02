@@ -79,7 +79,14 @@
 
                 let newTopic = await ForumManager.createNewTopic(  inputData.input , mongoInterface )
 
-                let newPost = await ForumManager.createNewPost(  inputData.input , newTopic.topicHash, mongoInterface )
+
+                let inputPostData = {
+                    markdownInput: inputData.input.markdownInput,
+                    punkId: parseInt( inputData.input.punkId  ),
+                    fromAddress: APIHelper.sanitizeInput( inputData.input.fromAddress) 
+                }
+
+                let newPost = await ForumManager.createNewPost(  inputPostData , APIHelper.sanitizeInput( newTopic.topicHash ) , mongoInterface )
 
 
                 if(newTopic.success && newPost.success){
@@ -105,7 +112,14 @@
                     return {success:false, input: inputData.input, message: 'Not owner of punk' }
                 }
 
-                let newPost = await ForumManager.createNewPost(  inputData.input , inputData.input.parentTopicHash, mongoInterface )
+
+                let inputPostData = {
+                    markdownInput: inputData.input.markdownInput,
+                    punkId: parseInt( inputData.input.punkId  ),
+                    fromAddress: APIHelper.sanitizeInput( inputData.input.fromAddress) 
+                }
+
+                let newPost = await ForumManager.createNewPost(    inputPostData , APIHelper.sanitizeInput(inputData.input.parentTopicHash), mongoInterface )
 
                 if( newPost.success ){
                     return {success:true, input: inputData.input, output: {postHash: newPost.postHash}  }
@@ -117,9 +131,7 @@
 
 
             if(inputData.requestType == 'topic'){
-                let topicHash = inputData.input.topicHash
-
-
+                let topicHash = APIHelper.sanitizeInput(inputData.input.topicHash)
 
 
                 //make sure the user has permission to read this topic (later) 
@@ -136,9 +148,18 @@
 
                 //check filtering here - usually based on URL params
 
+                let filter = {}
+
+                if(inputData.input.punkId){
+                    filter = {punkId: parseInt( inputData.input.punkId  )}
+                }
+
+                if(inputData.input.category){
+                    filter = {category: APIHelper.sanitizeInput(inputData.input.category)   }
+                } 
 
                 //make sure the user has permission to read this topic (later)                 
-                let topicsArray = await ForumManager.findTopicsUsingFilter(  {} , mongoInterface )
+                let topicsArray = await ForumManager.findTopicsUsingFilter(  filter , mongoInterface )
 
                
                 return {success:true, input: inputData.input, output: topicsArray }
@@ -288,7 +309,9 @@
         }
 
         static async validatePunkOwnership(accountAddress, punkId, wolfpackInterface, serverConfig){
-
+            
+            accountAddress = APIHelper.sanitizeInput(accountAddress)
+            
             let networkName = serverConfig.networkName 
 
             let punkContractAddress = contractData[networkName].contracts['cryptopunks'].address
@@ -411,5 +434,8 @@
             return await mongoInterface.findAll('erc20_transferred',{from: from, to:to })
         }
 
+        static sanitizeInput(input){
+            return input.replace('$','').replace('.','')
+        }
          
     }

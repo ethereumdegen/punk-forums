@@ -9,9 +9,7 @@ Unofficial web forum for Cryptopunks by Larva Labs
 
  
 -add categories
--add metrics 
-- show timestamp on replies 
-
+-access to certain categories 
  
 
 
@@ -28,11 +26,21 @@ npm install
 npm run server-dev  (in terminal 1)
 npm run dev  (in terminal 2)
 ```
+ 
+
 
 ### Packaging commands
 ```
 npm run build
 npm run server
+```
+
+
+
+  Must run these tasks one time : 
+```
+NODE_ENV=production npm run task_loadpunks
+
 ```
 
 

@@ -51,7 +51,7 @@ computed: {
             if(typeof this.postData.markdownInput != 'string'){
               return null
             }
-            return  markdownIt.render( this.postData.markdownInput ) 
+            return  markdownIt.render( unescape(  this.postData.markdownInput ) ) 
           }
         },
   created(){

@@ -43,7 +43,7 @@
 
 
 
-       <div class="mt-16"> 
+       <div class="mt-16" style="min-height:300px" > 
 
         
          <TopicsList
