@@ -1,7 +1,7 @@
 <template> 
 
-<select name="cars" class="cursor-pointer p-2 bg-white border-2 border-black">
-  <option v-for="item in optionList" v-bind:value="item">{{item}}</option>
+<select class="cursor-pointer p-2 bg-white border-2 border-black" @change="onChange($event)">
+  <option ref="optionSelect" v-for="item in optionList"  > {{item}} </option>
  
 </select>
 
@@ -54,28 +54,21 @@ export default {
       
   },
   methods: {
-    onChange(optionName, hideMethod) {        
+    onChange(event, hideMethod) {        
         
-         hideMethod() 
+        // hideMethod() 
 
-        this.selectOptionByName(optionName)
+          console.log('meep', event )
+        this.handleSelectedOptionChanged(event.target.value)
     },
-    selectOptionByName(optionName){
-       
-       for(let optionData of this.optionList){
-        if(optionData.toLowerCase() == (optionName.toLowerCase())){
- 
-
-          this.handleSelectedOptionChanged(optionData)
-          return
-        }
-      } 
-    },
+    
     handleSelectedOptionChanged(optionData){
+
+       console.log('selected option changed', optionData)
 
       if(optionData ){
         this.selectedOptionData = optionData
-        console.log('selected option changed', optionData)
+       
         if(optionData){
           this.onSelectCallback(optionData)
         }

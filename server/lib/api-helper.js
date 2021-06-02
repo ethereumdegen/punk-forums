@@ -29,7 +29,7 @@
 
 
 
-              
+                /*
             if(inputData.requestType == 'forum_categories'){
                 let categoriesData =  [
                     'General Discussion'
@@ -37,7 +37,7 @@
                  
                 
                 return {success:true, input: {}, output: categoriesData  }
-            } 
+            } */
 
 
               
@@ -136,7 +136,7 @@
 
                 //make sure the user has permission to read this topic (later) 
                 
-                let topicData = await ForumManager.findTopicDataFromHash(  topicHash , mongoInterface )
+                let topicData = await ForumManager.findTopicDataFromHash(  APIHelper.sanitizeInput(topicHash) , mongoInterface )
 
                
                 return {success:true, input: inputData.input, output: topicData }
@@ -158,8 +158,10 @@
                     filter = {category: APIHelper.sanitizeInput(inputData.input.category)   }
                 } 
 
+                let sortBy = {lastUpdatedAt:  -1}
+
                 //make sure the user has permission to read this topic (later)                 
-                let topicsArray = await ForumManager.findTopicsUsingFilter(  filter , mongoInterface )
+                let topicsArray = await ForumManager.findTopicsUsingFilter(  filter , sortBy,  mongoInterface )
 
                
                 return {success:true, input: inputData.input, output: topicsArray }

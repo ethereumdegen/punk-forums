@@ -1,13 +1,11 @@
 [
 
-    {"General Discussion": "#222"},
-    {"Non-Fungible Tokens": "#222"},
-    {"Defi Degen Corner": "#222"},
-
-    {"The Skatepark": "#222", "onlyAllow":["any_punks"]},
-
-    {"The Jungle Hideout": "#222", "onlyAllow":["ape_punks"]},
-    {"The Necropolis": "#222", "onlyAllow":["zombie_punks"]},
-    {"Area 721": "#222", "onlyAllow":["alien_punks"]} 
-
+    {"name":"General Discussion", "color":"#222"},
+    {"name":"Non-Fungible Tokens", "color":"#222"},
+    {"name":"Defi Degen Corner", "color":"#222"},
+    {"name":"The Skatepark", "color":"#222",  "onlyAllow":["any_punks"]},
+    {"name":"The Jungle Hideout", "color":"#222", "onlyAllow":["ape_punks"]},
+    {"name":"The Necropolis", "color":"#222", "onlyAllow":["zombie_punks"]},
+    {"name":"Area 721", "color":"#222", "onlyAllow":["alien_punks"] } 
+ 
 ]

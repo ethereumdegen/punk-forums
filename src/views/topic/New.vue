@@ -159,7 +159,7 @@ import StarflaskAPIHelper from '../../js/starflask-api-helper.js';
 
 import FrontendHelper from '../../js/frontend-helper.js'
 
-
+const categoriesData = require('../../config/topicCategories.json')
 //import marked from 'marked'
 //import * as sanitizeHtml from 'sanitize-html';
 
@@ -254,9 +254,9 @@ export default {
       async fetchForumCategories(){
 
  
-        let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'forum_categories' , input:{  }})
-     
-        this.forumCategoriesOptions =  response.output 
+        //let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'forum_categories' , input:{  }})
+        console.log('meep', categoriesData)
+        this.forumCategoriesOptions = categoriesData.map(x => x.name)
  
 
       },

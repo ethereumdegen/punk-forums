@@ -101,6 +101,8 @@
 
             let page = 0
 
+            topicHash = ForumManager.sanitizeInput(topicHash)
+
             result.topicData = await mongoInterface.findOne('topics',{ topicHash: topicHash })
             
             //sort by createdAt
@@ -112,19 +114,11 @@
         }
 
 
-        static async findTopicsUsingFilter(filter, mongoInterface){
+        static async findTopicsUsingFilter(filter, sortBy, mongoInterface){
 
                 
-            let results= await mongoInterface.findAll('topics', filter )
-
-            /*for(let result of results){
-
-                result.metrics = {}
-
-                result.metrics.replies = 0 
-
-                result.metrics.views = 0
-            }*/
+            let results= await mongoInterface.findAllSortedWithLimit('topics', filter , sortBy, 150)
+ 
 
             return results
         }
@@ -147,7 +141,7 @@
 
             //find the type of the punk 
 
-            
+
 
             return true 
         }

@@ -227,7 +227,7 @@ export default class Web3Plug {
   getContractDataForActiveNetwork( ){
     let netName = this.getWeb3NetworkName(this.getActiveNetId())
 
-    if(netName){
+    if(netName && contractData[netName]) {
         return contractData[netName].contracts
     }
 

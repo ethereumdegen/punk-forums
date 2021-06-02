@@ -51,14 +51,18 @@
 
                   <div class="my-2 "> Owned by: <a target='_blank' v-bind:href="'https://etherscan.io/address/'+punkData.accountAddress">{{ punkData.accountAddress}}</a> </div>
 
-                   <div class="my-2 "> View on opensea: <a target='_blank' v-bind:href="'https://opensea.io/accounts/'+punkData.accountAddress">{{ punkData.accountAddress}}</a> </div>
+                   <div class="my-2 ">  <a target='_blank' v-bind:href="'https://opensea.io/accounts/'+punkData.accountAddress"> View on OpenSea </a> </div>
 
               </div>
 
 
                <div  class="w-full border-2 border-gray-200    p-4 mb-4  "   >
  
-                   <div class="text-lg">  Recent Posts  </div>
+                   <div class="text-lg">  Recent Topics  </div>
+
+                    <TopicsList
+                      v-bind:topicsArray="recentTopicsArray"
+                    /> 
                    
               </div>
 
@@ -110,7 +114,7 @@ import NotConnectedToWeb3 from '../components/NotConnectedToWeb3.vue'
 
  import PunkIcon from '../components/PunkIcon.vue'
 
-import ForumPost from '../components/forum/ForumPost.vue';
+import TopicsList from '../components/forum/TopicsList.vue';
 import Punksbar from '../components/PunksBar.vue';
 
 import StarflaskAPIHelper from '../../js/starflask-api-helper.js'
@@ -122,7 +126,7 @@ import FrontendHelper from '../../js/frontend-helper.js'
 export default {
   name: 'PunkShow',
   props: [],
-  components: {Navbar, Footer,  PunkIcon,  Punksbar, NotConnectedToWeb3},
+  components: {Navbar, Footer,  PunkIcon,  Punksbar, TopicsList, NotConnectedToWeb3},
   data() {
     return {
       web3Plug: new Web3Plug() , 
@@ -130,6 +134,7 @@ export default {
  
       punkData: {},
 
+      recentTopicsArray: [],
        
       connectedToWeb3: false 
     }
@@ -166,6 +171,8 @@ export default {
   mounted: function () { 
 
       this.fetchPunkData(this.punkId)
+
+      this.fetchTopics(this.punkId)
    
   }, 
   methods: {
@@ -187,7 +194,16 @@ export default {
            }
 
 
+      },
+
+
+      async fetchTopics(punkId){
+        let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input:{punkId: punkId  }})
+        console.log('fetch topics', response)
+        this.recentTopicsArray = response.output.slice(0,9)
       }
+
+       
   }
 }
 </script>
