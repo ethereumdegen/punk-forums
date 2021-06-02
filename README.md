@@ -7,19 +7,19 @@ Unofficial web forum for Cryptopunks by Larva Labs
 ### Dev Notes
  
 
-
--add reply feature
+ 
 -add categories
 -add metrics 
+- show timestamp on replies 
 
--if changed accts and number of punks is 0 , sign out of punk (using localstorage) 
+ 
 
 
 -getting erc20 balance doesnt work
 -need to wolfpack events from Payspec 
 
 
--Add custom frontend color schemes, based on punks colors. (limited) 
+-Add custom frontend color schemes, based on punks colors. (limited) (settings) 
 
 
 ### Development commands

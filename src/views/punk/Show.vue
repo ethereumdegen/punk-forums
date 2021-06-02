@@ -42,12 +42,27 @@
             </div> 
 
 
-              <div  class="w-full border-2 border-gray-200    p-4  "   >
+            <div class=" flex flex-col  "> 
+              <div  class="w-full border-2 border-gray-200    p-4 mb-4  "   >
 
+                  
+                   <div class="my-2 ">  View <a target='_blank' v-bind:href="'https://larvalabs.com/cryptopunks/details/'+punkData.punkId">  Punk #{{punkData.punkId}} on Larva Labs Marketplace  </a> </div>
+
+
+                  <div class="my-2 "> Owned by: <a target='_blank' v-bind:href="'https://etherscan.io/address/'+punkData.accountAddress">{{ punkData.accountAddress}}</a> </div>
+
+                   <div class="my-2 "> View on opensea: <a target='_blank' v-bind:href="'https://opensea.io/accounts/'+punkData.accountAddress">{{ punkData.accountAddress}}</a> </div>
+
+              </div>
+
+
+               <div  class="w-full border-2 border-gray-200    p-4 mb-4  "   >
+ 
                    <div class="text-lg">  Recent Posts  </div>
                    
               </div>
 
+           </div>
 
         </div> 
 
@@ -161,10 +176,13 @@ export default {
            
            if(response.success){
                console.log('got  results'  ,response )
+
+               let punkOutputData = response.output[0]
  
 
              this.punkData = {
                  punkId: punkId, 
+                 accountAddress: punkOutputData.accountAddress 
              }
            }
 

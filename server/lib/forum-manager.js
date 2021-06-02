@@ -107,7 +107,18 @@
         static async findTopicsUsingFilter(filter, mongoInterface){
 
                 
-            return await mongoInterface.findAll('topics', filter )
+            let results= await mongoInterface.findAll('topics', filter )
+
+            for(let result of results){
+
+                result.metrics = {}
+
+                result.metrics.replies = 0 
+
+                result.metrics.views = 0
+            }
+
+            return results
         }
 
 

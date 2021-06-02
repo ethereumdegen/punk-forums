@@ -39,6 +39,25 @@
                 return {success:true, input: {}, output: categoriesData  }
             } 
 
+
+              
+            if(inputData.requestType == 'punk'){
+                let punkId = parseInt( inputData.input.punkId ) 
+
+
+                let networkName = serverConfig.networkName 
+
+                let punkContractAddress = contractData[networkName].contracts['cryptopunks'].address
+
+                let record = await APIHelper.findERC721OwnerByTokenAndTokenId( punkContractAddress,  punkId, wolfpackInterface  )
+                console.log('record',record)
+                if(record){
+                    return {success:true, input: {}, output: record  }
+                }
+                
+                return {success: false  }
+            } 
+
  
               
             if(inputData.requestType == 'create_thread'){
@@ -334,6 +353,15 @@
             contractAddress = web3utils.toChecksumAddress(contractAddress)
            
             return await mongoInterface.findAll('erc721_balances',{contractAddress:contractAddress, accountAddress: ownerAddress })
+        }
+
+        static async findERC721OwnerByTokenAndTokenId(contractAddress,tokenId, mongoInterface){
+             
+            contractAddress = web3utils.toChecksumAddress(contractAddress)
+
+             
+           
+            return await mongoInterface.findAll('erc721_balances',{ contractAddress:contractAddress, tokenIds:  tokenId   })
         }
 
 

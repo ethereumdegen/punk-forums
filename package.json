@@ -20,6 +20,7 @@
     "dataghost": "NODE_ENV=production node server/dataghost.js",
     "dataghost-staging": "NODE_ENV=staging node server/dataghost.js",
     "dataghost-dev": "NODE_ENV=development node server/dataghost.js",
+    "task_loadpunks": "node server/tasks/addPunkAttributes.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },

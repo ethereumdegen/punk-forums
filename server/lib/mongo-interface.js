@@ -61,8 +61,9 @@ export default class MongoInterface  {
    async createCollectionUniqueIndexes()
     {
        
-      await this.createUniqueDualIndexOnCollection('app_epoch_counter', 'applicationId', 'epochHour')
-      await this.createUniqueDualIndexOnCollection('api_application', 'publicAddress', 'applicationId')
+      //await this.createUniqueDualIndexOnCollection('app_epoch_counter', 'applicationId', 'epochHour')
+      await this.createUniqueIndexOnCollection('punk_attributes', 'id')
+      await this.createIndexOnCollection('punk_attributes', 'Type')
 
        /* await this.createUniqueIndexOnCollection('items', 'spawnLockId')
         await this.createUniqueIndexOnCollection('celestialgrid', 'uuid')
@@ -378,13 +379,13 @@ export default class MongoInterface  {
 
     }
 
-    async findAll(collectionName,query,outputFields)
+    async findAll(collectionName,query)
     {
     //  var query = { address: "Park Lane 38" };
     //  var filter = { _id: 0, name: 1, address: 1 };
       return new Promise(function(resolve, reject) {
 
-        this.dbo.collection(collectionName).find(query, outputFields).toArray(function(err, res) {
+        this.dbo.collection(collectionName).find(query).toArray(function(err, res) {
            if (err) reject(err);
            resolve(res);
          });
