@@ -25,15 +25,15 @@ let envmode = process.env.NODE_ENV
  
     let punksAttributes = FileHelper.readJSONFile('src/config/punkAttributes.json')
     
+    let outputArray = {}
 
     for(let punk of punksAttributes){
-      let existingRecord = await mongoInterface.findOne('punk_attributes', {id: punk.id} )
-
-      if(!existingRecord){
-        await mongoInterface.insertOne('punk_attributes',punk)
-        console.log('insert punk #',punk.id)
-      }
+      outputArray[punk.id] = punk
     }
+
+     
+
+    FileHelper.writeJSONFile(JSON.stringify(outputArray), 'src/config/punkExport.json')
 
     console.log('completed.')
     process.exit(0)

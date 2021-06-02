@@ -12,6 +12,10 @@ export default class FileHelper{
          return JSON.parse(input)
     }
 
+    static writeJSONFile(data, uri){
+        fs.writeFileSync(path.resolve( uri), data);
+    }
+
 
 
 }

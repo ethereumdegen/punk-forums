@@ -62,8 +62,8 @@ export default class MongoInterface  {
     {
        
       //await this.createUniqueDualIndexOnCollection('app_epoch_counter', 'applicationId', 'epochHour')
-      await this.createUniqueIndexOnCollection('punk_attributes', 'id')
-      await this.createIndexOnCollection('punk_attributes', 'Type')
+      //await this.createUniqueIndexOnCollection('punk_attributes', 'id')
+      //await this.createIndexOnCollection('punk_attributes', 'Type')
 
 
       await this.createUniqueIndexOnCollection('topics', 'topicHash')

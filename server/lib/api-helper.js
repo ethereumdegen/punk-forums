@@ -13,6 +13,7 @@
 
     const contractData = FileHelper.readJSONFile('./src/config/contractdata.json')
 
+    const allPunkData =  FileHelper.readJSONFile('./src/config/punkAttributes2.json')
 
 
     export default class APIHelper  {
@@ -478,11 +479,11 @@
         }
          
 
-        static async getPunkRace(punkId, mongoInterface){
-            let punkAttributes = await mongoInterface.findOne('punk_attributes', {id: parseInt(punkId) })
-            
-            if(punkAttributes){
-                return punkAttributes.Type
+        static async getPunkRace(punkId){
+           
+            let matchingPunk = allPunkData[parseInt(punkId)]
+            if(matchingPunk){
+                return matchingPunk.Type
             }
             return null 
         }

@@ -219,15 +219,6 @@
             return true 
         }
 
-        /*static async getPunkRace(punkId, mongoInterface){
-            let punkAttributes = await mongoInterface.findOne('punk_attributes', {id: punkId})
-            
-            if(punkAttributes){
-                return punkAttributes.Type
-            }
-            return null 
-        }*/
-        
-
+      
          
     }
