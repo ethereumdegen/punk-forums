@@ -45,14 +45,14 @@
             <div class=" flex flex-col  "> 
               <div  class="w-full border-2 border-gray-200    p-4 mb-4  "   >
 
+                    <div class="my-2 "> Owned by: <a target='_blank' v-bind:href="'https://etherscan.io/address/'+punkData.accountAddress">{{ punkData.accountAddress}}</a> </div>
+
+                   <div class="my-2 ">  View on <a target='_blank' v-bind:href="'https://larvalabs.com/cryptopunks/details/'+punkData.punkId">   Larva Labs Marketplace  </a> </div>
+                    <div class="my-2 "> View on <a target='_blank' v-bind:href="'https://opensea.io/accounts/'+punkData.accountAddress">  OpenSea </a> </div>
+
+
                   
-                   <div class="my-2 ">  View <a target='_blank' v-bind:href="'https://larvalabs.com/cryptopunks/details/'+punkData.punkId">  Punk #{{punkData.punkId}} on Larva Labs Marketplace  </a> </div>
-
-
-                  <div class="my-2 "> Owned by: <a target='_blank' v-bind:href="'https://etherscan.io/address/'+punkData.accountAddress">{{ punkData.accountAddress}}</a> </div>
-
-                   <div class="my-2 ">  <a target='_blank' v-bind:href="'https://opensea.io/accounts/'+punkData.accountAddress"> View on OpenSea </a> </div>
-
+                 
               </div>
 
 

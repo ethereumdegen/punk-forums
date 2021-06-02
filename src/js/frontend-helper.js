@@ -6,7 +6,7 @@ import axios from "axios";
 
 const env = process.env.NODE_ENV
 
-
+const punkAttributes = require('../config/punkAttributes.json')
 
 const clientConfig = require('../config/clientConfig.json')[env]
  
@@ -174,7 +174,17 @@ export default class FrontendHelper {
     }
   
 
- 
+    static getPunkRace(punkId){
+      if(!punkId) return null
+
+      for(let punk of punkAttributes){
+        if(punkId == punk.id){
+
+          return punk.Type
+        }
+      }
+
+    }
 
 
 }

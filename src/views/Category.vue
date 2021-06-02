@@ -18,6 +18,7 @@
 
 
       <Punksbar 
+       ref="punksbar"
         v-bind:web3Plug="web3Plug"
         
        />
@@ -26,7 +27,7 @@
    <div class="section  border-b-2 border-black" style="background:#eee;">
      <div class=" w-container py-8">
 
-       <div class="my-4 flex flex-row"> 
+        <div class="my-4 flex flex-row"> 
          <div class="flex-grow"> 
            
            <div class="hidden border-2 border-black p-2 inline-block "> Categories  </div>
@@ -48,13 +49,22 @@
        </div>
 
 
-
        <div class="mt-16" style="min-height:300px" > 
 
-         <div class="my-4 text-xl "> Latest Activity </div>
+         <div class="my-4 text-xl "> {{categoryName}} <div v-if="categoryData.emoji" class="inline-block">{{ categoryData.emoji }}</div> </div>
+         
+         
+         <div v-if="categoryData.description" class="my-2 text-gray-700 ">{{ categoryData.description }}</div>
+        
+        <div class="mt-4" v-if="punkHasAccess">
          <TopicsList
           v-bind:topicsArray="activeTopicsArray"
          /> 
+         </div>
+
+          <div class="mt-4" v-if="!punkHasAccess">
+             <img src="@/assets/images/accesserror.png" />
+         </div>
 
        </div>
         
@@ -108,10 +118,29 @@ export default {
   
       activeTopicsArray: [],
 
-      allCategories: []
+      punkHasAccess: true,
+ 
+
+      allCategories: [],
+      categoryData: {}
     }
   },
-
+computed: {
+  categoryName: function () {
+    return  this.$route.params.name 
+  }
+},
+ watch: {
+   
+    categoryName: function (newName, oldName) {
+      this.fetchTopics(  )
+       
+      this.categoryData = categoriesData.filter(x => x.name.toLowerCase() == newName.toLowerCase())[0]
+      this.refreshPunkHasAccess()
+       
+    }
+  },
+  
   created(){
 
  
@@ -120,6 +149,8 @@ export default {
          
         this.activeAccountAddress = connectionState.activeAccountAddress
         this.activeNetworkId = connectionState.activeNetworkId 
+
+         
          
       }.bind(this));
    this.web3Plug.getPlugEventEmitter().on('error', function(errormessage) {
@@ -131,20 +162,30 @@ export default {
 
       this.web3Plug.reconnectWeb()
    
-       
-     //this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
+      
+      
 
   },
 
   mounted: async function () {
+ 
+      this.allCategories = categoriesData.map(x => {return {name: x.name,label: x.name}})
+      
+      let paramName =  this.$route.params.name
+      this.fetchTopics( paramName  )
+       this.categoryData = categoriesData.filter(x => x.name.toLowerCase() == paramName.toLowerCase())[0]
 
-    this.fetchTopics( )
 
-    this.allCategories = categoriesData.map(x => {return {name: x.name,label: x.name}})
-    
-        
+      this.$refs.punksbar.getPunksEventEmitter().on('activePunkChanged', async function(activePunkId) {
+          console.log('activePunkChanged',activePunkId);
+            
+          this.refreshPunkHasAccess()
+        }.bind(this));
 
+      this.refreshPunkHasAccess()
   }, 
+   
+
   beforeDestroy: function () {
     
      
@@ -152,8 +193,7 @@ export default {
   methods: {
 
     onPerformAction(name){
-      console.log('on perform', name)
-
+      console.log('on perform', name) 
 
 
     },
@@ -162,10 +202,40 @@ export default {
       return FrontendHelper.getRouteTo(dest)
     },
 
-    async fetchTopics(){
-      let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input:{  }})
-      console.log('fetch topics', response)
+    async fetchTopics(   ){
+ 
+
+      let input = {category: this.categoryName } 
+
+      let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input: input  })
+      
       this.activeTopicsArray = response.output 
+    },
+
+
+    refreshPunkHasAccess(){
+
+      let activePunkId = this.$refs.punksbar.getActivePunkId()
+
+      console.log('activePunkId', activePunkId )
+
+      this.punkHasAccess = true 
+
+      let activePunkType = FrontendHelper.getPunkRace( activePunkId )
+
+      let accessType = this.categoryData.onlyAllow
+
+      if(accessType && !activePunkId ){
+        this.punkHasAccess = false 
+      }
+
+      if(accessType && ( accessType != 'any' && accessType.toLowerCase() != activePunkType.toLowerCase())){
+        this.punkHasAccess = false 
+      }
+ 
+
+      console.log('accessLevel', this.categoryData.onlyAllow)
+
     },
 
 
@@ -174,8 +244,7 @@ export default {
 
        this.$router.push({ name: 'category', params: { name:  (category.name) } })
 
-      //window.location.href = "/category/"+category.name;
-
+       
 
     }
 

@@ -79,6 +79,9 @@
 
                 let newTopic = await ForumManager.createNewTopic(  inputData.input , mongoInterface )
 
+                if(!newTopic.success){
+                    return {success:false, input: inputData.input, message: newTopic.message }
+                }
 
                 let inputPostData = {
                     markdownInput: inputData.input.markdownInput,
@@ -274,10 +277,7 @@
             }
 
 
-
  
- 
-
 
             return {success:false}
         }

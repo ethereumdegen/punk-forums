@@ -2,6 +2,11 @@
     //const ethJsUtil = require('ethereumjs-util')
   
     import web3utils from 'web3-utils'
+
+    import FileHelper from './file-helper.js'
+
+    const CategoryData = FileHelper.readJSONFile('./src/config/topicCategories.json')
+ 
     
     export default class ForumManager  {
     
@@ -31,6 +36,12 @@
             let topicHash = web3utils.randomHex(16)
 
             //make sure signed at was recent 
+
+            let allowedToPost = await ForumManager.punkAllowedToPostToCategory( parseInt(input.punkId) , ForumManager.sanitizeInput( input.category ) , mongoInterface)
+            
+            if(!allowedToPost){
+                return {success:false, message: "Insufficient permissions." }
+            }
      
             
             let newTopicData = {
@@ -71,7 +82,11 @@
                 return {success: false}
             }
 
-            let allowedToPost = await ForumManager.punkAllowedToPostToTopic( parseInt(inputPostData.punkId) , topicHash)
+            let allowedToPost = await ForumManager.punkAllowedToPostToCategory( parseInt(inputPostData.punkId) , existingTopic.category, mongoInterface)
+            
+            if(!allowedToPost){
+                return {success:false, message: "Insufficient permissions." }
+            }
 
             let postHash = web3utils.randomHex(16)
 
@@ -134,16 +149,46 @@
             return escape(input)
         }
 
-        ///impl
-        static punkAllowedToPostToTopic(punkId, topicHash){
+         
+        static async punkAllowedToPostToCategory(punkId, category, mongoInterface){
+            
+            let categoryExists = false;
+            let onlyAllow = undefined
 
-            //find the category of the topic 
+            //make sure the category exists 
+            for(let cat of CategoryData){
+                if(cat.name == category){
+                    categoryExists = true;
+                    onlyAllow = cat.onlyAllow
+                    break; 
+                }
+            }
+
+
+
+            if(!categoryExists) return false
+                        
 
             //find the type of the punk 
+            let race = await ForumManager.getPunkRace(punkId, mongoInterface)
 
+            if(!race){
+                return false 
+            }
+
+            if(onlyAllow && onlyAllow != 'any' && race.toLowerCase() != onlyAllow.toLowerCase())  return false
 
 
             return true 
+        }
+
+        static async getPunkRace(punkId, mongoInterface){
+            let punkAttributes = await mongoInterface.findOne('punk_attributes', {id: punkId})
+            
+            if(punkAttributes){
+                return punkAttributes.Type
+            }
+            return null 
         }
         
 

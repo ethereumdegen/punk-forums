@@ -4,10 +4,9 @@ import Router from 'vue-router'
 
 import Home from './views/Home.vue'
  
+ 
 
-import Dashboard from './views/Dashboard.vue'
-
-import Application from './views/Application.vue'
+import Category from './views/Category.vue'
 
 
 import Profile from './views/Profile.vue'
@@ -32,6 +31,12 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    } ,
+
+    {
+      path: '/category/:name',
+      name: 'category',
+      component: Category
     } ,
 
     {

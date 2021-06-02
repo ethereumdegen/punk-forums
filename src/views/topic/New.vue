@@ -107,6 +107,11 @@
                 </div>
 
 
+                <div v-if="errorMessage" class="p-4 bg-red-500 hover:bg-red-400 text-white rounded"> 
+                  Error: {{ errorMessage }}
+                </div>
+
+
               </div> 
 
 
@@ -181,7 +186,9 @@ export default {
       formInputs: {name:null,description:null,priceAmount:1,thumbnailImageURL:null,coverImageURL:null},
       formData: new FormData(),
        
-      connectedToWeb3: false 
+      connectedToWeb3: false ,
+
+      errorMessage: null 
        
      
 
@@ -253,9 +260,7 @@ export default {
 
       async fetchForumCategories(){
 
- 
-        //let response = await StarflaskAPIHelper.resolveStarflaskQuery('http://localhost:3000/api/v1', {requestType: 'forum_categories' , input:{  }})
-        console.log('meep', categoriesData)
+  
         this.forumCategoriesOptions = categoriesData.map(x => x.name)
  
 
@@ -329,6 +334,10 @@ export default {
         this.$router.push('/topic/'.concat( response.output.topicHash ));
 
 
+      }else{
+
+
+        this.errorMessage = response.message 
       }
     },
 

@@ -110,8 +110,9 @@ export default {
         if(this.optionList && this.optionList.length > 0){
            
            if( !this.selectedOptionData  || !this.selectedOptionData.label ){
-             console.log('handleSelectedOptionChanged')
-                this.handleSelectedOptionChanged( this.optionList[0] )
+             
+                this.selectedOptionData = this.optionList[0]
+
            }
            
       }
@@ -143,11 +144,11 @@ export default {
         this.selectOptionByName(optionName)
     },
     selectOptionByName(optionName){
-      console.log('sel 1', optionName)
+     
        for(let optionData of this.optionList){
         if(optionData.name.toLowerCase() == (optionName.toLowerCase())){
 
-             console.log('sel 2', optionData)
+              
 
           this.handleSelectedOptionChanged(optionData)
           return
