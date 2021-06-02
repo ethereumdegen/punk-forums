@@ -5,14 +5,21 @@
 
     import FileHelper from './file-helper.js'
 
-    const CategoryData = FileHelper.readJSONFile('./src/config/topicCategories.json')
- 
+    import APIHelper from './api-helper.js'
+
+    const CategoryDataRaw = FileHelper.readJSONFile('./src/config/topicCategories.json')
+
+    var categoryData = {} 
+
+    for(let cat of CategoryDataRaw){
+        categoryData[cat.name.replace(/\s/g,'').toLowerCase()] = cat 
+    }
     
     export default class ForumManager  {
     
         constructor(   ){
-           
-           
+            
+          
         }
  
 
@@ -133,7 +140,39 @@
 
                 
             let results= await mongoInterface.findAllSortedWithLimit('topics', filter , sortBy, 150)
- 
+            
+           
+
+            return results
+        }
+
+        static filterOutByRace( racesIncluded , topicsArray  ){
+
+            let results = []
+
+            for(let topic of topicsArray){
+                let category = topic.category.replace(/\s/g,'').toLowerCase()
+
+                let matchingCategory = categoryData[category]
+
+                console.log('mathcing cat', matchingCategory, category)
+
+                if(matchingCategory){
+
+                    //filter for specific races 
+                    if(matchingCategory.onlyAllow && matchingCategory.onlyAllow!='any' && !racesIncluded.includes( matchingCategory.onlyAllow )){
+                        continue 
+                    } 
+
+                    //filter for 'any'
+                    if(matchingCategory.onlyAllow && racesIncluded.length == 0 ){
+                        continue 
+                    } 
+                     
+
+                    results.push(topic)
+                }
+            }
 
             return results
         }
@@ -152,25 +191,23 @@
          
         static async punkAllowedToPostToCategory(punkId, category, mongoInterface){
             
-            let categoryExists = false;
-            let onlyAllow = undefined
+             
 
-            //make sure the category exists 
-            for(let cat of CategoryData){
-                if(cat.name == category){
-                    categoryExists = true;
-                    onlyAllow = cat.onlyAllow
-                    break; 
-                }
-            }
+            let matchingCategory = categoryData[category.replace(/\s/g,'').toLowerCase()]
 
+            console.log('matching cat',  matchingCategory )
+
+            if(!matchingCategory)return false 
+            let onlyAllow = matchingCategory.onlyAllow
+
+           
 
 
-            if(!categoryExists) return false
+            
                         
 
             //find the type of the punk 
-            let race = await ForumManager.getPunkRace(punkId, mongoInterface)
+            let race = await APIHelper.getPunkRace(punkId, mongoInterface)
 
             if(!race){
                 return false 
@@ -182,14 +219,14 @@
             return true 
         }
 
-        static async getPunkRace(punkId, mongoInterface){
+        /*static async getPunkRace(punkId, mongoInterface){
             let punkAttributes = await mongoInterface.findOne('punk_attributes', {id: punkId})
             
             if(punkAttributes){
                 return punkAttributes.Type
             }
             return null 
-        }
+        }*/
         
 
          

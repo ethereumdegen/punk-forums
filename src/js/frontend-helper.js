@@ -180,7 +180,7 @@ export default class FrontendHelper {
       for(let punk of punkAttributes){
         if(punkId == punk.id){
 
-          return punk.Type
+          return punk.Type.toLowerCase()
         }
       }
 

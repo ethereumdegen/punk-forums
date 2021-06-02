@@ -182,7 +182,7 @@ export default {
            let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'punk' , input:{punkId: punkId }})
            
            if(response.success){
-               console.log('got  results'  ,response )
+               console.log('got fetch results'  ,response )
 
                let punkOutputData = response.output[0]
  
@@ -191,6 +191,7 @@ export default {
                  punkId: punkId, 
                  accountAddress: punkOutputData.accountAddress 
              }
+             
            }
 
 
@@ -198,7 +199,7 @@ export default {
 
 
       async fetchTopics(punkId){
-        let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input:{punkId: punkId  }})
+        let response =  await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'topics' , input:{byPunkId: punkId  }})
         console.log('fetch topics', response)
         this.recentTopicsArray = response.output.slice(0,9)
       }

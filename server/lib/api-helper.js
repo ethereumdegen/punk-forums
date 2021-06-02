@@ -151,10 +151,36 @@
 
                 //check filtering here - usually based on URL params
 
+                let validatedAsRace = null 
+
+                //check for optional validation inputs 
+
+                /*if(inputData.input.accountSignature){
+
+                    let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
+                
+                    if(!personalSignatureIsValid){
+                        return {success:false, input: inputData.input }
+                    }
+    
+    
+                    let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.input.fromAddress, inputData.input.punkId, wolfpackInterface , serverConfig)
+    
+                    if(!userOwnsPunk){
+                        return {success:false, input: inputData.input, message: 'Not owner of punk' }
+                    }
+    
+
+                    validatedAsRace = await APIHelper.getPunkRace( inputData.input.punkId, mongoInterface )
+                }*/
+
+ 
+
+
                 let filter = {}
 
-                if(inputData.input.punkId){
-                    filter = {punkId: parseInt( inputData.input.punkId  )}
+                if(inputData.input.byPunkId){
+                    filter = {punkId: parseInt( inputData.input.byPunkId  )}
                 }
 
                 if(inputData.input.category){
@@ -165,8 +191,13 @@
 
                 //make sure the user has permission to read this topic (later)                 
                 let topicsArray = await ForumManager.findTopicsUsingFilter(  filter , sortBy,  mongoInterface )
-
-               
+                
+               /* if(!validatedAsRace){
+                    topicsArray = ForumManager.filterOutByRace( [], topicsArray )               
+                }else{
+                    topicsArray = ForumManager.filterOutByRace( [validatedAsRace], topicsArray ) 
+                }*/
+                
                 return {success:true, input: inputData.input, output: topicsArray }
             }
 
@@ -307,6 +338,12 @@
                  return false 
              }
 
+             const ONE_DAY = 1000 * 60 * 60 * 24
+
+             if(parseInt(input.signedAt) < Date.now() - ONE_DAY ){
+                return false 
+            }
+
             return true 
         }
 
@@ -440,4 +477,14 @@
             return input.replace('$','').replace('.','')
         }
          
+
+        static async getPunkRace(punkId, mongoInterface){
+            let punkAttributes = await mongoInterface.findOne('punk_attributes', {id: parseInt(punkId) })
+            
+            if(punkAttributes){
+                return punkAttributes.Type
+            }
+            return null 
+        }
+
     }

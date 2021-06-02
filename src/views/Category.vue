@@ -217,11 +217,14 @@ computed: {
 
       let activePunkId = this.$refs.punksbar.getActivePunkId()
 
-      console.log('activePunkId', activePunkId )
+      
 
       this.punkHasAccess = true 
 
       let activePunkType = FrontendHelper.getPunkRace( activePunkId )
+
+    console.log('activePunkId', activePunkId )
+    console.log('activePunkType', activePunkType )
 
       let accessType = this.categoryData.onlyAllow
 
@@ -229,7 +232,7 @@ computed: {
         this.punkHasAccess = false 
       }
 
-      if(accessType && ( accessType != 'any' && accessType.toLowerCase() != activePunkType.toLowerCase())){
+      if(accessType && ( accessType != 'any' && accessType.toLowerCase() != activePunkType   )){
         this.punkHasAccess = false 
       }
  
