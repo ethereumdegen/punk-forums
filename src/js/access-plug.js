@@ -39,7 +39,7 @@ export default class AccessPlug {
         return false 
     }
 
-    async connect(web3Plug){
+   /* async connect(web3Plug){
         console.log('connecting ')
 
         await this.reconnect()
@@ -71,7 +71,7 @@ export default class AccessPlug {
         await this.reconnect()
 
         console.log( 'response', response )
-    }
+    }*/
 
 
     isSignedIn(){

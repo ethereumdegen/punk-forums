@@ -59,7 +59,7 @@ import FrontendHelper from '../../js/frontend-helper.js';
 
 import PunkIcon from './PunkIcon.vue'
 
- 
+ var authTokenProducedAt = Date.now()
 
 const EventEmitter = require('events');
 class PunksBarEmitter extends EventEmitter {}
@@ -109,7 +109,7 @@ export default {
       
 
       this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-      this.fetchOwnedTokenIds()
+     // this.fetchOwnedTokenIds()
 
      
 
@@ -137,7 +137,13 @@ export default {
 
            let authTokenExists = FrontendHelper.localAuthTokenExistsForAddress(  accountAddress )
 
+          console.log('auth token existss??', authTokenExists , accountAddress)
+
            if(!authTokenExists){
+
+              if(authTokenProducedAt > Date.now() - 100) return 
+              authTokenProducedAt = Date.now()
+
               await  FrontendHelper.produceNewAuthToken( accountAddress , this.web3Plug )
 
               punksBarEmitter.emit('authTokenRefreshed', accountAddress)

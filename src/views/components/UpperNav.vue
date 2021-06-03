@@ -84,7 +84,7 @@ export default {
    
   created(){
        this.navConfig = Config;
-     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+     this.web3Plug.getConnectionStateEmitter().on('upperNav', function(connectionState) {
 
            console.log('upper nav conn state ')
           this.activeAccountAddress = connectionState.activeAccountAddress

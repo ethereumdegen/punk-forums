@@ -28,6 +28,7 @@ class Web3PlugEmitter extends EventEmitter {}
 
 const web3PlugEmitter = new Web3PlugEmitter();
 const authTokenEmitter = new RegisterableEmitter()
+const connectionStateEmitter = new RegisterableEmitter()
 
 var web3Instance = null 
 
@@ -69,6 +70,7 @@ export default class Web3Plug {
 
 
         web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+        connectionStateEmitter.emit( this.getConnectionState()  )
 
         console.log('on state changed ')
         authTokenEmitter.emit(  this.getConnectionState() )
@@ -76,6 +78,7 @@ export default class Web3Plug {
 
       window.ethereum.on('chainChanged', (chainId) => {
         web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+        connectionStateEmitter.emit( this.getConnectionState()  )
       });
 
 
@@ -83,6 +86,7 @@ export default class Web3Plug {
       console.log('reconnect web ')
 
       web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+      connectionStateEmitter.emit( this.getConnectionState()  )
     }
 
 
@@ -134,6 +138,8 @@ export default class Web3Plug {
        this.reconnectWeb()
             console.log('output state change')
          web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+
+         connectionStateEmitter.emit( this.getConnectionState()  )
 
       }else{
         web3PlugEmitter.emit('error', "No web3 provider found." )
@@ -190,6 +196,10 @@ export default class Web3Plug {
 
   getAuthTokenEventEmitter(){
     return authTokenEmitter
+  }
+
+  getConnectionStateEmitter(){
+    return connectionStateEmitter
   }
 
   clearEventEmitter(){

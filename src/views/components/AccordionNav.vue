@@ -122,7 +122,7 @@ export default {
   },
   created(){
     this.navConfig = Config;
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+    this.web3Plug.getConnectionStateEmitter().on('accordionNav', function(connectionState) {
           console.log('stateChanged',connectionState);
           this.activeAccountAddress = connectionState.activeAccountAddress
           this.activeNetworkId = connectionState.activeNetworkId

@@ -102,7 +102,11 @@ export default class FrontendHelper {
 
       if(!signerAddress) return false 
 
+      if(!web3Plug.connectedToWeb3()) return false
 
+      console.log('produce new auth token ', signerAddress)
+
+        
       signerAddress = Web3.utils.toChecksumAddress(signerAddress)
   
       let currentUnixTime = Date.now().toString()
