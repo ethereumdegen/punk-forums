@@ -77,6 +77,13 @@
 
             </div>
 
+
+              <div v-if="errorMessage" class="my-2 p-4 bg-red-500 hover:bg-red-400 text-white rounded"> 
+                  Error: {{ errorMessage }}
+                </div>
+
+
+
         </div>
 
           
@@ -139,6 +146,8 @@ export default {
       postsArray: [],
 
       activePunkId: null,
+
+      errorMessage: null,
        
       connectedToWeb3: false 
     }
@@ -225,7 +234,8 @@ export default {
                this.postsArray.push({
 
                  markdownInput: post.markdownInput, 
-                 punkId: post.punkId
+                 punkId: post.punkId,
+                 createdAt: post.createdAt 
 
                })
              }
@@ -270,7 +280,11 @@ export default {
             this.$refs.markdownEditor.resetInput()
             this.refreshTopicData( )
 
-          }
+          }else{
+
+
+              this.errorMessage = response.message 
+            }
 
       }
   }

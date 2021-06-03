@@ -55,6 +55,7 @@
          <div class="my-4 text-xl "> Latest Activity </div>
          <TopicsList
           v-bind:topicsArray="activeTopicsArray"
+          v-bind:paginated='true'
          /> 
 
        </div>

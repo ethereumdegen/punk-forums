@@ -17,6 +17,7 @@
                   
                    <div class="w-full preview markdown-body" v-html="compiledMarkdown" v-if="compiledMarkdown"></div>
 
+                    <div class="border-t-2 border-gray-300 text-xs mt-2 flex"> <div class="flex-grow"></div> <div class="text-gray-600">  {{ postTimeFormatted }} </div> </div>
               </div>
 
 
@@ -27,7 +28,7 @@
  
 
  import PunkIcon from '../PunkIcon.vue'
-
+import FrontendHelper from '../../../js/frontend-helper.js'
 
 import  MarkdownIt  from 'markdown-it'; 
 
@@ -52,6 +53,11 @@ computed: {
               return null
             }
             return  markdownIt.render( unescape(  this.postData.markdownInput ) ) 
+          },
+          postTimeFormatted: function(){
+             let tSince = FrontendHelper.timeSince(  this.postData.createdAt ) 
+
+            return tSince + ' ago'
           }
         },
   created(){

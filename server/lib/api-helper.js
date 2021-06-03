@@ -117,6 +117,9 @@
 
                 let newPost = await ForumManager.createNewPost(  inputPostData , APIHelper.sanitizeInput( newTopic.topicHash ) , mongoInterface )
 
+                if(!newPost.success){
+                    return {success:false, input: inputData.input, message: newPost.message}
+                }
 
                 if(newTopic.success && newPost.success){
                     return {success:true, input: inputData.input, output: {topicHash: newTopic.topicHash}  }
@@ -150,6 +153,10 @@
 
                 let newPost = await ForumManager.createNewPost(    inputPostData , APIHelper.sanitizeInput(inputData.input.parentTopicHash), mongoInterface )
 
+                if(!newPost.success){
+                    return {success:false, input: inputData.input, message: newPost.message}
+                }
+                
                 if( newPost.success ){
                     return {success:true, input: inputData.input, output: {postHash: newPost.postHash}  }
                 }

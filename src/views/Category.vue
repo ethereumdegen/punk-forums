@@ -59,6 +59,7 @@
         <div class="mt-4" v-if="punkHasAccess">
          <TopicsList
           v-bind:topicsArray="activeTopicsArray"
+          v-bind:paginated='true'
          /> 
          </div>
 
