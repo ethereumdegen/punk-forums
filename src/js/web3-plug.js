@@ -90,12 +90,12 @@ export default class Web3Plug {
 
   }
 
+  //only used with web3 login button 
   async connectWeb3(   ){
 
     console.log('connectWeb3')
-
-
-    return 
+ 
+      
 
     if (window.ethereum  ) {
 
@@ -113,20 +113,25 @@ export default class Web3Plug {
 
           this.clearEventEmitter()
 
-          window.ethereum.on('accountsChanged', (accounts) => {
+
+          this.reconnectWeb()
+
+       /*   window.ethereum.on('accountsChanged', (accounts) => {
                    web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
                     web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
            });
  
           window.ethereum.on('chainChanged', (chainId) => {
                    web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
-            });
+            });*/
+
+
        // }
 
       
 
 
-        web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+       // web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
 
       }else{
         web3PlugEmitter.emit('error', "No web3 provider found." )

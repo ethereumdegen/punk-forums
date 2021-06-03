@@ -131,7 +131,7 @@ export default {
   methods: {
    
     connectToWeb3(){
-      this.web3Plug.reconnectWeb( )
+      this.web3Plug.connectWeb3( )
     },
     getEtherscanBaseURL(){
         if(this.activeNetworkId == 42){
