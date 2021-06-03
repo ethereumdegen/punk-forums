@@ -107,6 +107,17 @@
                 </div>
 
 
+                   <div class="  p-4" v-if="!activePunkId">
+
+                     <div class="py-4"> Sign in with a Cryptopunk to post. </div>
+                     <div  class="select-none font-bold  p-2 inline-block bg-gray-400 rounded border-gray-600 hover:border-gray-300 text-white border-2 cursor-pointer  px-8" >Submit</div>
+
+                 
+             
+                </div>
+
+
+
                 <div v-if="errorMessage" class="p-4 bg-red-500 hover:bg-red-400 text-white rounded"> 
                   Error: {{ errorMessage }}
                 </div>

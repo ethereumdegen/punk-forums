@@ -111,7 +111,7 @@ import AccessButton from './AccessButton.vue'
 import Config from '../config/UpperNav.js'
 export default {
   name: 'AccordionNav',
-  props: ['web3Plug', 'accessPlug' ],
+  props: ['web3Plug' ],
   components:{AccessButton},
   data() {
     return {

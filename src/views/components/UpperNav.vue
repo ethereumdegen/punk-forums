@@ -72,7 +72,7 @@
 import Config from '../config/UpperNav.js'
 export default {
   name: 'UpperNav',
-  props: ['web3Plug', 'accessPlug' ],
+  props: ['web3Plug'  ],
   components:{ },
   data() {
     return {
@@ -81,21 +81,22 @@ export default {
       navConfig: null 
     }
   },
+   
   created(){
-    this.navConfig = Config;
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
+       this.navConfig = Config;
+     this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
 
-           
+           console.log('upper nav conn state ')
           this.activeAccountAddress = connectionState.activeAccountAddress
           this.activeNetworkId = connectionState.activeNetworkId
            this.$forceUpdate();
         }.bind(this));
 
-   
+
   },
   methods: {
         
-          connectToWeb3(){
+          async connectToWeb3(){
             this.web3Plug.connectWeb3( )
           },
           getEtherscanBaseURL(){

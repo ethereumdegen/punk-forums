@@ -61,6 +61,8 @@ export default class Web3Plug {
 
       window.ethereum.on('accountsChanged', (accounts) => {
 
+        console.log('on accounts changed')
+
         //debounce 
         if(lastStateEmit > Date.now() - 100) return; 
         lastStateEmit = Date.now()
@@ -106,7 +108,7 @@ export default class Web3Plug {
          web3Instance = window.web3 
  
         
-         window.ethereum.enable();
+         await window.ethereum.enable();
         
        // if(!initializedWeb3PlugEmitter){
           //initializedWeb3PlugEmitter = true
@@ -114,24 +116,24 @@ export default class Web3Plug {
           this.clearEventEmitter()
 
 
-          this.reconnectWeb()
-
-       /*   window.ethereum.on('accountsChanged', (accounts) => {
+          
+/*
+        window.ethereum.on('accountsChanged', (accounts) => {
                    web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
-                    web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
+                    
            });
  
           window.ethereum.on('chainChanged', (chainId) => {
                    web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
-            });*/
+            }); */
 
 
        // }
 
       
-
-
-       // web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
+       this.reconnectWeb()
+            console.log('output state change')
+         web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
 
       }else{
         web3PlugEmitter.emit('error', "No web3 provider found." )
