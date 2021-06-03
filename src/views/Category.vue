@@ -181,6 +181,7 @@ computed: {
           console.log('activePunkChanged',activePunkId);
             
           this.refreshPunkHasAccess()
+           this.fetchTopics( paramName  )
         }.bind(this));
 
       this.refreshPunkHasAccess()

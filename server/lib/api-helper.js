@@ -598,6 +598,8 @@
 
             let networkName = serverConfig.networkName 
 
+            console.log('network name', networkName)
+
             let punkContractAddress = contractData[networkName].contracts['cryptopunks'].address
 
             let allPunksData = await APIHelper.findAllERC721ByTokenAndOwner( punkContractAddress,accountAddress, wolfpackInterface)

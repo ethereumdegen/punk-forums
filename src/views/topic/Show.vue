@@ -47,6 +47,7 @@
         <ForumPost 
              v-for="post of postsArray"
             v-bind:postData='post'
+            v-bind:activePunkId="activePunkId"
 
         />
 

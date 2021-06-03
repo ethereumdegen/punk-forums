@@ -97,6 +97,9 @@ How To Use The editor
 
     getMarkdownInput(){
         return this.markdownInput
+     },
+     setMarkdownInput(input){
+       this.markdownInput = input 
      }
 
     }
