@@ -109,7 +109,7 @@ export default {
       
 
       this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
-     // this.fetchOwnedTokenIds()
+      this.fetchOwnedTokenIds()
 
      
 
