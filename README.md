@@ -35,14 +35,7 @@ npm run build
 npm run server
 ```
 
-
-
-  Must run these tasks one time : 
-```
-NODE_ENV=production npm run task_loadpunks
-
-```
-
+ 
 
 ## using pm2
 

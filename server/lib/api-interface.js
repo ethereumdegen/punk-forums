@@ -41,8 +41,8 @@ export default class APIInterface  {
 
         if(serverConfig.useHTTPS == true ){
           var server = https.createServer({
-            cert: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.pem'),
-            key: fs.readFileSync('/home/andy/deploy/cert/buythefloor.com.key')
+            cert: fs.readFileSync('/home/andy/deploy/cert/etherpunks.com.pem'),
+            key: fs.readFileSync('/home/andy/deploy/cert/etherpunks.com.key')
           });
           console.log('--using https--')
          
