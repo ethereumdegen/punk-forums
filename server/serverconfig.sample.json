@@ -1,17 +1,20 @@
 {
     "development":{
+        "networkName":"goerli",
         "useHTTPS":false,
         "requireAuthentication":false,
         "chainId":5,
         "web3provider":"https://eth-goerli.alchemyapi.io/v2/" 
     },
     "staging":{
+        "networkName":"goerli",
         "useHTTPS":true,
         "requireAuthentication":false,
         "chainId":5,
         "web3provider":"https://eth-goerli.alchemyapi.io/v2/" 
     },
     "production":{
+        "networkName":"mainnet",
         "useHTTPS":true,
         "requireAuthentication":true,
         "chainId":1,

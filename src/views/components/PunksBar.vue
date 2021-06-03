@@ -160,8 +160,10 @@ export default {
           
 
           let activeAddress = this.web3Plug.getActiveAccountAddress()
+
+          let chainId = this.web3Plug.getActiveNetId()
   
-          let contractData = this.web3Plug.getContractDataForActiveNetwork()
+          let contractData = this.web3Plug.getContractDataForNetworkID(chainId)
 
           let response;
 
