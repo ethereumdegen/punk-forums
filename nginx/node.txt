@@ -1,0 +1,23 @@
+server {
+   listen 80;
+    # SSL configuration
+
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    ssl_certificate         /home/andy/deploy/cert/etherpunks.com.pem;
+    ssl_certificate_key     /home/andy/deploy/cert/etherpunks.com.key;
+
+    server_name etherpunks www.etherpunks;
+
+
+    location / {
+        proxy_pass http://localhost:3000;
+        include /usr/local/nginx/conf/proxy.conf;
+    }
+}
+
+
+
+
+
+

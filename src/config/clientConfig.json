@@ -3,7 +3,7 @@
     "production":{
        
         "external_routes": {"docs":"https://docs.starflask.com",
-                        "api":"https://api.starflask.com"},
+                        "api":"https://etherpunks.com"},
         
         "currencyTokens": [{"name":"weth","label":"wEth"},
                     {"name":"0xbitcoin","label":"0xBTC"}] 
