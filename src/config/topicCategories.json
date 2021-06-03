@@ -4,7 +4,7 @@
     {"name":"Non-Fungible Tokens", "color":"#222"},
     {"name":"Defi Degen Corner", "color":"#222"},
    
-    {"name":"The Skatepark", "color":"#222",  "onlyAllow":"any", "emoji": "🛹"},
+    {"name":"The Skatepark", "color":"#222",  "onlyAllow":"any", "emoji": "🛹", "description": "Exclusive hideout for all Punks."},
     {"name":"The Jungle Hideout", "color":"#222", "onlyAllow":"ape" , "emoji":"🍌", "description": "Exclusive hideout for the Apes."},
     {"name":"The Necropolis", "color":"#222", "onlyAllow":"zombie" , "emoji":"⚰️", "description": "Exclusive kingdom of the Zombies."},
     {"name":"Area 721", "color":"#222", "onlyAllow":"alien", "emoji":"🛸", "description": "Exclusive starbase of the Aliens." } ,
