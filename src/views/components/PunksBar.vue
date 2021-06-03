@@ -91,9 +91,12 @@ export default {
 
     
 
+      
+     //  this.web3Plug.getPlugEventEmitter().off('refreshAuthToken', (state) => {} );
 
-    
-      this.web3Plug.getPlugEventEmitter().on('stateChanged', (state) => {
+      this.web3Plug.getAuthTokenEventEmitter().on('punksbar', (state) => {
+
+        console.log('on refresh auth ')
          
         this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
         
@@ -108,16 +111,15 @@ export default {
       this.connectedToWeb3 = this.web3Plug.connectedToWeb3()
       this.fetchOwnedTokenIds()
 
-      this.web3Plug.getPlugEventEmitter().off('stateChanged', (state) => {} );
-
+     
 
       this.activePunkId = FrontendHelper.getActivePunkId()
 
-      this.refreshAuthToken(  this.web3Plug.getActiveAccountAddress() )
+     /// this.refreshAuthToken(  this.web3Plug.getActiveAccountAddress() )
   },
     beforeDestroy: function () {
      
-     this.web3Plug.clearEventEmitter()
+     //this.web3Plug.clearEventEmitter()
 
      this.clearEventEmitter()
   },

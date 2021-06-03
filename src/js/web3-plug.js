@@ -17,6 +17,8 @@ const web3utils = Web3.utils;
  
 import BigNumber from 'bignumber.js'
 
+import RegisterableEmitter from './util/registerable-emitter'
+
 const contractData = require('../config/contractdata.json')
 const tokenContractABI = require('../contracts/ERC20ABI')
 const nftContractABI = require('../contracts/ERC721ABI')
@@ -25,6 +27,7 @@ const EventEmitter = require('events');
 class Web3PlugEmitter extends EventEmitter {}
 
 const web3PlugEmitter = new Web3PlugEmitter();
+const authTokenEmitter = new RegisterableEmitter()
 
 var web3Instance = null 
 
@@ -38,6 +41,8 @@ var initializedWeb3PlugEmitter = false
   }
 
 
+  var lastStateEmit = Date.now()
+
 export default class Web3Plug {
 
   async reconnectWeb(){
@@ -50,11 +55,21 @@ export default class Web3Plug {
     window.web3 = new Web3(window.ethereum);
     web3Instance = window.web3 
 
-    this.getPlugEventEmitter().removeAllListeners();
+    this.clearEventEmitter()
+
+    
 
       window.ethereum.on('accountsChanged', (accounts) => {
+
+        //debounce 
+        if(lastStateEmit > Date.now() - 100) return; 
+        lastStateEmit = Date.now()
+
+
         web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
-      //  web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
+
+        console.log('on state changed ')
+        authTokenEmitter.emit(  this.getConnectionState() )
       });
 
       window.ethereum.on('chainChanged', (chainId) => {
@@ -79,6 +94,9 @@ export default class Web3Plug {
 
     console.log('connectWeb3')
 
+
+    return 
+
     if (window.ethereum  ) {
 
  
@@ -91,10 +109,13 @@ export default class Web3Plug {
          window.ethereum.enable();
         
        // if(!initializedWeb3PlugEmitter){
-          initializedWeb3PlugEmitter = true
+          //initializedWeb3PlugEmitter = true
+
+          this.clearEventEmitter()
+
           window.ethereum.on('accountsChanged', (accounts) => {
                    web3PlugEmitter.emit('stateChanged', this.getConnectionState() )
-           //        web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
+                    web3PlugEmitter.emit('refreshAuthToken', this.getConnectionState() )
            });
  
           window.ethereum.on('chainChanged', (chainId) => {
@@ -158,6 +179,10 @@ export default class Web3Plug {
 
   getPlugEventEmitter(){
     return web3PlugEmitter
+  }
+
+  getAuthTokenEventEmitter(){
+    return authTokenEmitter
   }
 
   clearEventEmitter(){

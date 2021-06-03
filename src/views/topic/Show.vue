@@ -198,9 +198,9 @@ export default {
 
   }, 
   beforeDestroy: function () {
-      this.web3Plug.clearEventEmitter()
+      //this.web3Plug.clearEventEmitter()
 
-      this.$refs.punksbar.clearEventEmitter()
+      //this.$refs.punksbar.clearEventEmitter()
   },
 
   methods: {
