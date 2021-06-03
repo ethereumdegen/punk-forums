@@ -42,7 +42,7 @@
             </div> 
 
 
-            <div class=" flex flex-col  "> 
+            <div class=" flex flex-col w-full "> 
               <div  class="w-full border-2 border-gray-200    p-4 mb-4  "   >
 
                     <div class="my-2 "> Owned by: <a target='_blank' v-bind:href="'https://etherscan.io/address/'+punkData.accountAddress">{{ punkData.accountAddress}}</a> </div>
