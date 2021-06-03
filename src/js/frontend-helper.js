@@ -20,68 +20,9 @@ export default class FrontendHelper {
 
     }
 
-    static async requestAccessChallenge(publicAddress){
-      let api_root = FrontendHelper.getRouteTo('api')
+    
 
-
-      let uri = api_root.concat( '/generate_access_challenge/' )
-      let inputData = {publicAddress: publicAddress} 
-
-
-      return new Promise(   (resolve, reject) => {
-
-        axios.post(uri, inputData )
-        .then((res) => {
-           
-             console.log(res.data)
-             let results = res.data
-            
-       
-              resolve(results)
-  
-         }) .catch((error) => {
-             console.error(error)
-             reject(error)
-         })
-  
-     }); 
-
-     
-    }
-
-    static async requestAccessToken(publicAddress , signature){
-      /*let api_root = FrontendHelper.getRouteTo('api')
-
-
-      let uri = api_root.concat('/generate_access_token')
-      let inputData = {publicAddress:publicAddress,signature:signature} 
-
-
-      return new Promise(   (resolve, reject) => {
-
-        axios.post(uri, inputData )
-        .then((res) => {
-           
-             console.log(res.data)
-             let results = res.data
-            
-       
-              resolve(results)
-  
-         }) .catch((error) => {
-             console.error(error)
-             reject(error)
-         })
-  
-     }); */
-
-     let inputData = {publicAddress:publicAddress,signature:signature} 
-
-
-     return await FrontendHelper.handleAPIRequest('/generate_access_token',inputData)
-
-     
-    }
+    
 
     static localAuthTokenExistsForAddress( address  ){
 
@@ -252,9 +193,22 @@ export default class FrontendHelper {
          
     }
 
+    static async etherPunksPersonalSign(web3Plug){
 
 
-    static async personalSignWithMetamask( challenge,address , web3Instance)
+      let currentUnixTime = Date.now().toString() 
+
+      let challenge = 'Signing for Etherpunks at '.concat(currentUnixTime) 
+      let address = web3Plug.getActiveAccountAddress()
+      let web3Instance = web3Plug.getWeb3Instance()
+      let accountSignature = await FrontendHelper.personalSignWithMetamask(  challenge, address , web3Instance )
+    
+      return {signedAt: currentUnixTime, signerAddress: address, accountSignature: accountSignature}
+    }
+
+
+
+    static async personalSignWithMetamask( challenge, address , web3Instance)
     {
       console.log('personal signing ', challenge, address, web3Instance)
   

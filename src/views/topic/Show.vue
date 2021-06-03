@@ -48,6 +48,7 @@
              v-for="post of postsArray"
             v-bind:postData='post'
             v-bind:activePunkId="activePunkId"
+            v-bind:web3Plug="web3Plug"
 
         />
 
@@ -235,7 +236,8 @@ export default {
 
                  markdownInput: post.markdownInput, 
                  punkId: post.punkId,
-                 createdAt: post.createdAt 
+                 createdAt: post.createdAt,
+                 postHash: post.postHash
 
                })
              }

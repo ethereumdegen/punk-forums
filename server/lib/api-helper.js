@@ -134,7 +134,7 @@
                 let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
                 
                 if(!personalSignatureIsValid){
-                    return {success:false, input: inputData.input }
+                    return {success:false, input: inputData.input, message: 'Invalid signature.' }
                 }
 
 
@@ -162,6 +162,77 @@
                 }
                 
                 return {success:false, input: inputData.input, message:'Could not create database record' }
+
+            }
+
+            if(inputData.requestType == 'edit_post'){
+
+                let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
+                
+                if(!personalSignatureIsValid){
+                    return {success:false, input: inputData.input, message: 'Invalid signature.'  }
+                }
+
+
+                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.input.fromAddress, inputData.input.punkId, wolfpackInterface , serverConfig)
+
+                if(!userOwnsPunk){
+                    return {success:false, input: inputData.input, message: 'Not owner of punk' }
+                }
+
+
+                let inputPostData = {
+                    postHash: APIHelper.sanitizeInput( inputData.input.postHash) ,
+                    markdownInput: inputData.input.markdownInput,
+                    punkId: parseInt( inputData.input.punkId  ) 
+                }
+
+                let editPost = await ForumManager.editPost(    inputPostData ,  mongoInterface )
+
+                if(!editPost.success){
+                    return {success:false, input: inputData.input, message: editPost.message}
+                }
+                
+                if( editPost.success ){
+                    return {success:true, input: inputData.input, output: {postHash: editPost.postHash, markdownInput: inputData.input.markdownInput}  }
+                }
+                
+                return {success:false, input: inputData.input, message:'Could not edit database record' }
+
+            }
+
+            if(inputData.requestType == 'delete_post'){
+
+                let personalSignatureIsValid = APIHelper.validatePersonalSignature(inputData.input)
+                
+                if(!personalSignatureIsValid){
+                    return {success:false, input: inputData.input, message: 'Invalid signature.'  }
+                }
+
+
+                let userOwnsPunk = await APIHelper.validatePunkOwnership(inputData.input.fromAddress, inputData.input.punkId, wolfpackInterface , serverConfig)
+
+                if(!userOwnsPunk){
+                    return {success:false, input: inputData.input, message: 'Not owner of punk' }
+                }
+
+
+                let inputPostData = {
+                    postHash: APIHelper.sanitizeInput( inputData.input.postHash)  ,
+                    punkId: parseInt( inputData.input.punkId  ) 
+                }
+
+                let deletedPost = await ForumManager.deletePost(    inputPostData ,  mongoInterface )
+
+                if(!deletedPost.success){
+                    return {success:false, input: inputData.input, message: deletedPost.message}
+                }
+                
+                if( deletedPost.success ){
+                    return {success:true, input: inputData.input, output: {postHash: deletedPost.postHash}  }
+                }
+                
+                return {success:false, input: inputData.input, message:'Could not delete database record' }
 
             }
 

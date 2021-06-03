@@ -118,6 +118,87 @@
 
         }
 
+
+        static async editPost( inputPostData,   mongoInterface ){
+
+            let postHash = inputPostData.postHash 
+
+            let existingPost = await mongoInterface.findOne('posts',{ postHash: postHash })
+
+            let existingTopic = await mongoInterface.findOne('topics',{ topicHash: existingPost.topicHash })
+            
+            if(!existingTopic || !existingPost || !postHash){
+                return {success: false}
+            }
+
+            if(parseInt(existingPost.punkId) != parseInt( inputPostData.punkId )){
+                return {success: false, message: 'You are not the owner of this post'}
+            }
+            
+
+            let editPostData = {                
+                markdownInput: ForumManager.sanitizeMarkdownInput(inputPostData.markdownInput),     //sanitize
+                
+                punkId: parseInt( inputPostData.punkId ),
+                //fromAddress: inputPostData.fromAddress.toLowerCase(),
+
+                postHash: postHash 
+            }
+
+           
+            let updatedPost = await mongoInterface.updateCustomAndFindOne( 'posts', {postHash: postHash}, { $set:{ markdownInput:  editPostData.markdownInput,   lastUpdatedAt: Date.now()}, $inc:{ 'metrics.replies':  1} }  )
+           
+          
+            return {success:true, postHash: postHash }
+ 
+
+        }
+
+
+        static async deletePost( inputPostData,   mongoInterface ){
+
+            let postHash = inputPostData.postHash 
+
+            let existingPost = await mongoInterface.findOne('posts',{ postHash: postHash })
+
+            let existingTopic = await mongoInterface.findOne('topics',{ topicHash: existingPost.topicHash })
+            
+            if(!existingTopic || !existingPost || !postHash){
+                return {success: false}
+            } 
+            
+            if(parseInt(existingPost.punkId) != parseInt( inputPostData.punkId )){
+                return {success: false, message: 'You are not the owner of this post'}
+            }
+
+            let editPostData = {                 
+                punkId: parseInt( inputPostData.punkId ),
+                //fromAddress: inputPostData.fromAddress.toLowerCase(),  
+                postHash: postHash 
+            }
+
+            //let newPost = await mongoInterface.insertOne( 'posts', newPostData  )
+
+            let updatedPost = await mongoInterface.deleteOne( 'posts', {postHash: postHash}   )
+           
+            let updatedTopic = await mongoInterface.updateCustomAndFindOne( 'topics', {topicHash: existingTopic.topicHash}, { $set:{  lastUpdatedAt: Date.now()}, $inc:{ 'metrics.replies':  -1} }  )
+            
+
+            ForumManager.cleanUpTopicIfEmpty( existingTopic.topicHash, mongoInterface )
+
+            return {success:true, postHash: postHash }
+ 
+
+        }
+
+        static async cleanUpTopicIfEmpty(topicHash, mongoInterface){
+            let existingTopic = await mongoInterface.findOne('topics',{ topicHash: topicHash })
+            
+            if(existingTopic && existingTopic.metrics.replies <= 0){
+                await mongoInterface.deleteOne('topics',{ topicHash: topicHash })
+            }
+        }
+
         static async findTopicDataFromHash(topicHash, mongoInterface){
             let result = {}
 

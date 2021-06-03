@@ -47,6 +47,8 @@
  import PunkIcon from '../PunkIcon.vue'
 import FrontendHelper from '../../../js/frontend-helper.js'
 
+import StarflaskAPIHelper from '../../../js/starflask-api-helper.js'
+
 import MarkdownEditor from '../MarkdownEditor.vue'
 
 import  MarkdownIt  from 'markdown-it'; 
@@ -57,7 +59,7 @@ import swal from 'sweetalert';
 
 export default {
   name: 'ForumPost',
-  props: ['postData','activePunkId'],
+  props: ['postData','activePunkId','web3Plug'],
   components: {  PunkIcon, MarkdownEditor },
   data() {
     return {
@@ -116,17 +118,41 @@ computed: {
 
 
       },
-      submitPostEdits(){
+      async submitPostEdits(){
         console.log('submitPostEdits')
 
-        let updatedPostData = {} //from response 
+        let updatedPostData = {} //from response
+        
+         let signatureOutput = await FrontendHelper.etherPunksPersonalSign( this.web3Plug )
 
-        this.postData = updatedPostData
+   
 
-        this.stopEditingPost()
+            const formData = {
+              fromAddress: signatureOutput.signerAddress,
+              punkId: this.postData.punkId, 
+              postHash: this.postData.postHash,
+              
+              markdownInput: this.$refs.markdownEditor.getMarkdownInput(),
+
+              signedAt: signatureOutput.signedAt,
+              accountSignature: signatureOutput.accountSignature
+
+            }
+
+            let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'edit_post' , input:formData } )
+
+            console.log('edit response' , response)
+
+
+        if(response.success){
+            this.postData.markdownInput = response.output.markdownInput
+
+            this.stopEditingPost()
+        }
+      
 
       },
-      deletePost(){
+      async deletePost(){
       
 
         swal({
@@ -136,9 +162,38 @@ computed: {
             buttons: true,
             dangerMode: true,
           })
-          .then((willDelete) => {
+          .then(async (willDelete) => {
             if (willDelete) {
                 console.log('delete post')
+
+                let signatureOutput = await FrontendHelper.etherPunksPersonalSign( this.web3Plug )
+
+
+                 
+                  const formData = {
+                    fromAddress: signatureOutput.signerAddress,
+                    punkId: this.postData.punkId, 
+                    postHash: this.postData.postHash,
+                     
+                    signedAt: signatureOutput.signedAt,
+                    accountSignature: signatureOutput.accountSignature
+                  }
+
+                  let response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'delete_post' , input:formData } )
+      
+                  console.log('delete response' , response)
+
+                  if(response.success){
+                  swal({
+                    title: "Operation successful",
+                    text: "Your post has been deleted.",
+                    icon: "warning",
+                    buttons: false,
+                    dangerMode: false,
+                  })
+
+                  }
+                 
             } else {
              // swal("Your imaginary file is safe!");
             }
