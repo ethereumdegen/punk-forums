@@ -305,12 +305,29 @@
                 return {success:true, input: inputParameters, output: results  }
             }
 
+            if(inputData.requestType == 'punks_balance_by_owner'){
+
+                let inputParameters = inputData.input
+
+                let networkName = serverConfig.networkName 
+
+                let punkContractAddress = contractData[networkName].contracts['cryptopunks'].address
+
+ 
+                let ownerAddress = APIHelper.sanitizeInput( inputParameters.ownerAddress ) 
+
+                let results = await APIHelper.findAllERC721ByTokenAndOwner(punkContractAddress, ownerAddress, wolfpackInterface)
+
+                
+                return {success:true, input: inputParameters, output: results  }
+            }
+
             if(inputData.requestType == 'ERC721_balance_by_owner_and_token'){
  
                 let inputParameters = inputData.input
 
                 let token = inputParameters.token 
-                let ownerAddress = inputParameters.ownerAddress 
+                let ownerAddress = APIHelper.sanitizeInput( inputParameters.ownerAddress )
 
                 let results = await APIHelper.findAllERC721ByTokenAndOwner(token, ownerAddress, wolfpackInterface)
 
@@ -325,7 +342,7 @@
  
                 let inputParameters = inputData.input
 
-                let account = inputParameters.account 
+                let account = APIHelper.sanitizeInput( inputParameters.account )
                 
 
                 let results = await APIHelper.findERC20BalanceByAccount(account,  wolfpackInterface)
@@ -335,7 +352,7 @@
                 return {success:true, input: inputParameters, output: results  }
             }
 
-            if(inputData.requestType == 'ERC20_balance_by_token'){
+           /* if(inputData.requestType == 'ERC20_balance_by_token'){
  
                 let inputParameters = inputData.input
  
@@ -377,7 +394,7 @@
                 await ApplicationManager.logNewRequest(appId,inputData.requestType,inputParameters,results, mongoInterface)
 
                 return {success:true, input: inputParameters, output: results  }
-            }
+            }*/
 
 
  

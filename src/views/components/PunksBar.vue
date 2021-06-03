@@ -168,9 +168,9 @@ export default {
           let response;
 
           if(contractData && contractData['cryptopunks']){
-            let punkContractAddress = contractData['cryptopunks'].address
+           // let punkContractAddress = contractData['cryptopunks'].address
 
-            response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'ERC721_balance_by_owner_and_token' , input:{ownerAddress: activeAddress , token: punkContractAddress }})
+            response = await StarflaskAPIHelper.resolveStarflaskQuery(FrontendHelper.getRouteTo('api'), {requestType: 'punks_balance_by_owner' , input:{ownerAddress: activeAddress  }})
     
             console.log('fetched token ids',  response)
           }
