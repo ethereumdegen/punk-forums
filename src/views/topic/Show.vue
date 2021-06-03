@@ -129,8 +129,7 @@ import FrontendHelper from '../../js/frontend-helper.js'
 
 
 import PunkIcon from '../components/PunkIcon.vue'
-
-const categoryColors = require('../../../src/config/categoryColors.json')
+ 
 
 export default {
   name: 'Application',
