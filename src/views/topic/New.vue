@@ -212,7 +212,7 @@ export default {
  
       this.web3Plug.reconnectWeb()
     
-       this.web3Plug.getPlugEventEmitter().on('stateChanged', async function(connectionState) {
+       this.web3Plug.getConnectionStateEmitter().on('newTopic', async function(connectionState) {
         console.log('stateChanged nt ',connectionState);
          
         this.activeAccountAddress = connectionState.activeAccountAddress

@@ -1,7 +1,7 @@
 {
-  "name": "buy-the-floor-web",
-  "description": "Innovative NFT Exchange",
-  "version": "0.1.0",
+  "name": "punk-forums",
+  "description": "Unofficial forum for cryptopunks",
+  "version": "1.0.0",
   "type": "module",
   "postcss": {
     "plugins": {
